@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const ReseñaSchema = new Schema(
+const ReviewSchema = new Schema(
   {
     userPosted: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     userReceiver: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
@@ -13,6 +13,6 @@ const ReseñaSchema = new Schema(
   }
 );
 
-const Reseña = mongoose.model("Reseña", ReseñaSchema);
-module.exports = Reseña;
+const Review = mongoose.model("Review", ReviewSchema);
+module.exports = Review;
 
