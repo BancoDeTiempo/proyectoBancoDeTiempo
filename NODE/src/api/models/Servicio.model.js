@@ -6,9 +6,8 @@ const Schema = mongoose.Schema;
 const ServiceSchema = new Schema(
     {
         offerer: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, //*-----> usuario que lo publicó
-        offeree: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, //*---->usuario que lo recibió
-        //*----> he metido unas pocas categ/subcatg porque creo que debe haber una forma más sencilla de hacerlo---->
-        //?-----> exportación del util a lo mejor??
+        offeree: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, //*---->usuario que lo recibió al final
+        //*----> popularlo a contratos
         category: [{
             type: String, enum: [
                 "hogar",
@@ -39,8 +38,8 @@ const ServiceSchema = new Schema(
             ]
         }],
         description: [{ type: String, required: true }],
-        searchRecount: [{ type: Number, required: true, /**CREO QUE SERÍA UN CONTROLADOR U OTRO MODELO*/ }], //todo: hablarlo con Pedro
         timesPerformed: [{ type: Number, required: true, /**ME PASA IGUAL QUE CON EL DE ARRIBA */ }],
+        userInterested: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
     },
     {
         timestamps: true,
