@@ -1,5 +1,5 @@
 const express = require("express");
-const { register, resendCode } = require("../controllers/User.contollers");
+const { register, resendCode, sendCode,  } = require("../controllers/User.contollers");
 const { upload } = require("../../middleware/files.middleware");
 const UserRoutes = express.Router();
 
