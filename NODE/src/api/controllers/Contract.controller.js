@@ -40,8 +40,7 @@ const createContract = async (req, res, next) => {
         // en el caso de que tanto el 
         try {
 
-            $push: {pendingContracts: newContract._id },
-          /// despues de guardarlo comprobamos exista un chat o no
+            //$push: {pendingContracts: newContract._id },
 
           const chatExistOne = await Chat.findOne({
             userOne: req.user._id,
