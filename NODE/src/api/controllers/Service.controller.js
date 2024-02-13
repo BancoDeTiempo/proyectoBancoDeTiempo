@@ -51,8 +51,8 @@ const deleteService = async (req, res, next) => {
 
                 try {
                     await User.updateMany(//*------> actualizamos sus servicios favs o sus servicios?
-                        { serviceFav: id },// todo: cambiar las variables del modelo de User
-                        { $pull: { serviceFav: id } }
+                        { service: id },// todo: cambiar las variables del modelo de User
+                        { $pull: { service: id } }
                     );
 
                     return res.status(findByIdService ? 404 : 200).json({
