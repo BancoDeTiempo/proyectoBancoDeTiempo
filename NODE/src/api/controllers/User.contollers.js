@@ -6,12 +6,17 @@ const User = require("../models/User.model");
 
 //! ---------------------------- utils -------------------------------------
 const randomCode = require("../../utils/randomCode");
+const sendEmail = require("../../utils/sendEmail");
 
 //! ------------------------------librerias---------------------------------
 const enumOk = require("../../utils/enumOk");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
+const {
+  setTestEmailSend,
+  getTestEmailSend,
+} = require("../../state/state.data");
 const setError = require("../../helpers/handle-error");
 const { generateToken } = require("../../utils/token");
 const randomPassword = require("../../utils/randomPassword");
