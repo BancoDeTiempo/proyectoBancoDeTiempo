@@ -76,8 +76,6 @@ const UserSchema = new mongoose.Schema(
       required: true,
     },
 
-    barsFav: [{ type: mongoose.Schema.Types.ObjectId, ref: "Bar" }],
-    beersFav: [{ type: mongoose.Schema.Types.ObjectId, ref: "Beer" }],
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     followed: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     chats: [{ type: mongoose.Schema.Types.ObjectId, ref: "Chat" }],
