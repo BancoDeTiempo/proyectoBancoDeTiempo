@@ -62,6 +62,51 @@ const register = async (req, res, next) => {
 };
 
 //!------------
+//? SEND CODE
+//!------------
+
+const sendCode = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const userDB = await User.findById(id);
+    const emailEnv = process.env.EMAIL;
+    const password = process.env.PASSWORD;
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: emailEnv,
+        pass: password,
+      },
+    });
+
+    const mailOptions = {
+      from: emailEnv,
+      to: userDB.email,
+      subject: "Confirmation code",
+      text: `tu codigo es ${userDB.confirmationCode}, gracias por confiar en nosotros ${userDB.name}`,
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+        return res.status(404).json({
+          user: userDB,
+          confirmationCode: "error, resend code",
+        });
+      }
+      console.log("Email sent: " + info.response);
+      return res.status(200).json({
+        user: userDB,
+        confirmationCode: userDB.confirmationCode,
+      });
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+//!------------
 //? RESEND CODE
 //!------------
 
@@ -108,4 +153,4 @@ const resendCode = async (req, res, next) => {
   }
 };
 
-module.exports = { register, resendCode };
+module.exports = { register, resendCode, sendCode };
