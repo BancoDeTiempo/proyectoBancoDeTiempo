@@ -18,10 +18,10 @@ const updateReview = async (req, res, next) => {
         reviews: req.body?.reviews ? req.body?.reviews : reviewById.reviews,
       };
 
-      // TEST ------------------------------------------------------------------------------
-
       try {
         await Review.findByIdAndUpdate(id, customBody);
+
+        // TEST ------------------------------------------------------------------------------
 
         const reviewByIdUpdate = await Review.findById(id);
 
