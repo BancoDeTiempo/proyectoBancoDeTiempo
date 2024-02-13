@@ -1,44 +1,29 @@
-//! LE HE LLAMADO SERVICIO PORQUE CABE LA POSIBILIDAD DE QUE USEMOS SERVICE EN LA ARQUITECTURA
-
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const ServiceSchema = new Schema(
     {
+        name: [{ type: String, required: true }],
         offerer: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, //*-----> usuario que lo publicó
         offeree: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, //*---->usuario que lo recibió al final
         //*----> popularlo a contratos
-        category: [{
+        tag: [{
             type: String, enum: [
-                "hogar",
+                "limpieza",
                 "mascotas",
                 "personas",
                 "recados",
                 "transporte",
                 "reparaciones",
-                "servicios profesionales"
-            ]
-        }],
-        subcategory: [{
-            type: String, enum: [
-                "reparaciones",
-                "limpieza",
-                "cocina",
-                "estética",
                 "cuidado",
-                "paseo",
-                "acompañamiento",
-                "recogida/entrega",
                 "compra",
-                "personas",
-                "cosas",
                 "electrónica",
-                "mecánica"
-
+                "mecánica",
+                "eventos"
             ]
         }],
         description: [{ type: String, required: true }],
-        timesPerformed: [{ type: Number, required: true, /**ME PASA IGUAL QUE CON EL DE ARRIBA */ }],
+        timesPerformed: [{ type: Number, required: true }],
         userInterested: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
     },
     {
@@ -46,6 +31,6 @@ const ServiceSchema = new Schema(
     }
 );
 
-const Service = mongoose.model("Service", ServiceSchema);
 module.exports = Service;
+const Service = mongoose.model("Service", ServiceSchema);
 
