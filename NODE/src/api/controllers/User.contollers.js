@@ -1,7 +1,23 @@
-const User = require("../models/User.model");
+//! --------------------------middleware------------------------------------
 const { deleteImgCloudinary } = require("../../middleware/files.middleware");
+
+//! ---------------------------- modelos -----------------------------------
+const User = require("../models/User.model");
+
+//! ---------------------------- utils -------------------------------------
 const randomCode = require("../../utils/randomCode");
+
+//! ------------------------------librerias---------------------------------
+const enumOk = require("../../utils/enumOk");
 const bcrypt = require("bcrypt");
+const nodemailer = require("nodemailer");
+const dotenv = require("dotenv");
+
+dotenv.config();
+
+//!------------------
+//? REGISTER REDIRECT
+//!------------------
 
 const register = async (req, res, next) => {
   let catchImg = req.file?.path;
@@ -43,6 +59,10 @@ const register = async (req, res, next) => {
     return next(error);
   }
 };
+
+//!------------
+//? RESEND CODE
+//!------------
 
 const resendCode = async (req, res, next) => {
   try {
