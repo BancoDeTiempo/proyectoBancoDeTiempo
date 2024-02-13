@@ -16,7 +16,7 @@ configCloudinary();
 const UserRoutes = require("./src/api/routes/User.routes");
 app.use("/api/v1/users/", UserRoutes);
 
-const ServiceRoutes = require("./src/api/routes/Services.routes")
+const ServiceRoutes = require("./src/api/routes/Service.routes")
 app.use("/api/v1/service/", ServiceRoutes)
 
 const MessageRoutes = require("./src/api/routes/Message.routes")

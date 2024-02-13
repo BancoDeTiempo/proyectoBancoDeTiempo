@@ -20,10 +20,11 @@ const ServiceSchema = new Schema(
                 "electrónica",
                 "mecánica",
                 "eventos"
-            ]
+            ],
+            required: true
         }],
         description: [{ type: String, required: true }],
-        timesPerformed: [{ type: Number, required: true }],
+        timesPerformed: [{ type: Number }],//?----> populado con user ???
         userInterested: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
     },
     {
@@ -31,6 +32,6 @@ const ServiceSchema = new Schema(
     }
 );
 
-module.exports = Service;
-const Service = mongoose.model("Service", ServiceSchema);
 
+const Service = mongoose.model("Service", ServiceSchema);
+module.exports = Service;

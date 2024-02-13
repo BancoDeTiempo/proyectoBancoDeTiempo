@@ -12,7 +12,7 @@ const createService = async (req, res, next) => {
         /** hacemos una instancia del modelo  */
         const customBody = {
             description: req.body?.description,
-            tags: req.body?.tags,
+            tag: req.body?.tag,
             offerer: req.body?.offerer
         };
         const newService = new Service(customBody);
