@@ -41,7 +41,7 @@ const createRating = async (req, res, next) => {
         });
       }
     } else {
-      await Rating.findByIdAndDelete(savedRating._id);
+      await Rating.findByIdAndDelete(savedRating._id); /// esto tendría que ir antes.
       return res.status(404).json("Id not found");
     }
   } catch (error) {

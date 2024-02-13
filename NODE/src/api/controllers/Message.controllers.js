@@ -1,5 +1,7 @@
 const Chat = require("../models/Chat.model");
+const Message = require("../models/Message.model");
 const Menssage = require("../models/Message.model");
+const Review = require("../models/Review.model");
 const User = require("../models/User.model");
 
 //*--------CRUD--------*/
@@ -20,7 +22,8 @@ const createMessage = async (req, res, next) => {
       //*-----> creamos el comentario y lo guardamos
       const newMessage = new Menssage(req.body);
       const savedMessage = await newMessage.save();
-      if (type == "private") { //? MENSAJES PRIVADOS
+      if (type == "private") {
+        //? MENSAJES PRIVADOS
         //! TENEMOS QUE EVALUAR SI TENEMOS UN CHAT ABIERTO CON ESTOS DOS USER
         try {
           //*-----> despues de guardarlo comprobamos exista un chat o no
@@ -38,7 +41,8 @@ const createMessage = async (req, res, next) => {
 
           //*------------- ACTUALIZAR CHAT------------------
 
-          if (chatExistOne != null || chatExistTwo != null) {//*----> si existe un chat y entonces lo actualizamos conm el nuevo mensaje
+          if (chatExistOne != null || chatExistTwo != null) {
+            //*----> si existe un chat y entonces lo actualizamos conm el nuevo mensaje
 
             if (chatExistOne) {
               try {
@@ -89,7 +93,7 @@ const createMessage = async (req, res, next) => {
                   await User.findByIdAndUpdate(req.user._id, {
                     $push: {
                       postedMessages: newMessage._id,
-                    }
+                    },
                   });
                   return res.status(200).json({
                     chat: await Chat.findById(chatExistTwo._id),
@@ -124,7 +128,8 @@ const createMessage = async (req, res, next) => {
 
             //*------------- CREAR CHAT PORQUE NO EXISTE NINGUNO------------------
 
-            const newChat = new Chat({ //*---> crear un chat con el comentario que hemos creado
+            const newChat = new Chat({
+              //*---> crear un chat con el comentario que hemos creado
               userOne: req.user._id,
               userTwo: findUser._id,
               messages: [savedMessage._id],
@@ -152,7 +157,6 @@ const createMessage = async (req, res, next) => {
                     chat: newChat,
                     comment: newMessage,
                   });
-
                 } catch (error) {
                   return res.status(404).json({
                     error:
@@ -167,15 +171,11 @@ const createMessage = async (req, res, next) => {
                   idMessage: newMessage._id,
                 });
               }
-
-            } catch (error) {//*-----> lo borramos porque no nos ha enviado bien el tipo
+            } catch (error) {
+              //*-----> lo borramos porque no nos ha enviado bien el tipo
               try {
                 await Menssage.findByIdAndDelete(savedMessage._id);
-                return res
-                  .status(404)
-                  .json(
-                    error.message
-                  );
+                return res.status(404).json(error.message);
               } catch (error) {
                 return res
                   .status(404)
@@ -188,7 +188,48 @@ const createMessage = async (req, res, next) => {
         } catch (error) {
           return res.status(404).json(error.message);
         }
-      };
+      } else if (type == "public") {
+        // --------------------------------mensaje publico se convierte en review --------------------------
+        try {
+          await User.findByIdAndUpdate(req.user._id, {
+            $push: {
+              reviwedForYou: newMessage._id,
+            },
+          });
+          try {
+            await User.findByIdAndUpdate(idRecipient, {
+              $push: {
+                reviewedByOthers: newMessage._id,
+              },
+            });
+
+            return res.status(200).json({
+              userReviewer: await User.findById(req.user._id).populate([
+                {
+                  path: "reviews",
+                  model: Review,
+                  populate: "reviews UserOne UserTwo",
+                },
+              ]),
+              userReviewed: await User.findById(idRecipient),
+              review: newMessage._id,
+            });
+          } catch (error) {
+            return res.status(404).json({
+              error: "Catch error updating reviewed by others",
+              message: error.message,
+            });
+          }
+        } catch (error) {
+          return res.status(404).json({
+            error: "Catch error updating reviewed for you",
+            message: error.message,
+          });
+        }
+      } else {
+        await Message.findByIdAndDelete(savedMessage._id);
+        return res.status(404).json(error.message);
+      }
     }
   } catch (error) {
     return res.status(404).json({ error: "zopenca", message: error.message });
