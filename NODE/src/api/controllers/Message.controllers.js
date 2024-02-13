@@ -193,13 +193,13 @@ const createMessage = async (req, res, next) => {
         try {
           await User.findByIdAndUpdate(req.user._id, {
             $push: {
-              reviwedForYou: newMessage._id,
+              reviwedForYou: newMessage._id, //----------------> Añadir reviewedForYou en User.model con ref "Message"
             },
           });
           try {
             await User.findByIdAndUpdate(idRecipient, {
               $push: {
-                reviewedByOthers: newMessage._id,
+                reviewedByOthers: newMessage._id, //----------------> Añadir reviewedByOthers en User.model con ref "Message"
               },
             });
 
@@ -235,6 +235,5 @@ const createMessage = async (req, res, next) => {
     return res.status(404).json({ error: "zopenca", message: error.message });
   }
 };
-
 
 module.exports = { createMessage };
