@@ -93,9 +93,125 @@ const getByTag = async (req, res, next) => {
     }
 };
 
+//! ---------------------------------------------------------------------
+//? -------------------------------get by id --------------------------
+//! ---------------------------------------------------------------------
+const getById = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const serviceById = await Service.findById(id);
+        if (serviceById) {
+            return res.status(200).json(ServiceById);
+        } else {
+            return res.status(404).json("no se ha encontrado el servicio");
+        }
+    } catch (error) {
+        return res.status(404).json(error.message);
+    }
+};
+
+//! ---------------------------------------------------------------------
+//? -------------------------------UPDATE -------------------------------
+//! ---------------------------------------------------------------------
+
+const update = async (req, res, next) => {
+    await Service.syncIndexes();
+    //let catchImg = req.file?.path;-----> en servicio no habrá imágenes
+    try {
+        const { id } = req.params;
+        const serviceById = await Service.findById(id);
+        if (serviceById) {
+            //const oldImg = characterById.image;
+
+            const customBody = {
+                _id: serviceById._id,
+                //image: req.file?.path ? catchImg : oldImg,
+                name: req.body?.name ? req.body?.name : serviceById.name,
+            };
+
+            /**if (req.body?.gender) {
+              const resultEnum = enumOk(req.body?.gender);
+              customBody.gender = resultEnum.check
+                ? req.body?.gender
+                : characterById.gender;
+            }*/
+
+            try {
+                await Service.findByIdAndUpdate(id, customBody);
+                /**if (req.file?.path) {
+                  deleteImgCloudinary(oldImg);
+                }*/
+
+                //** ------------------------------------------------------------------- */
+                //** VAMOS A TESTEAR EN TIEMPO REAL QUE ESTO SE HAYA HECHO CORRECTAMENTE */
+                //** ------------------------------------------------------------------- */
+
+                // ......> VAMOS A BUSCAR EL ELEMENTO ACTUALIZADO POR ID
+
+                const serviceByIdUpdate = await Service.findById(id);
+
+                // ......> uso el req.body y vamos a sacarle las claves para saber que elementos nos ha dicho de actualizar
+                const elementUpdate = Object.keys(req.body);
+
+                /** vamos a hacer un objeto vacio donde meteremos los test */
+
+                let test = {};
+
+                /** vamos a recorrer las claves del body y vamos a crear un objeto con los test */
+
+                elementUpdate.forEach((item) => {
+                    if (req.body[item] === serviceByIdUpdate[item]) {
+                        test[item] = true;
+                    } else {
+                        test[item] = false;
+                    }
+                });
+
+                /**if (catchImg) {
+                  characterByIdUpdate.image === catchImg
+                    ? (test = { ...test, file: true })
+                    : (test = { ...test, file: false });
+                }*/
+
+                /** vamos a ver que no haya ningun false. Si hay un false lanzamos un 404,
+                 * si no hay ningun false entonces lanzamos un 200 porque todo esta correctoo
+                 */
+
+                let acc = 0;
+                for (clave in test) {
+                    test[clave] == false && acc++;
+                }
+
+                if (acc > 0) {
+                    return res.status(404).json({
+                        dataTest: test,
+                        update: false,
+                    });
+                } else {
+                    return res.status(200).json({
+                        dataTest: test,
+                        update: true,
+                    });
+                }
+            } catch (error) {
+                return res.status(404).json({
+                    error: "error catch update",
+                    message: error.message
+                })
+            }
+        } else {
+            return res.status(404).json("este character no existe");
+        }
+    } catch (error) {
+        return res.status(404).json(error);
+    }
+};
+
 
 module.exports = {
     createService,
     deleteService,
-    getByTag
+    getByTag,
+    getById,
+    update
 }
