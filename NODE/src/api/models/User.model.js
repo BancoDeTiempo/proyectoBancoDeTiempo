@@ -42,6 +42,19 @@ const UserSchema = new mongoose.Schema(
       enum: ["admin", "user", "superadmin"],
       default: "user",
     },
+    address: {
+      type: String,
+      required: true,
+    },
+    city: {
+      type: String,
+      required: true,
+    },
+    postalCode: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     confirmationCode: {
       type: String,
       required: true,
@@ -57,11 +70,7 @@ const UserSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    postalCode: {
-      type: String,
-      required: true,
-      trim: true,
-    },
+
     description: {
       type: String,
       required: true,
