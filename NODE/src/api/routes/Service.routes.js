@@ -1,13 +1,11 @@
 const { createService, deleteService, getByTag, getById, update } = require("../controllers/Service.controller");
+const ServiceRoutes = require("express").Router();
 
+ServiceRoutes.post("/", createService)
+ServiceRoutes.delete("/:id", deleteService)
+ServiceRoutes.get("/:tag", getByTag)
+ServiceRoutes.get("/:id", getById)
+ServiceRoutes.patch("/:id", update)
 
-const UserRoutes = require("express").Router();
-
-UserRoutes.post("/", createService)
-UserRoutes.delete("/:id", deleteService)
-UserRoutes.get("/:tag", getByTag)
-UserRoutes.get("/:id", getById)
-UserRoutes.patch("/:id", update)
-
-module.exports = UserRoutes
+module.exports = ServiceRoutes
 
