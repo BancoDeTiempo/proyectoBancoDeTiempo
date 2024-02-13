@@ -5,5 +5,6 @@ const UserRoutes = express.Router();
 
 UserRoutes.post("/register", upload.single("image"), register);
 UserRoutes.post("/resend", resendCode);
+UserRoutes.get("/register/sendMail/:id", sendCode);
 
 module.exports = UserRoutes;
