@@ -14,9 +14,8 @@ const createMessage = async (req, res, next) => {
     const { idRecipient } = req.params; //* -----> id de a quien quiero hacer el comentario
 
     const findUser = await User.findById(idRecipient); //*-----> si no se encuentra nada nos devolverá null
-
+    //todo: idRecipient cambiarlo según el modelo de user
     //** cuando el findById NO ENCUENTRA EL ELEMENTOS  devuelve un null */
-    //todo -----------------------> meter el id del nuevo comentario en postedMessage en el modelo de user
     if (findUser) {
       //*-----> creamos el comentario y lo guardamos
       const newMessage = new Menssage(req.body);
