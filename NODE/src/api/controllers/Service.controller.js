@@ -126,7 +126,7 @@ const update = async (req, res, next) => {
             const customBody = {
                 _id: serviceById._id,
                 //image: req.file?.path ? catchImg : oldImg,
-                name: req.body?.name ? req.body?.name : serviceById.name,
+                title: req.body?.title ? req.body?.title : serviceById.title,
             };
 
             /**if (req.body?.gender) {

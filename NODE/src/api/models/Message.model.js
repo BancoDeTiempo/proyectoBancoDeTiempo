@@ -18,7 +18,6 @@ const MessageSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    recipientService: { type: mongoose.Schema.Types.ObjectId, ref: "Service" },
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   {

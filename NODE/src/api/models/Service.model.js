@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const ServiceSchema = new Schema(
     {
-        name: [{ type: String, required: true }],
+        title: [{ type: String, required: true }],
         offerer: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, //*-----> usuario que lo publicó
         offeree: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, //*---->usuario que lo recibió al final
         //*----> popularlo a contratos
