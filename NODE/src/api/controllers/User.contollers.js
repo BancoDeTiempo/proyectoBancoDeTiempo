@@ -12,6 +12,7 @@ const enumOk = require("../../utils/enumOk");
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
+const setError = require("../../helpers/handle-error");
 
 dotenv.config();
 
@@ -107,4 +108,50 @@ const resendCode = async (req, res, next) => {
   }
 };
 
-module.exports = { register, resendCode };
+//! --------------
+//? CHECK NEW USER
+//! --------------
+
+const checkNewUser = async (req, res, next) => {
+  try {
+    const { email, confirmationCode } = req.body;
+
+    const userExists = await User.findOne({ email });
+
+    if (!userExists) {
+      return res.status(404).json("User not found");
+    } else {
+      if (confirmationCode === userExists.confirmationCode) {
+        try {
+          await userExists.updateOne({ check: true });
+          const updateUser = await User.findOne({ email });
+          return res.status(200).json({
+            testCheckOk: updateUser.check == true ? true : false,
+          });
+        } catch (error) {
+          return res.status(404).json(error.message);
+        }
+      } else {
+        try {
+          await User.findByIdAndDelete(userExists._id);
+          deleteImgCloudinary(userExists.image);
+          return res.status(200).json({
+            userExists,
+            check: false,
+            delete: (await User.findById(userExists._id))
+              ? "error delete user"
+              : "ok delete user",
+          });
+        } catch (error) {
+          return res
+            .status(404)
+            .json(error.message || "error general delete user");
+        }
+      }
+    }
+  } catch (error) {
+    return next(setError(500, error.message || "General error check code"));
+  }
+};
+
+module.exports = { register, resendCode, checkNewUser };

@@ -1,5 +1,3 @@
-const { set } = require("mongoose");
-
 const setError = (code, message) => {
   const error = new Error();
   error.code = code;
