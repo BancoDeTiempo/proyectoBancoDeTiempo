@@ -13,6 +13,7 @@ const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
 const setError = require("../../helpers/handle-error");
+const { generateToken } = require("../../utils/token");
 
 dotenv.config();
 
@@ -153,4 +154,58 @@ const resendCode = async (req, res, next) => {
   }
 };
 
-module.exports = { register, resendCode, sendCode };
+//!------------
+//? LOGIN
+//!------------
+
+const login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const userDB = await User.findOne({ email });
+
+    if (userDB) {
+      if (bcrypt.compareSync(password, userDB.password)) {
+        const token = generateToken(userDB._id, email);
+        return res.status(200).json({
+          user: userDB,
+          token,
+        });
+      } else {
+        return res.status(404).json("Password dont match");
+      }
+    } else {
+      return res.status(404).json("User no register");
+    }
+  } catch (error) {
+    return next(error);
+  }
+};
+
+//!------------
+//? AUTOLOGIN
+//!------------
+
+const autoLogin = async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const userDB = await User.findOne({ email });
+
+    if (userDB) {
+      if (password == userDB.password) {
+        const token = generateToken(userDB._id, email);
+        return res.status(200).json({
+          user: userDB,
+          token,
+        });
+      } else {
+        return res.status(404).json("Password dont match");
+      }
+    } else {
+      return res.status(404).json("User no register");
+    }
+  } catch (error) {
+    return next(error);
+  }
+};
+
+module.exports = { register, resendCode, sendCode, login, autoLogin };
