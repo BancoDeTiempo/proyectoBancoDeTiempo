@@ -6,7 +6,7 @@ const User = require("../models/User.model");
 
 //! ---------------------------- utils -------------------------------------
 const randomCode = require("../../utils/randomCode");
-const sendEmail = require("../../utils/sendEmail");
+
 
 //! ------------------------------librerias---------------------------------
 const enumOk = require("../../utils/enumOk");
