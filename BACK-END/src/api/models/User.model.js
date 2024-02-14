@@ -91,7 +91,9 @@ const UserSchema = new mongoose.Schema(
     pendingContract: [{ type: mongoose.Schema.Types.ObjectId, ref: "Contract" }], // contratos pendites de aceptar
     acceptContract: [{ type: mongoose.Schema.Types.ObjectId, ref: "Contract" }], // contratos aceptados por ambos
     completeService: [{ type: mongoose.Schema.Types.ObjectId, ref: "Contract" }], // contatos cumplidos por ambas partes
-
+    pendingRequestMyService: [{ type: mongoose.Schema.Types.ObjectId, ref: "Request" }], // request que estan pendiente de mis servicios- me los han pedido a mi
+    pendingRequestedService: [{ type: mongoose.Schema.Types.ObjectId, ref: "Request" }], /// request que yo he pedido de otros servicios de otras personas
+    acceptedRequest: [{ type: mongoose.Schema.Types.ObjectId, ref: "Request" }] // request que estan aceptadas
     /// cuando relacionamos un modelo de con otro lo hacemos con populate y el ref a otro modelo
   },
 

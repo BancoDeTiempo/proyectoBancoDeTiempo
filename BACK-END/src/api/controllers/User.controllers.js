@@ -210,6 +210,7 @@ const checkNewUser = async (req, res, next) => {
 //!------
 
 const login = async (req, res, next) => {
+    console.log("entro", req.body)
     try {
         const { email, password } = req.body;
         const userDB = await User.findOne({ email });
@@ -283,6 +284,7 @@ const changePassword = async (req, res, next) => {
 };
 
 const sendPassword = async (req, res, next) => {
+
     try {
         const { id } = req.params;
         const userDb = await User.findById(id);

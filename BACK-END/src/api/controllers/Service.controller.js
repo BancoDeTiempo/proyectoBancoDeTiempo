@@ -7,6 +7,7 @@ const User = require("../models/User.model");
 
 const createService = async (req, res, next) => {
     try {
+        const idAuth = req.user._id
         await Service.syncIndexes();
 
         /** hacemos una instancia del modelo  */
@@ -14,7 +15,7 @@ const createService = async (req, res, next) => {
             title: req.body?.title,
             description: req.body?.description,
             tag: req.body?.tag,
-            offerer: req.body?.offerer,
+            offerer: req.user?._id,
             request: req.params.request
         }
 
@@ -23,7 +24,7 @@ const createService = async (req, res, next) => {
 
         try {
 
-            await User.findByIdAndUpdate(req.user._id, {
+            await User.findByIdAndUpdate(idAuth, {
                 $push: { offeredServices: savedService._id }
             })
 
