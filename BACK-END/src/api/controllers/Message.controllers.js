@@ -214,13 +214,8 @@ const createMessage = async (req, res, next) => {
               });
 
               return res.status(200).json({
-                userReviewer: await User.findById(req.user._id).populate([
-                  {
-                    path: "reviews",
-                    model: Review,
-                    populate: "reviews UserOne UserTwo",
-                  },
-                ]),
+                userReviewer: await User.findById(req.user._id),
+                review: newMessage._id,
                 userReviewed: await User.findById(idRecipient),
                 review: newMessage._id,
               });
