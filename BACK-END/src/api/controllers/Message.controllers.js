@@ -190,42 +190,62 @@ const createMessage = async (req, res, next) => {
         }
       } else if (type == "public") {
         // --------------------------------mensaje publico se convierte en review --------------------------
-        //!------- NEW REVIEW----------- 
+
+        const newReview = new Review({
+          userOne: req.user._id,
+          userTwo: req.body._id,
+          reviews: [savedMessage._id],
+        });
+
         try {
-          await User.findByIdAndUpdate(req.user._id, {
-            $push: {
-              reviewedByYou: newMessage._id,
-            },
-          });
+          await newReview.save();
+
           try {
-            await User.findByIdAndUpdate(idRecipient, {
+            await User.findByIdAndUpdate(req.user._id, {
               $push: {
-                reviewedByOthers: newMessage._id,
+                reviewedByYou: newMessage._id,
               },
             });
-
-            return res.status(200).json({
-              userReviewer: await User.findById(req.user._id).populate([
-                {
-                  path: "reviews",
-                  model: Review,
-                  populate: "reviews UserOne UserTwo",
+            try {
+              await User.findByIdAndUpdate(idRecipient, {
+                $push: {
+                  reviewedByOthers: newMessage._id,
                 },
-              ]),
-              userReviewed: await User.findById(idRecipient),
-              review: newMessage._id,
-            });
+              });
+
+              return res.status(200).json({
+                userReviewer: await User.findById(req.user._id).populate([
+                  {
+                    path: "reviews",
+                    model: Review,
+                    populate: "reviews UserOne UserTwo",
+                  },
+                ]),
+                userReviewed: await User.findById(idRecipient),
+                review: newMessage._id,
+              });
+            } catch (error) {
+              return res.status(404).json({
+                error: "Catch error updating reviewed by others",
+                message: error.message,
+              });
+            }
           } catch (error) {
             return res.status(404).json({
-              error: "Catch error updating reviewed by others",
+              error: "Catch error updating reviewed by you",
               message: error.message,
             });
           }
         } catch (error) {
-          return res.status(404).json({
-            error: "Catch error updating reviewed for you",
-            message: error.message,
-          });
+          try {
+            await Menssage.findByIdAndDelete(savedMessage._id);
+            return res.status(404).json(error.message);
+          } catch (error) {
+            return res.status(404).json({
+              error: "Catch error creating Review. Message not deleted",
+              message: error.message,
+            });
+          }
         }
       } else {
         await Message.findByIdAndDelete(savedMessage._id);

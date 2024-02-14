@@ -1,3 +1,4 @@
+const { isAuth } = require("../../middleware/auth.middleware");
 const {
   updateReview,
   deleteReview,
@@ -5,7 +6,7 @@ const {
 
 const ReviewRoutes = require("express").Router();
 
-ReviewRoutes.patch("/:id", updateReview);
-ReviewRoutes.delete("/:id", deleteReview);
+ReviewRoutes.patch("/:id", [isAuth], updateReview);
+ReviewRoutes.delete("/:id", [isAuth], deleteReview);
 
 module.exports = ReviewRoutes;

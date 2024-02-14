@@ -161,4 +161,42 @@ const deleteRating = async (req, res, next) => {
   }
 };
 
-module.exports = { createRating, updateRating, deleteRating };
+// --------------------------------- UPDATE GLOBAL RATING ------------------------------------
+
+const getAndUpdateGlobalRating = async (req, res, next) => {
+  try {
+    const { id: userId } = req.params;
+
+    const user = await User.findById(userId).populate("ratedByOthers");
+
+    if (user) {
+      const ratings = user.ratedByOthers;
+      const averageRating = calculateAverageRating(ratings);
+
+      try {
+        user.globalRating = averageRating;
+        await user.save();
+      } catch (error) {
+        return res.status(404).json({
+          error: "Catch error updating globalRating",
+          message: error.message,
+        });
+      }
+      return res.status(200).json({ averageRating });
+    } else {
+      return res.status(404).json({
+        error: "User not found",
+        message: error.message,
+      });
+    }
+  } catch (error) {
+    return res.status(404).json({ error: error.message });
+  }
+};
+
+module.exports = {
+  createRating,
+  updateRating,
+  deleteRating,
+  getAndUpdateGlobalRating,
+};

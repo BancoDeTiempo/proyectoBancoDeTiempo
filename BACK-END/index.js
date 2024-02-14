@@ -6,12 +6,8 @@ dotenv.config();
 connect();
 const PORT = process.env.PORT;
 
-
-
 const { configCloudinary } = require("./src/middleware/files.middleware");
 configCloudinary();
-
-
 
 //! -----------------------CORS-------------
 const cors = require("cors");
@@ -24,16 +20,21 @@ app.use(express.urlencoded({ limit: "5mb", extended: false }));
 const UserRoutes = require("./src/api/routes/User.routes");
 app.use("/api/v1/users/", UserRoutes);
 
-const ServiceRoutes = require("./src/api/routes/Service.routes")
-app.use("/api/v1/service/", ServiceRoutes)
+const ServiceRoutes = require("./src/api/routes/Service.routes");
+app.use("/api/v1/service/", ServiceRoutes);
 
 const MessageRoutes = require("./src/api/routes/Message.routes");
 
-app.use("/api/v1/message/", MessageRoutes)
+app.use("/api/v1/message/", MessageRoutes);
 
 const RequestRoutes = require("./src/api/routes/Request.routes");
-app.use("/api/v1/request/", RequestRoutes)
+app.use("/api/v1/request/", RequestRoutes);
 
+const ReviewRoutes = require("./src/api/routes/Review.routes");
+app.use("/api/v1/reviews/", ReviewRoutes);
+
+const RatingRoutes = require("./src/api/routes/Rating.routes");
+app.use("/api/v1/ratings/", RatingRoutes);
 
 //! --------------- generamos un error de cuando no see encuentre la ruta
 app.use("*", (req, res, next) => {

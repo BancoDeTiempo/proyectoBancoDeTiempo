@@ -84,8 +84,8 @@ const deleteReview = async (req, res, next) => {
 
       try {
         const test = await User.updateMany(
-          { reviewedForYou: id },
-          { $pull: { reviewedForYou: id } }
+          { reviewedByYou: id },
+          { $pull: { reviewedByYou: id } }
         );
         console.log(test);
 
@@ -106,7 +106,7 @@ const deleteReview = async (req, res, next) => {
         }
       } catch (error) {
         return res.status(404).json({
-          error: "Catch error deleting reviewed for you",
+          error: "Catch error deleting reviewed by you",
           message: error.message,
         });
       }
