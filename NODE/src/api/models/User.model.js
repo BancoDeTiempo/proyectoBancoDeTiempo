@@ -85,6 +85,10 @@ const UserSchema = new mongoose.Schema(
       { type: mongoose.Schema.Types.ObjectId, ref: "Message" },
     ],
     postedMessages: [{ type: mongoose.Schema.Types.ObjectId, ref: "Message" }],
+    offeredServices: [{ type: mongoose.Schema.Types.ObjectId, ref: "Service" }],
+    soughtServices: [{ type: mongoose.Schema.Types.ObjectId, ref: "Service" }],
+    rating: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
+    communities: [{ type: mongoose.Schema.Types.ObjectId, ref: "Communities" }],
     /// cuando relacionamos un modelo de con otro lo hacemos con populate y el ref a otro modelo
   },
 

@@ -1,0 +1,1 @@
+//if (chatExistOne != null || chatExistTwo != null)

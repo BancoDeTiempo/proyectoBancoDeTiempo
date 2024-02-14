@@ -94,7 +94,7 @@ const sendCode = async (req, res, next) => {
       text: `tu codigo es ${userDB.confirmationCode}, gracias por confiar en nosotros ${userDB.name}`,
     };
 
-    transporter.sendMail(mailOptions, function (error, info) {
+    transporter.sendEmail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
         return res.status(404).json({
@@ -372,6 +372,104 @@ const modifyPassword = async (req, res, next) => {
   }
 };
 
+//!-------
+//? UPDATE
+//!-------
+
+const update = async (req, res, next) => {
+  let catchImg = req.file?.path;
+
+  try {
+    await User.syncIndexes();
+
+    const patchUser = new User(req.body);
+
+    req.file && (patchUser.image = catchImg);
+
+    patchUser._id = req.user._id;
+    patchUser.password = req.user.password;
+    patchUser.rol = req.user.rol;
+    patchUser.confirmationCode = req.user.confirmationCode;
+    patchUser.email = req.user.email;
+    patchUser.check = req.user.check;
+
+    if (req.body?.gender) {
+      const resultEnum = enumOk(req.body?.gender);
+      patchUser.gender = resultEnum.check ? req.body?.gender : req.user.gender;
+    }
+
+    try {
+      await User.findByIdAndUpdate(req.user._id, patchUser);
+
+      if (req.file) deleteImgCloudinary(req.user.image);
+
+      const updateUser = await User.findById(req.user._id);
+
+      const updateKeys = Object.keys(req.body);
+
+      const testUpdate = [];
+
+      updateKeys.forEach((item) => {
+        if (updateUser[item] === req.body[item]) {
+          if (updateUser[item] != req.user[item]) {
+            testUpdate.push({
+              [item]: true,
+            });
+          } else {
+            testUpdate.push({
+              [item]: "sameOldInfo",
+            });
+          }
+        } else {
+          testUpdate.push({
+            [item]: false,
+          });
+        }
+      });
+
+      /// ---------------------- para la imagen ---------------------------------
+      if (req.file) {
+        updateUser.image === catchImg
+          ? testUpdate.push({
+              image: true,
+            })
+          : testUpdate.push({
+              image: false,
+            });
+      }
+      return res.status(200).json({
+        updateUser,
+        testUpdate,
+      });
+    } catch (error) {
+      if (req.file) deleteImgCloudinary(catchImg);
+      return res.status(404).json(error.message);
+    }
+  } catch (error) {
+    if (req.file) deleteImgCloudinary(catchImg);
+    return next(error);
+  }
+};
+
+//!-------
+//? DELETE
+//!-------
+
+const deleteUser = async (req, res, next) => {
+  try {
+    const { _id, image } = req.user;
+    await User.findByIdAndDelete(_id);
+    if (await User.findById(_id)) {
+      // si el usuario
+      return res.status(404).json("not deleted"); ///
+    } else {
+      deleteImgCloudinary(image);
+      return res.status(200).json("ok delete");
+    }
+  } catch (error) {
+    return next(error);
+  }
+};
 module.exports = {
   register,
   resendCode,
@@ -382,4 +480,6 @@ module.exports = {
   changePassword,
   sendPassword,
   modifyPassword,
+  update,
+  deleteUser,
 };
