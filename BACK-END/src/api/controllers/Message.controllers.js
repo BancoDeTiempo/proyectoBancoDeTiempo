@@ -190,16 +190,17 @@ const createMessage = async (req, res, next) => {
         }
       } else if (type == "public") {
         // --------------------------------mensaje publico se convierte en review --------------------------
+        //!------- NEW REVIEW----------- 
         try {
           await User.findByIdAndUpdate(req.user._id, {
             $push: {
-              reviwedForYou: newMessage._id, //----------------> Añadir reviewedForYou en User.model con ref "Message"
+              reviewedByYou: newMessage._id,
             },
           });
           try {
             await User.findByIdAndUpdate(idRecipient, {
               $push: {
-                reviewedByOthers: newMessage._id, //----------------> Añadir reviewedByOthers en User.model con ref "Message"
+                reviewedByOthers: newMessage._id,
               },
             });
 
