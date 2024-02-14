@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const ChatSchema = new Schema(
   {
-    message: [{ type: String, required : true, unique : false }],
+    messages: [{ type: String, required: true, unique: false }],
     userOne: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     userTwo: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   },
