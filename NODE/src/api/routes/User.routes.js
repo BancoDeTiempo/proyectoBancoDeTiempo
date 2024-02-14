@@ -1,4 +1,5 @@
 const express = require("express");
+const { isAuth, isAuthAdmin } = require("../../middleware/auth.middleware");
 const {
   register,
   resendCode,
