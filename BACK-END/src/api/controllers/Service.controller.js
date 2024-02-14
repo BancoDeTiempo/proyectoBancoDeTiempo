@@ -11,17 +11,42 @@ const createService = async (req, res, next) => {
 
         /** hacemos una instancia del modelo  */
         const customBody = {
+            title: req.body?.title,
             description: req.body?.description,
             tag: req.body?.tag,
-            offerer: req.body?.offerer
-        };
+            offerer: req.body?.offerer,
+            request: req.params.request
+        }
+
         const newService = new Service(customBody);
         const savedService = await newService.save();
 
-        // test en el runtime
-        return res
-            .status(savedService ? 200 : 404)
-            .json(savedService ? savedService : "error al crear el servicio");
+        try {
+
+            await User.findByIdAndUpdate(req.user._id, {
+                $push: { offeredServices: savedService._id }
+            })
+
+            return res
+                .status(savedService ? 200 : 404)
+                .json(savedService ? savedService : "error al crear el servicio");
+        } catch (error) {
+            try {
+                await Service.findByIdAndDelete(savedService._id)
+
+            } catch (error) {
+                return res.status(404).json({
+                    error: "error al borrar service y no hemos actualizado el user ",
+                    message: error.message,
+                });
+            }
+            return res.status(404).json({
+                error: "error catch update User",
+                message: error.message,
+            });
+        }
+
+
     } catch (error) {
         return res.status(404).json({
             error: "error catch create service",

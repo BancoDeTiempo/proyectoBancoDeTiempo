@@ -5,7 +5,7 @@ const ServiceSchema = new Schema(
     {
         title: [{ type: String, required: true }],
         offerer: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, //*-----> usuario que lo publicó
-        endedContract: { type: mongoose.Schema.Types.ObjectId, ref: "Contract" }, //*---->usuario que lo recibió al final
+        endedContractEndService: [{ type: mongoose.Schema.Types.ObjectId, ref: "Contract" }], //*----> contratos finalizados de este servicio
         //*----> popularlo a contratos
         tag: [{
             type: String, enum: [
@@ -19,13 +19,14 @@ const ServiceSchema = new Schema(
                 "compra",
                 "electrónica",
                 "mecánica",
-                "eventos"
+                "eventos",
+                "otros"
             ],
             required: true
         }],
         description: [{ type: String, required: true }],
-        timesPerformed: [{ type: Number }],//?----> populado con user ???
-        userInterested: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
+        request: [{ type: mongoose.Schema.Types.ObjectId, ref: "Request" }],
+
     },
     {
         timestamps: true,
