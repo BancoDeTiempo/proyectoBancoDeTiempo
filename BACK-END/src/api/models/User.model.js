@@ -20,7 +20,6 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-      unique: true,
     },
     password: {
       type: String,
@@ -34,7 +33,7 @@ const UserSchema = new mongoose.Schema(
       required: true,
     },
     dateOfBirth: {
-      type: Date,
+      type: Number,
       required: true,
     },
     rol: {

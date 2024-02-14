@@ -94,10 +94,11 @@ const sendCode = async (req, res, next) => {
             text: `tu codigo es ${userDB.confirmationCode}, gracias por confiar en nosotros ${userDB.name}`,
         };
 
-        transporter.sendEmail(mailOptions, function (error, info) {
+        transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
                 console.log(error);
                 return res.status(404).json({
+                    error: error.message,
                     user: userDB,
                     confirmationCode: "error, resend code",
                 });
