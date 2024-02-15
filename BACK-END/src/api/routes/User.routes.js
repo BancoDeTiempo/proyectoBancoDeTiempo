@@ -1,5 +1,5 @@
 const express = require("express");
-const { isAuth, isAuthAdmin } = require("../../middleware/auth.middleware");
+const { isAuth, isAuthAdmin, isAuthSuperAdmin } = require("../../middleware/auth.middleware");
 
 const { upload } = require("../../middleware/files.middleware");
 const { register,
