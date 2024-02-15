@@ -8,7 +8,7 @@ const {
 
 const RatingRoutes = require("express").Router();
 
-RatingRoutes.post("/createRating/", [isAuth], createRating);
+RatingRoutes.post("/createRating", [isAuth], createRating);
 RatingRoutes.patch("/updateRating/:id", [isAuth], updateRating);
 RatingRoutes.delete("/:id", [isAuth], deleteRating);
 RatingRoutes.patch("/updateGlobalRating", getAndUpdateGlobalRating);

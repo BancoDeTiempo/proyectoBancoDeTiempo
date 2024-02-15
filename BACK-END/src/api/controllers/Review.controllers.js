@@ -4,6 +4,7 @@ const User = require("../models/User.model");
 //! --------------------------------- UPDATE REVIEW ---------------------------------ESTONOVA---
 
 const updateReview = async (req, res, next) => {
+  console.log("entro");
   await Review.syncIndexes();
 
   try {
@@ -12,9 +13,8 @@ const updateReview = async (req, res, next) => {
 
     if (reviewById) {
       const customBody = {
-        _id: reviewById._id,
-        userOne: req.body?.userOne,
-        usertwo: req.body?.userTwo,
+        owner: req.body?.owner,
+        recipient: req.body?.recipient,
         reviews: req.body?.reviews ? req.body?.reviews : reviewById.reviews,
       };
 
@@ -23,36 +23,37 @@ const updateReview = async (req, res, next) => {
 
         // TEST ------------------------------------------------------------------------------
 
-        const reviewByIdUpdate = await Review.findById(id);
+        const reviewByIdUpdate = await Review.findById(id).populate(
+          "owner recipient"
+        );
 
         const elementUpdate = Object.keys(req.body);
 
         let test = {};
 
         elementUpdate.forEach((item) => {
-          if (req.body[item] === reviewByIdUpdate[item]) {
+          if (req.body[item] == reviewByIdUpdate[item]._id) {
             test[item] = true;
           } else {
             test[item] = false;
           }
-
-          let acc = 0;
-          for (clave in test) {
-            test[clave] == false && acc++;
-          }
-
-          if (acc > 0) {
-            return res.status(404).json({
-              dataTest: test,
-              update: false,
-            });
-          } else {
-            return res.status(200).json({
-              dataTest: test,
-              update: true,
-            });
-          }
         });
+        let acc = 0;
+        for (clave in test) {
+          test[clave] == false && acc++;
+        }
+
+        if (acc > 0) {
+          return res.status(404).json({
+            dataTest: test,
+            update: false,
+          });
+        } else {
+          return res.status(200).json({
+            dataTest: test,
+            update: true,
+          });
+        }
       } catch (error) {
         return res.status(404).json({
           error: "Catch error test",
@@ -66,7 +67,7 @@ const updateReview = async (req, res, next) => {
       });
     }
   } catch (error) {
-    return res.status(404).json(error.message);
+    return res.status(404).json("catch general");
   }
 };
 

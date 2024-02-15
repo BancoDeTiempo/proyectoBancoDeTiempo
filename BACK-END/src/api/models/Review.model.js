@@ -3,9 +3,9 @@ const Schema = mongoose.Schema;
 
 const ReviewSchema = new Schema(
   {
-    userOne: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    userTwo: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    reviews: [{ type: String, required: true, unique: false }],
+    owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    recipient: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    reviews: { type: mongoose.Schema.Types.ObjectId, ref: "Message" },
   },
   {
     timestamps: true,

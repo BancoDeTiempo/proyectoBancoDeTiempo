@@ -19,7 +19,7 @@ const createRating = async (req, res, next) => {
     try {
       await User.findByIdAndUpdate(req.user._id, {
         $push: {
-          ratedForYou: savedRating._id, //---------------------> clave a incluir en User.model
+          ratedByYou: savedRating._id, //---------------------> clave a incluir en User.model
         },
       });
       try {

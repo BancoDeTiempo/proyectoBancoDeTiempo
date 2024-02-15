@@ -192,9 +192,9 @@ const createMessage = async (req, res, next) => {
         // --------------------------------mensaje publico se convierte en review --------------------------
 
         const newReview = new Review({
-          userOne: req.user._id,
-          userTwo: req.body._id,
-          reviews: [savedMessage._id],
+          owner: req.user._id,
+          recipient: req.body._id,
+          reviews: savedMessage._id,
         });
 
         try {
@@ -215,7 +215,6 @@ const createMessage = async (req, res, next) => {
 
               return res.status(200).json({
                 userReviewer: await User.findById(req.user._id),
-                review: newMessage._id,
                 userReviewed: await User.findById(idRecipient),
                 review: newMessage._id,
               });
