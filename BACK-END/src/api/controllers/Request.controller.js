@@ -220,8 +220,49 @@ const changeStateRequest = async (req, res, next) => {
 
 }
 
+//!-------
+//? GET ALL
+//!-------
+
+const getAll = async (req, res, next) => {
+    try {
+      const allRequest = await Request.find()
+  
+      if (allRequest.length > 0) {
+        return res.status(200).json(allRequest);
+      } else {
+        return res.status(404).json("Request no found");
+      }
+    } catch (error) {
+      return res.status(404).json({
+        error: "error to get request",
+        message: error.message,
+      });
+    }
+  };
+
+//!-------
+//? GET BY ID
+//!-------
+
+  const getById = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const requestById = await Request.findById(id);
+      if (requestById) {
+        return res.status(200).json(requestById);
+      } else {
+        return res.status(404).json("request not found");
+      }
+    } catch (error) {
+      return res.status(404).json(error.message);
+    }
+  };
+
+
+
 // 3) Delete de la request
 
 
 
-module.exports = { create, changeStateRequest }
+module.exports = { create, changeStateRequest, getAll, getById }

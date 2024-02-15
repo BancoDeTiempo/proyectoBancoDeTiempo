@@ -455,6 +455,20 @@ const update = async (req, res, next) => {
 };
 
 //!-------
+//? CHANGE ROL
+//!-------
+
+const changeRol = async (req, res, next) => {
+    try {
+        // Buscamos el usuario por su ID y actualizamos su rol
+        const updatedUser = await User.findByIdAndUpdate(req.params.id, { rol: 'admin' }, { new: true });
+        res.json(updatedUser);
+      } catch (error) {
+        res.status(400).json({ message: err.message });
+      }
+    };
+
+//!-------
 //? DELETE
 //!-------
 
@@ -473,6 +487,51 @@ const deleteUser = async (req, res, next) => {
         return next(error);
     }
 };
+
+//!-------
+//? GET ALL
+//!-------
+
+const getAll = async (req, res, next) => {
+    try {
+      const allUser = await User.find()
+  
+      if (allUser.length > 0) {
+        return res.status(200).json(allUser);
+      } else {
+        return res.status(404).json("Users no found");
+      }
+    } catch (error) {
+      return res.status(404).json({
+        error: "error to get users",
+        message: error.message,
+      });
+    }
+  };
+
+//!-------
+//? GET BY ID
+//!-------
+
+  const getById = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const usersById = await User.findById(id);
+      if (usersById) {
+        return res.status(200).json(usersById);
+      } else {
+        return res.status(404).json("user not found");
+      }
+    } catch (error) {
+      return res.status(404).json(error.message);
+    }
+  };
+
+/* const baneo = async (req, res, next) =>{
+};
+const blockApp = async (req, res, next) =>{
+};*/
+
 module.exports = {
     register,
     resendCode,
@@ -485,4 +544,7 @@ module.exports = {
     modifyPassword,
     update,
     deleteUser,
+    changeRol,
+    getAll,
+    getById
 };

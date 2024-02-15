@@ -194,9 +194,50 @@ const getAndUpdateGlobalRating = async (req, res, next) => {
   }
 };
 
+//!-------
+//? GET ALL
+//!-------
+
+const getAll = async (req, res, next) => {
+  try {
+    const allRating = await Rating.find()
+
+    if (allRating.length > 0) {
+      return res.status(200).json(allRating);
+    } else {
+      return res.status(404).json("Rating no found");
+    }
+  } catch (error) {
+    return res.status(404).json({
+      error: "error to get rating",
+      message: error.message,
+    });
+  }
+};
+
+//!-------
+//? GET BY ID
+//!-------
+
+const getById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const ratingById = await Rating.findById(id);
+    if (ratingById) {
+      return res.status(200).json(ratingById);
+    } else {
+      return res.status(404).json("Rating not found");
+    }
+  } catch (error) {
+    return res.status(404).json(error.message);
+  }
+};
+
 module.exports = {
   createRating,
   updateRating,
   deleteRating,
   getAndUpdateGlobalRating,
+  getAll,
+  getById
 };
