@@ -193,7 +193,7 @@ const createMessage = async (req, res, next) => {
 
         const newReview = new Review({
           owner: req.user._id,
-          recipient: req.body._id,
+          recipient: req.body.recipientUser,
           reviews: savedMessage._id,
         });
 
@@ -203,20 +203,20 @@ const createMessage = async (req, res, next) => {
           try {
             await User.findByIdAndUpdate(req.user._id, {
               $push: {
-                reviewedByYou: newMessage._id,
+                reviewedByYou: newReview._id,
               },
             });
             try {
               await User.findByIdAndUpdate(idRecipient, {
                 $push: {
-                  reviewedByOthers: newMessage._id,
+                  reviewedByOthers: newReview._id,
                 },
               });
 
               return res.status(200).json({
                 userReviewer: await User.findById(req.user._id),
                 userReviewed: await User.findById(idRecipient),
-                review: newMessage._id,
+                review: newReview._id,
               });
             } catch (error) {
               return res.status(404).json({

@@ -4,7 +4,6 @@ const ServiceRoutes = require("express").Router();
 
 ServiceRoutes.post("/", [isAuth], createService)
 ServiceRoutes.delete("/:id", deleteService)
-//ServiceRoutes.get("/:tag", getByTag)
 ServiceRoutes.get("/:id", getById)
 ServiceRoutes.patch("/:id", update)
 

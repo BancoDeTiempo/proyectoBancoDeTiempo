@@ -11,7 +11,9 @@ const RequestSchema = new Schema(
             required: true
         },
         accepted: { type: Boolean, default: false },
-        state: { type: String, enum: ["pending", "accepted"], default: "pending" }
+        state: { type: String, enum: ["pending", "accepted"], default: "pending" },
+        message: { type: String, required: true },
+        chosenOfferedService: { type: mongoose.Schema.Types.ObjectId, ref: "Service" },
     },
     { timestamps: true }
 );

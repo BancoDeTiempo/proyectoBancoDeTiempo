@@ -1,3 +1,4 @@
+const Message = require("../models/Message.model");
 const Review = require("../models/Review.model");
 const User = require("../models/User.model");
 
@@ -9,65 +10,35 @@ const updateReview = async (req, res, next) => {
 
   try {
     const { id } = req.params;
-    const reviewById = await Review.findById(id);
+    const existReview = await Review.findById(id).populate("owner recipient")
 
-    if (reviewById) {
-      const customBody = {
-        owner: req.body?.owner,
-        recipient: req.body?.recipient,
-        reviews: req.body?.reviews ? req.body?.reviews : reviewById.reviews,
-      };
 
-      try {
-        await Review.findByIdAndUpdate(id, customBody);
+    if (existReview) {
+      if (req.user._id.toString() === existReview.owner._id.toString()) {
+        console.log("entro paso 1")
 
-        // TEST ------------------------------------------------------------------------------
 
-        const reviewByIdUpdate = await Review.findById(id).populate(
-          "owner recipient"
-        );
+        if (req.user._id.toString() != existReview.recipient._id.toString()) {
+          console.log("entro paso 2")
+          try {
+            await Message.findByIdAndUpdate(existReview.reviews, { content: req.body.content })
+            return res.status(200).json("actualizado")
 
-        const elementUpdate = Object.keys(req.body);
-
-        let test = {};
-
-        elementUpdate.forEach((item) => {
-          if (req.body[item] == reviewByIdUpdate[item]._id) {
-            test[item] = true;
-          } else {
-            test[item] = false;
+          } catch (error) {
+            // todo hacer el catch
           }
-        });
-        let acc = 0;
-        for (clave in test) {
-          test[clave] == false && acc++;
         }
 
-        if (acc > 0) {
-          return res.status(404).json({
-            dataTest: test,
-            update: false,
-          });
-        } else {
-          return res.status(200).json({
-            dataTest: test,
-            update: true,
-          });
-        }
-      } catch (error) {
-        return res.status(404).json({
-          error: "Catch error test",
-          message: error.message,
-        });
+      } else {
+        return res.status(404).json("no eres el propietario de la review")
       }
+
     } else {
-      return res.status(404).json({
-        error: "Review not found",
-        message: error.message,
-      });
+      return res.status(404).json("esta review no existe")
     }
+
   } catch (error) {
-    return res.status(404).json("catch general");
+    return res.status(404).json(error.message);
   }
 };
 
@@ -76,41 +47,53 @@ const updateReview = async (req, res, next) => {
 const deleteReview = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const review = await Review.findByIdAndDelete(id);
 
+    const review = await Review.findById(id).populate("owner");
     // TEST ------------------------------------------------------------------------------
 
     if (review) {
-      const findByIdReview = await Review.findById(id);
+      if (review.owner._id.toString() == req.user._id.toString()) {
+        await Review.findByIdAndDelete(id);
 
-      try {
-        const test = await User.updateMany(
-          { reviewedByYou: id },
-          { $pull: { reviewedByYou: id } }
-        );
-        console.log(test);
+        // --> test ----
+        const findByIdReview = await Review.findById(id);
 
         try {
-          await User.updateMany(
-            { reviewedByOthers: id },
-            { $pull: { reviewedByOthers: id } }
+          const test = await User.updateMany(
+            { reviewedByYou: id },
+            { $pull: { reviewedByYou: id } }
           );
+          console.log(test);
 
-          return res.status(findByIdReview ? 404 : 200).json({
-            deleteTest: findByIdReview ? false : true,
-          });
+          try {
+            await User.updateMany(
+              { reviewedByOthers: id },
+              { $pull: { reviewedByOthers: id } }
+            );
+
+            return res.status(findByIdReview ? 404 : 200).json({
+              deleteTest: findByIdReview ? false : true,
+            });
+          } catch (error) {
+            return res.status(404).json({
+              error: "Catch error deleting reviewed by others",
+              message: error.message,
+            });
+          }
         } catch (error) {
           return res.status(404).json({
-            error: "Catch error deleting reviewed by others",
+            error: "Catch error deleting reviewed by you",
             message: error.message,
           });
         }
-      } catch (error) {
-        return res.status(404).json({
-          error: "Catch error deleting reviewed by you",
-          message: error.message,
-        });
+
+      } else {
+        return res.status(404).json("tu no eres el propietario ")
+
       }
+
+    } else {
+      return res.status(404).json("la review no existe")
     }
   } catch (error) {
     return res.status(404).json(error.message);

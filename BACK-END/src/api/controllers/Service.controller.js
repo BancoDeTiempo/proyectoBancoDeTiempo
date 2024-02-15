@@ -102,22 +102,6 @@ const deleteService = async (req, res, next) => {
     }
 };
 
-//! ---------------------------------------------------------------------
-//? -------------------------------get by tag ---------------------------
-//! ---------------------------------------------------------------------
-const getByTag = async (req, res, next) => {
-    try {
-        const { tags } = req.params;
-        const serviceByTag = await Service.findByTag(tags);
-        if (serviceByTag) {
-            return res.status(200).json(serviceByTag);
-        } else {
-            return res.status(404).json("no se ha encontrado el servicio");
-        }
-    } catch (error) {
-        return res.status(404).json(error.message);
-    }
-};
 
 //! ---------------------------------------------------------------------
 //? -------------------------------get by id --------------------------
@@ -237,7 +221,6 @@ const update = async (req, res, next) => {
 module.exports = {
     createService,
     deleteService,
-    getByTag,
     getById,
     update
 }

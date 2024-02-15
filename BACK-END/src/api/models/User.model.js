@@ -78,8 +78,8 @@ const UserSchema = new mongoose.Schema(
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     followed: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     chats: [{ type: mongoose.Schema.Types.ObjectId, ref: "Chat" }],
-    banned: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-    blockedByApp: { type: Boolean, default: false },
+    banned: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }], // vaneo por otro user
+    blockedByApp: { type: Boolean, default: false }, // bloqueado por la admin
     commentsPublicByOther: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Message" },
     ],

@@ -13,9 +13,11 @@ const ContractSchema = new Schema(
         acceptedByUserTwo: { type: Boolean, required: true },
         rejectedByUserOne: { type: Boolean, required: true },
         rejectedByUserTwo: { type: Boolean, required: true },
-        status: { type: Number, enum: [0, 1, 2], required: true },  //estado de compleción del contrato donde 0 = sin ojos; 1 = 1 ojo; 2 = ojos == finalizado
+        statusDaruma: { type: Number, enum: [0, 1, 2], required: true },  //estado de compleción del contrato donde 0 = sin ojos; 1 = 1 ojo; 2 = ojos == finalizado
         finalizedByUserOne: { type: Boolean, required: true },
         finalizedByUserTwo: { type: Boolean, required: true },
+        specialCondicion: { type: String },
+        state: { type: String, enum: ["pendiente", "finalizado", "en curso", "caducado"], default: "pendiente" }
     },
     {
         timestamps: true,

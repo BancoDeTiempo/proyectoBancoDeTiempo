@@ -8,9 +8,7 @@ const create = async (req, res, next) => {
         const { serviceId } = req.body
         const existService = await Service.findById(serviceId).populate("offerer")
         if (existService.offerer._id.toString() != req.user._id.toString()) {
-            console.log("existService.offerer._id", existService.offerer._id)
-            console.log("req.user._id", req.user._id)
-            console.log("entrooooooo no soy el propietario")
+
             const customBody = {
                 service: serviceId,
                 requestUser: req.user._id
@@ -52,17 +50,12 @@ const create = async (req, res, next) => {
                     } catch (error) {
 
                     }
-
-
-
                 } catch (error) {
                     return res.status(404).json({
                         error: "catch error en actualizar el user en la clave pendingRequestedService",
                         message: error.message
                     })
-
                 }
-
             } catch (error) {
                 return res.status(404).json({
                     error: "catch error en actualizar el user en la clave pendingRequestMyService ",
@@ -138,7 +131,6 @@ const changeStateRequest = async (req, res, next) => {
                             message: error, message
                         })
                     }
-
                 case "noOk":
 
                     try {
