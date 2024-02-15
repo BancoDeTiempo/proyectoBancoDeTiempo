@@ -2,50 +2,54 @@ const Rating = require("../models/Rating.model");
 const User = require("../models/User.model");
 
 const createRating = async (req, res, next) => {
+  await Rating.syncIndexes();
+
   try {
-    const { owner, contract, rating } = req.body;
-    const { idRated } = req.params;
+    const { owner, rating, contract } = req.body;
+    const { idRecipient } = req.params;
 
-    const customBody = {
-      owner: req.body?.owner,
-      contract: req.body?.contract,
-      rating: req.body?.rating,
-      ratedUser: idRated,
-    };
+    const findUser = await User.findById(idRecipient);
 
-    const newRating = new Rating(customBody);
-    const savedRating = await newRating.save();
-
-    try {
-      await User.findByIdAndUpdate(req.user._id, {
-        $push: {
-          ratedByYou: savedRating._id, //---------------------> clave a incluir en User.model
-        },
-      });
+    if (findUser) {
       try {
-        await User.findByIdAndUpdate(idRated, {
-          $push: {
-            ratedByOthers: savedRating._id, //---------------------> clave a incluir en User.model
-          },
-        });
+        const contractExist = await Contract.findOne({
+          userOne: req.user._id,
+          userTwo: findUser._id,
+        }).populate("acceptedContract completedService");
 
-        return res.status(200).json({
-          userRating: newRating._id,
-          userRated: newRating._id,
-        });
+        if (contractExist) {
+          try {
+            const newRating = new Rating({
+              owner: req.user._id,
+              rating: req.body.rating,
+              contract: contractExist._id,
+              ratedUser: findUser._id,
+            });
+          } catch (error) {
+            return res.status(404).json({
+              error: "Catch error creating new Rating",
+              message: error.message,
+            });
+          }
+        } else {
+          return res.status(404).json({
+            error: "Contract not found",
+            message: error.message,
+          });
+        }
       } catch (error) {
         return res.status(404).json({
-          error: "Catch error updating ratedByOthers",
+          error: "There is no contract between this Users",
         });
       }
-    } catch (error) {
+    } else {
       return res.status(404).json({
-        error: "Catch error updating ratedForYou",
+        error: "User not found",
         message: error.message,
       });
     }
   } catch (error) {
-    return res.status(404).json(error.message);
+    return res.status(404).json({ error: "TODO MAL", message: error.message });
   }
 };
 
@@ -200,7 +204,7 @@ const getAndUpdateGlobalRating = async (req, res, next) => {
 
 const getAll = async (req, res, next) => {
   try {
-    const allRating = await Rating.find()
+    const allRating = await Rating.find();
 
     if (allRating.length > 0) {
       return res.status(200).json(allRating);
@@ -239,5 +243,5 @@ module.exports = {
   deleteRating,
   getAndUpdateGlobalRating,
   getAll,
-  getById
+  getById,
 };
