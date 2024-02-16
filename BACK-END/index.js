@@ -13,6 +13,7 @@ configCloudinary();
 const cors = require("cors");
 app.use(cors());
 
+
 //! ------------------ limitaciones de cantidad en el back end
 app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ limit: "5mb", extended: false }));
@@ -24,7 +25,6 @@ const ServiceRoutes = require("./src/api/routes/Service.routes");
 app.use("/api/v1/service/", ServiceRoutes);
 
 const MessageRoutes = require("./src/api/routes/Message.routes");
-
 app.use("/api/v1/message/", MessageRoutes);
 
 const RequestRoutes = require("./src/api/routes/Request.routes");
@@ -35,6 +35,11 @@ app.use("/api/v1/reviews/", ReviewRoutes);
 
 const RatingRoutes = require("./src/api/routes/Rating.routes");
 app.use("/api/v1/ratings/", RatingRoutes);
+
+const ContractRoutes = require("./src/api/routes/Contract.routes");
+app.use("/api/v1/contracts/", ContractRoutes);
+
+
 
 //! --------------- generamos un error de cuando no see encuentre la ruta
 app.use("*", (req, res, next) => {
