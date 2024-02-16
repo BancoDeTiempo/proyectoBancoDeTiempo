@@ -36,6 +36,10 @@ app.use("/api/v1/reviews/", ReviewRoutes);
 const RatingRoutes = require("./src/api/routes/Rating.routes");
 app.use("/api/v1/ratings/", RatingRoutes);
 
+const ContractRoutes = require("./src/api/routes/Contract.routes");
+app.use("/api/v1/contracts/", ContractRoutes);
+
+
 //! --------------- generamos un error de cuando no see encuentre la ruta
 app.use("*", (req, res, next) => {
   const error = new Error("Route not found");
