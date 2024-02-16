@@ -10,7 +10,7 @@ const {
 
 const RatingRoutes = require("express").Router();
 
-RatingRoutes.post("/createRating", [isAuth], createRating);
+RatingRoutes.post("/createRating", createRating); // volver a poner [isAuth]
 RatingRoutes.patch("/updateRating/:id", [isAuth], updateRating);
 RatingRoutes.delete("/:id", [isAuth], deleteRating);
 RatingRoutes.patch("/updateGlobalRating", getAndUpdateGlobalRating);
