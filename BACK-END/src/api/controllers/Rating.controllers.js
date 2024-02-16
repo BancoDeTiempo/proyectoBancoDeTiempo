@@ -1,51 +1,92 @@
+const Contract = require("../models/Contract.model");
 const Rating = require("../models/Rating.model");
 const User = require("../models/User.model");
 
 const createRating = async (req, res, next) => {
+  await Rating.syncIndexes();
+
   try {
-    const { owner, contract, rating } = req.body;
-    const { idRated } = req.params;
+    const { owner, rating, contract } = req.body;
+    const { idRecipient } = req.params;
 
-    const customBody = {
-      owner: req.body?.owner,
-      contract: req.body?.contract,
-      rating: req.body?.rating,
-      ratedUser: idRated,
-    };
+    const findUser = await User.findById(idRecipient);
 
-    const newRating = new Rating(customBody);
-    const savedRating = await newRating.save();
-
-    try {
-      await User.findByIdAndUpdate(req.user._id, {
-        $push: {
-          ratedByYou: savedRating._id, //---------------------> clave a incluir en User.model
-        },
-      });
+    if (findUser) {
       try {
-        await User.findByIdAndUpdate(idRated, {
-          $push: {
-            ratedByOthers: savedRating._id, //---------------------> clave a incluir en User.model
-          },
-        });
+        const contractExist = await Contract.findOne({
+          userOne: req.user._id,
+          userTwo: findUser._id,
+        }).populate("acceptedContract completeService");
+        console.log("entro");
 
-        return res.status(200).json({
-          userRating: newRating._id,
-          userRated: newRating._id,
-        });
+        if (contractExist) {
+          const newRating = new Rating({
+            owner: req.user._id,
+            rating: req.body.rating,
+            contract: contractExist._id,
+            ratedUser: findUser._id,
+          });
+          try {
+            await newRating.save();
+
+            try {
+              await User.findByIdAndUpdate(req.user._id, {
+                $push: {
+                  ratedByYou: newRating._id,
+                },
+              });
+
+              try {
+                await User.findByIdAndUpdate(findUser, {
+                  $push: {
+                    ratedByOthers: newRating._id,
+                  },
+                });
+
+                return res
+                  .status(200)
+                  .json("EVERYTHING WORKS, YOU ARE A FUCKING GENIUS");
+              } catch (error) {
+                return res.status(404).json({
+                  error: "Catch error updating rated by others",
+                  message: error.message,
+                });
+              }
+            } catch (error) {
+              return res.status(404).json({
+                error: "Catch error updating rated by you",
+                message: error.message,
+              });
+            }
+          } catch (error) {
+            return res.status(404).json({
+              error: "Catch error saving the new rating",
+              message: error.message,
+            });
+          }
+        } else {
+          return res.status(404).json({
+            error: "There is something wrong with the keys in new rating",
+            message: error.message,
+          });
+        }
       } catch (error) {
         return res.status(404).json({
-          error: "Catch error updating ratedByOthers",
+          error: "There is no contract between these Users",
+          message: error.message,
         });
       }
-    } catch (error) {
+    } else {
       return res.status(404).json({
-        error: "Catch error updating ratedForYou",
+        error: "User not found",
         message: error.message,
       });
     }
   } catch (error) {
-    return res.status(404).json(error.message);
+    return res.status(404).json({
+      error: "TODO MAL",
+      message: error.message,
+    });
   }
 };
 
@@ -194,9 +235,50 @@ const getAndUpdateGlobalRating = async (req, res, next) => {
   }
 };
 
+//!-------
+//? GET ALL
+//!-------
+
+const getAll = async (req, res, next) => {
+  try {
+    const allRating = await Rating.find();
+
+    if (allRating.length > 0) {
+      return res.status(200).json(allRating);
+    } else {
+      return res.status(404).json("Rating no found");
+    }
+  } catch (error) {
+    return res.status(404).json({
+      error: "error to get rating",
+      message: error.message,
+    });
+  }
+};
+
+//!-------
+//? GET BY ID
+//!-------
+
+const getById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const ratingById = await Rating.findById(id);
+    if (ratingById) {
+      return res.status(200).json(ratingById);
+    } else {
+      return res.status(404).json("Rating not found");
+    }
+  } catch (error) {
+    return res.status(404).json(error.message);
+  }
+};
+
 module.exports = {
   createRating,
   updateRating,
   deleteRating,
   getAndUpdateGlobalRating,
+  getAll,
+  getById,
 };

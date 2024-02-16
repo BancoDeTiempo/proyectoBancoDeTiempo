@@ -251,4 +251,38 @@ const createMessage = async (req, res, next) => {
   }
 };
 
-module.exports = { createMessage };
+//! --------------------------------- GET BY ID ---------------------------------
+
+const getMessageById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const messageById = await Message.findById(id);
+    if (messageById) {
+      return res.status(200).json(messageById);
+    } else {
+      return res.status(404).json("Message not found");
+    }
+  } catch (error) {
+    return res.status(404).json(error.message);
+  }
+};
+
+//! --------------------------------- GET AL ---------------------------------
+
+const getAllMessages = async (req, res, next) => {
+  try {
+    const allMessages = await Message.find();
+    if (allMessages.length > 0) {
+      return res.status(200).json(allMessages);
+    } else {
+      return res.status(404).json("Messages not found");
+    }
+  } catch (error) {
+    return res.status(404).json({
+      error: "Catch error finding all messages",
+      message: error.message,
+    });
+  }
+};
+
+module.exports = { createMessage, getMessageById, getAllMessages };
