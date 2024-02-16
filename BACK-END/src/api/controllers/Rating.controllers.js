@@ -14,67 +14,66 @@ const createRating = async (req, res, next) => {
     if (findUser) {
       try {
         const contractExist = await Contract.findOne({
-          userOne: req.user._id,
-          userTwo: findUser._id,
-        }).populate("acceptedContract completeService");
-        console.log("entro");
-
-        if (contractExist) {
-          const newRating = new Rating({
-            owner: req.user._id,
-            rating: req.body.rating,
-            contract: contractExist._id,
-            ratedUser: findUser._id,
-          });
+          userTwo: findUser._id.toString(),
+        }).populate("userOne state");
+        console.log(contractExist);
+        if (
+          contractExist.userOne.toString() == req.user._id.toString() &&
+          contractExist.state == "en curso"
+        ) {
           try {
-            await newRating.save();
-
+            const newRating = new Rating({
+              owner: req.user._id,
+              ratedUser: findUser._id,
+              contract: contractExist._id,
+              rating: req.body.rating,
+            });
             try {
-              await User.findByIdAndUpdate(req.user._id, {
-                $push: {
-                  ratedByYou: newRating._id,
-                },
-              });
+              await newRating.save();
 
               try {
-                await User.findByIdAndUpdate(findUser, {
+                await User.findByIdAndUpdate(req.user._id, {
                   $push: {
-                    ratedByOthers: newRating._id,
+                    ratedByYou: newRating._id,
                   },
                 });
 
-                return res
-                  .status(200)
-                  .json("EVERYTHING WORKS, YOU ARE A FUCKING GENIUS");
+                try {
+                  await User.findByIdAndUpdate(findUser._id, {
+                    $push: {
+                      ratedByOthers: newRating._id,
+                    },
+                  });
+
+                  return res
+                    .status(200)
+                    .json("EVERYTHING WORKS, YOU ARE A FUCKING GENIUS");
+                } catch (error) {
+                  return res.status(404).json({
+                    error: "Catch error updating rated by others",
+                    message: error.message,
+                  });
+                }
               } catch (error) {
                 return res.status(404).json({
-                  error: "Catch error updating rated by others",
+                  error: "Catch error updating rated by you",
                   message: error.message,
                 });
               }
             } catch (error) {
               return res.status(404).json({
-                error: "Catch error updating rated by you",
+                error: "Catch error saving the new rating",
                 message: error.message,
               });
             }
           } catch (error) {
-            return res.status(404).json({
-              error: "Catch error saving the new rating",
-              message: error.message,
-            });
+            return res.status(404).json("no has creado nada");
           }
         } else {
-          return res.status(404).json({
-            error: "There is something wrong with the keys in new rating",
-            message: error.message,
-          });
+          return res.status(404).json("se ha roto");
         }
       } catch (error) {
-        return res.status(404).json({
-          error: "There is no contract between these Users",
-          message: error.message,
-        });
+        return res.status(404).json("Contract not found");
       }
     } else {
       return res.status(404).json({
@@ -85,7 +84,7 @@ const createRating = async (req, res, next) => {
   } catch (error) {
     return res.status(404).json({
       error: "TODO MAL",
-      message: error.message,
+      messagge: error.message,
     });
   }
 };
