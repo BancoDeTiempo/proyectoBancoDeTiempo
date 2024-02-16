@@ -89,119 +89,100 @@ const createRating = async (req, res, next) => {
   }
 };
 
-// --------------------------------- UPDATE RATING ------------------------------------
+// --------------------------------- UPDATE RATING ------------------------------------>>> ESTO DEBERIA FUNCIONAR. ADAPTADO DE PEDRO
 
 const updateRating = async (req, res, next) => {
   await Rating.syncIndexes();
 
   try {
     const { id } = req.params;
-    const ratingById = await Rating.findById(id);
+    const existRating = await Rating.findById(id).populate("owner ratedUser");
 
-    if (ratingById) {
-      const customBody = {
-        rating: req.body?.rating ? req.body?.rating : ratingById.rating,
-      };
+    if (existRating) {
+      if (req.user._id.toString() === existRating.owner._id.toString()) {
+        console.log("entro paso 1");
 
-      try {
-        await Review.findByIdAndUpdate(id, customBody);
-
-        // TEST ------------------------------------------------------------------------------
-
-        const ratingByIdUpdate = await Rating.findById(id);
-
-        const elementUpdate = Object.keys(req.body);
-
-        let test = {};
-
-        elementUpdate.forEach((item) => {
-          if (req.body[item] === ratingByIdUpdate[item]) {
-            test[item] = true;
-          } else {
-            test[item] = false;
-          }
-
-          let acc = 0;
-          for (clave in test) {
-            test[clave] == false && acc++;
-          }
-
-          if (acc > 0) {
+        if (req.user._id.toString() != existRating.ratedUser._id.toString()) {
+          console.log("entro paso 2");
+          try {
+            await Rating.findByIdAndUpdate(existRating, {
+              rating: req.body.rating,
+            });
+            return res.status(200).json("Rating update OK");
+          } catch (error) {
             return res.status(404).json({
-              dataTest: test,
-              update: false,
-            });
-          } else {
-            return res.status(200).json({
-              dataTest: test,
-              update: true,
+              error: "Catch error updating review",
+              message: error.message,
             });
           }
-        });
-      } catch (error) {
-        return res.status(404).json({
-          error: "Catch error test",
-          message: error.message,
-        });
+        }
+      } else {
+        return res.status(404).json("You don't own this rating");
       }
     } else {
-      return res.status(404).json({
-        error: "Review not found",
-        message: error.message,
-      });
+      return res.status(404).json("Rating not found");
     }
   } catch (error) {
     return res.status(404).json(error.message);
   }
 };
 
-// --------------------------------- DELETE RATING ------------------------------------
+// --------------------------------- DELETE RATING ------------------------------------>>> ESTO DEBERIA FUNCIONAR. ADAPTADO DE PEDRO
 
 const deleteRating = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const rating = await Rating.findByIdAndDelete(id);
 
-    // TEST ------------------------------------------------------------------------------
+    const rating = await Rating.findById(id).populate("owner");
 
     if (rating) {
-      const findByIdRating = await Rating.findById(id);
+      if (rating.owner._id.toString() == req.user._id.toString()) {
+        await Rating.findByIdAndDelete(id);
 
-      try {
-        const test = await User.updateMany(
-          { ratedForYou: id },
-          { $pull: { ratedForYou: id } }
-        );
-        console.log(test);
+        // TEST ------------------------------------------------------------------------------
+
+        const findByIdRating = await Rating.findById(id);
 
         try {
-          await User.updateMany(
-            { ratedByOthers: id },
-            { $pull: { ratedByOthers: id } }
+          const test = await User.updateMany(
+            { ratedForYou: id },
+            { $pull: { ratedForYou: id } }
           );
+          console.log(test);
 
-          return res.status(findByIdRating ? 404 : 200).json({
-            deleteTest: findByIdRating ? false : true,
-          });
+          try {
+            await User.updateMany(
+              { ratedByOthers: id },
+              { $pull: { ratedByOthers: id } }
+            );
+
+            return res.status(findByIdRating ? 404 : 200).json({
+              deleteTest: findByIdRating ? false : true,
+            });
+          } catch (error) {
+            return res.status(404).json({
+              error: "Catch error deleting rated by others",
+              message: error.message,
+            });
+          }
         } catch (error) {
           return res.status(404).json({
-            error: "Catch error deleting rated by others",
+            error: "Catch error deleting rated for you",
             message: error.message,
           });
         }
-      } catch (error) {
-        return res.status(404).json({
-          error: "Catch error deleting rated for you",
-          message: error.message,
-        });
+      } else {
+        return res.status(404).json("You can't change this rating");
       }
+    } else {
+      return res.status(404).json("Rating not found");
     }
   } catch (error) {
     return res.status(404).json(error.message);
   }
 };
 
-// --------------------------------- UPDATE GLOBAL RATING ------------------------------------
+// --------------------------------- UPDATE GLOBAL RATING ------------------------------------>>>>> SURPRISE!!!!
 
 const getAndUpdateGlobalRating = async (req, res, next) => {
   try {
