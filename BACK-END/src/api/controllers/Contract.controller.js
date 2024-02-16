@@ -51,14 +51,18 @@ const createContract = async (req, res, next) => {
 
               try {
 
-                await Request.findByIdAndUpdate(req.body.request, {
+                await Request.findByIdAndUpdate(req.body.request, { //*----> cambio de estado de la request
+                  //! ---- es contrato o klk? 
                   accepted: true,
                   state: "accepted"
                 })
 
                 return res.status(existContract ? 200 : 400).json(existContract ? newContract : "error en el save")
               } catch (error) {
-
+                return res.status(404).json({
+                  error: "no ha cambiado el state de la request",
+                  message: error.message
+                })
               }
 
 
@@ -98,7 +102,7 @@ const createContract = async (req, res, next) => {
 
 
 //! ---------------------------------------------------------------------
-//? -------------------------------UPDATE PARA ACEPTAR  --------------------------
+//? ----------------------UPDATE PARA ACEPTAR----------------------------
 //! ---------------------------------------------------------------------
 
 const updateAccept = async (req, res, next) => {
@@ -119,12 +123,12 @@ const updateAccept = async (req, res, next) => {
         }
         console.log("accept", accept)
         try {
-          accept != "" && await Contract.findByIdAndUpdate(contract, {
+          accept != "" && await Contract.findByIdAndUpdate(contract, { //*----> si acc no está vacío entonces accept es true
             [accept]: true,
           })
           const updateContrat = await Contract.findById(contract)
           if (accept == "") {
-            res.status(404).json("no eres parte del contrato")
+            res.status(404).json("ninguno ha aceptado una mierda")
           } else {
             const updateContrat = await Contract.findById(contract)
             if (updateContrat.acceptedByUserOne && updateContrat.acceptedByUserTwo) {
@@ -189,7 +193,7 @@ const updateAccept = async (req, res, next) => {
 
 
 //! ---------------------------------------------------------------------
-//? -------------------------------UPDATE PARA RECHAZAR--------------------------
+//? -----------------------UPDATE PARA RECHAZAR--------------------------
 //! ---------------------------------------------------------------------
 
 const updateRechazar = async (req, res, next) => {
