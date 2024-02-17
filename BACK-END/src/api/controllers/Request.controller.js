@@ -5,13 +5,14 @@ const User = require("../models/User.model")
 // 1 ) crear la request
 const create = async (req, res, next) => {
     try {
-        const { serviceId } = req.body
+        const { serviceId, message } = req.body
         const existService = await Service.findById(serviceId).populate("offerer")
         if (existService.offerer._id.toString() != req.user._id.toString()) {
 
             const customBody = {
                 service: serviceId,
-                requestUser: req.user._id
+                requestUser: req.user._id,
+                message: message
             }
             const newRequest = new Request(customBody)
             await newRequest.save()
@@ -48,7 +49,10 @@ const create = async (req, res, next) => {
                         })
 
                     } catch (error) {
-
+                        return res.status(404).json({
+                            error: "no he actualizado na de na",
+                            message: error.message
+                        })
                     }
                 } catch (error) {
                     return res.status(404).json({
@@ -67,7 +71,7 @@ const create = async (req, res, next) => {
         }
     } catch (error) {
         return res.status(404).json({
-            error: "catch general create service",
+            error: "catch general create request",
             message: error.message
         })
     }
@@ -226,38 +230,38 @@ const changeStateRequest = async (req, res, next) => {
 
 const getAll = async (req, res, next) => {
     try {
-      const allRequest = await Request.find()
-  
-      if (allRequest.length > 0) {
-        return res.status(200).json(allRequest);
-      } else {
-        return res.status(404).json("Request no found");
-      }
+        const allRequest = await Request.find()
+
+        if (allRequest.length > 0) {
+            return res.status(200).json(allRequest);
+        } else {
+            return res.status(404).json("Request no found");
+        }
     } catch (error) {
-      return res.status(404).json({
-        error: "error to get request",
-        message: error.message,
-      });
+        return res.status(404).json({
+            error: "error to get request",
+            message: error.message,
+        });
     }
-  };
+};
 
 //!-------
 //? GET BY ID
 //!-------
 
-  const getById = async (req, res, next) => {
+const getById = async (req, res, next) => {
     try {
-      const { id } = req.params;
-      const requestById = await Request.findById(id);
-      if (requestById) {
-        return res.status(200).json(requestById);
-      } else {
-        return res.status(404).json("request not found");
-      }
+        const { id } = req.params;
+        const requestById = await Request.findById(id);
+        if (requestById) {
+            return res.status(200).json(requestById);
+        } else {
+            return res.status(404).json("request not found");
+        }
     } catch (error) {
-      return res.status(404).json(error.message);
+        return res.status(404).json(error.message);
     }
-  };
+};
 
 
 

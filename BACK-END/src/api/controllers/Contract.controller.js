@@ -299,6 +299,158 @@ const updateRechazar = async (req, res, next) => {
 //? -----------------------------UPDATE PARA FINALIZAR SERVICIO --------------------------
 //! ---------------------------------------------------------------------
 
+const updateEndService = async (req, res, next) => {
+  try {
+    const { contractId } = req.params;
+    const existContract = await Contract.findById(contractId);
+    console.log(existContract);
+
+    if (existContract) {
+      if (
+        existContract.state == "pendiente",
+        existContract.state == "finalizado"
+      ) {
+        return res.status(404).json("ya está pendiente de aceptación o ya está finalizado")
+
+      } else {
+        let finalized = ""
+        if (req.body.finalizedByUserOne && existContract.userOne.toString() == req.user._id) {//*-----> cuando el finalizedByUserOne tenga el mismo id que endedContract de userOne
+          finalized = `finalizedByUserOne`
+        } if (req.body.finalizedByUserTwo && existContract.userTwo.toString() == req.user._id) {//*-----> cuando el finalizedByUserTwo tenga el mismo id que endedContract de userTwo
+          finalized = `finalizedByUserTwo`
+        }
+        console.log("finalized", finalized);
+
+        try {
+          finalized != "" && (await Contract.findByIdAndUpdate(contractId, {
+            [finalized]: true
+          }))
+          const acceptedContract = await Contract.findById(contractId)
+          console.log("he entrado aqui guapisssssssssssssssssima");
+          if (finalized == "") { //*-----> si ninguno ha completado statusDaruma 0-----> primer caso
+            res.status(404).json("nadie ha completado servicio")
+          } else {
+            if (acceptedContract.finalizedByUserOne && !acceptedContract.finalizedByUserTwo) { //*----> segundo caso
+              try {
+                await User.updateMany(
+                  { completedService: contractId },
+                  {
+                    // $pull: { acceptedContract: contract },
+                    $push: { completedService: contractId }
+                  }
+                )
+                try {
+                  await Contract.findByIdAndUpdate(contractId, {
+                    // state: "en curso",
+                    statusDaruma: 1
+                  })
+                  return res.status(200).json({
+                    contract: await Contract.findById(contractId),
+                  })
+                } catch (error) {
+                  return res.status(404).json({
+                    error: `no se ha actualizado el state1 ni statusDaruma`,
+                    message: error.message
+                  })
+                }
+              } catch (error) {
+                return res.status(404).json({
+                  error: `no se ha actualizado userOne`,
+                  message: error.message
+                })
+              }
+
+            } else if (!existContract.finalizedByUserOne && existContract.finalizedByUserTwo) {
+              try {
+                await User.updateMany(
+                  { completedService: contractId },
+                  {
+                    // $pull: { acceptedContract: contract },
+                    $push: { completedService: contractId }
+                  }
+                )
+                try {
+                  await Contract.findByIdAndUpdate(contractId, {
+                    // state: "en curso",
+                    statusDaruma: 1
+                  })
+                  return res.status(200).json({
+                    contract: await Contract.findById(contractId),
+                  })
+                } catch (error) {
+                  return res.status(404).json({
+                    error: `no se ha actualizado el state2 ni statusDaruma`,
+                    message: error.message
+                  })
+                }
+              } catch (error) {
+                return res.status(404).json({
+                  error: `no se ha actualizado userTwo`,
+                  message: error.message
+                })
+              }
+            } else if (existContract.finalizedByUserOne && existContract.finalizedByUserTwo) {
+              /**
+               * No sé si el try de actualización de claves hace falta, pero sí escribiré el de cambio de estado
+               * con el cambio del statusDaruma
+               */
+              console.log("DARUMA BABY");
+              try {
+                await Contract.findByIdAndUpdate(contractId, {
+                  state: "finalizado",
+                  statusDaruma: 2
+                })
+                return res.status(200).json({
+                  contract: await Contract.findById(contractId),
+                })
+              } catch (error) {
+                return res.status(404).json({
+                  error: `no se ha actualizado el state3 ni statusDaruma`,
+                  message: error.message
+                })
+              }
+            }
+          }
+
+        } catch (error) {
+          return res.status(404).json({
+            error: `error update contract clave ${finalized}`,
+            message: error.message
+          })
+        }
+
+        /* if (finalizedByUserOne == false && finalizedByUserTwo == false) {
+           Contract
+           .state == "en curso"
+           .statusDaruma == 0
+         } else if (
+           finalizedByUserOne == true && finalizedByUserTwo == false
+         ){
+           Contract
+           .state == "en curso"
+           .statusDaruma == 1
+ 
+         }else if (
+           finalizedByUserOne == true && finalizedByUserTwo == true
+         ){
+           Contract
+           .state == "finalizado"
+           .statusDaruma == 2
+          }*/
+
+      }
+    } else {
+      return res.status(404).json("este contrato no existe")
+    }
+
+  } catch (error) {
+    return res.status(404).json({
+      error: "error general update endcontract",
+      message: error.message,
+    });
+  }
+}
+
 //! ---------------------------------------------------------------------
 //? --------------------------- COMPROBAR CONTRATOS CADUCADOS--------------------------
 //! ---------------------------------------------------------------------
@@ -363,9 +515,14 @@ const updateExpired = async (req, res, next) => {
 //? --------------------------- CAMBIAR EL ESTADO--------------------------
 //! ---------------------------------------------------------------------
 
+
+
+
+
 module.exports = {
   createContract,
   updateAccept,
   updateRechazar,
   updateExpired,
+  updateEndService,
 };
