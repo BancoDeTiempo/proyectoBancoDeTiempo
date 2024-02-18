@@ -584,6 +584,106 @@ const getById = async (req, res, next) => {
 const blockApp = async (req, res, next) =>{
 };*/
 
+
+//! ------------
+//?  FOLLOW USER
+//! ------------
+
+const followUserToggle = async (req, res, next) => {
+  try {
+    const { idFollowedUser } = req.params;
+    const { followed } = req.user; // busco en el arrray de seguidores si le sigo o no este usuario
+
+    if (followed.includes(idFollowedUser)) {
+      // si ya lo incluye, entonces se deja de seguir (unfollow)
+      try {
+        // 1) al dejarlo de seguir se saca su id del array de los seguidores del usuario logado
+
+        await User.findByIdAndUpdate(req.user._id, {
+          $pull: {
+            followed: idFollowedUser,
+          },
+        });
+        try {
+          // 2) y también se saca el id del usuario logado del array de sus followers
+
+          await User.findByIdAndUpdate(idFollowedUser, {
+            $pull: {
+              followers: req.user._id,
+            },
+          });
+
+          return res.status(200).json({
+            action: "he dejado de seguirlo",
+            authUser: await User.findById(req.user._id),
+            idFollowedUser: await User.findById(idFollowedUser),
+          });
+
+        } catch (error) {
+          return res.status(404).json({
+            error:
+              "error catch update el follow del user recibido por param",
+            message: error.message,
+          });
+        }
+      } catch (error) {
+        return res.status(404).json({
+          error:
+            "error catch update borrar de followers el id recibido por param",
+          message: error.message,
+        });
+      }
+    } else {
+      //! si no lo tengo como siguiendo, pasa a ser un followed
+
+      try {
+        // 1) Se añade el id del usuario al que se quiere seguir a la lista de followed del usuario logado
+
+        await User.findByIdAndUpdate(req.user._id, {
+          $push: {
+            followed: idFollowedUser,
+          },
+        });
+        try {
+          // 2) Se añade el id del usuario logado a la lista de followers del usuario al que se solicita seguir
+
+          await User.findByIdAndUpdate(idFollowedUser, {
+            $push: {
+              followers: req.user._id,
+            },
+          });
+
+          return res.status(200).json({
+            action: "Comienzo a seguirlo",
+            authUser: await User.findById(req.user._id),
+            userFollowed: await User.findById(idFollowedUser),
+          });
+
+        } catch (error) {
+          return res.status(404).json({
+            error:
+              "error catch update lista de followers del user recibido por param",
+            message: error.message,
+          });
+        }
+      } catch (error) {
+        return res.status(404).json({
+          error:
+            "error catch update lista de followed con el id del user recibido por param",
+          message: error.message,
+        });
+      }
+    }
+  } catch (error) {
+    return res.status(404).json({
+      error: "error catch general",
+      message: error.message,
+    });
+  }
+};
+
+
+
 //!---------------------
 //? TOGGLE BLOCKED USERS
 //!---------------------
@@ -656,6 +756,8 @@ module.exports = {
   deleteUser,
   changeRol,
   getAll,
+  followUserToggle,
   getById,
+
   blockedUserToggle,
 };
