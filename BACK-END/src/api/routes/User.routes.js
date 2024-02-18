@@ -1,8 +1,13 @@
 const express = require("express");
-const { isAuth, isAuthAdmin, isAuthSuperAdmin } = require("../../middleware/auth.middleware");
+const {
+  isAuth,
+  isAuthAdmin,
+  isAuthSuperAdmin,
+} = require("../../middleware/auth.middleware");
 
 const { upload } = require("../../middleware/files.middleware");
-const { register,
+const {
+  register,
   resendCode,
   sendCode,
   login,
@@ -15,7 +20,9 @@ const { register,
   deleteUser,
   changeRol,
   getAll,
-  getById, } = require("../controllers/User.controllers");
+  getById,
+  blockedUserToggle,
+} = require("../controllers/User.controllers");
 const UserRoutes = express.Router();
 
 UserRoutes.post("/register", upload.single("image"), register);
@@ -28,6 +35,7 @@ UserRoutes.delete("/", [isAuth], deleteUser);
 UserRoutes.patch("/changeRol", [isAuthSuperAdmin], changeRol);
 UserRoutes.get("/", getAll);
 UserRoutes.get("/:id", getById);
+UserRoutes.patch("/block/:blockUserId", [isAuth], blockedUserToggle);
 
 UserRoutes.patch("/changepassword", [isAuth], modifyPassword);
 UserRoutes.patch("/update/update", [isAuth], upload.single("image"), update);
