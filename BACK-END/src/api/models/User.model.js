@@ -78,8 +78,8 @@ const UserSchema = new mongoose.Schema(
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     followed: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     chats: [{ type: mongoose.Schema.Types.ObjectId, ref: "Chat" }],
-    banned: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }], // vaneo por otro user
-    blockedByApp: { type: Boolean, default: false }, // bloqueado por la admin
+    blockedUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }], // baneo por otro user
+    bannedByApp: { type: Boolean, default: false }, // bloqueado por la admin
     commentsPublicByOther: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Message" },
     ],
@@ -105,7 +105,7 @@ const UserSchema = new mongoose.Schema(
     /// cuando relacionamos un modelo de con otro lo hacemos con populate y el ref a otro modelo
     pendingContract: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Contract" },
-    ], //* contratos pendites de aceptar
+    ], //* contratos pendientes de aceptar
     acceptedContract: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Contract" },
     ],
@@ -135,4 +135,5 @@ UserSchema.pre(`save`, async function (next) {
 });
 
 const User = mongoose.model(`User`, UserSchema);
+
 module.exports = User;
