@@ -2,7 +2,7 @@
 const { deleteImgCloudinary } = require("../../middleware/files.middleware");
 
 //! ---------------------------- modelos -----------------------------------
-const User = require("../models/User.moel");
+const User = require("../models/User.model");
 
 //! ---------------------------- utils -------------------------------------
 const randomCode = require("../../utils/randomCode");
@@ -584,7 +584,6 @@ const getById = async (req, res, next) => {
 const blockApp = async (req, res, next) =>{
 };*/
 
-
 //! ------------
 //?  FOLLOW USER
 //! ------------
@@ -618,11 +617,9 @@ const followUserToggle = async (req, res, next) => {
             authUser: await User.findById(req.user._id),
             idFollowedUser: await User.findById(idFollowedUser),
           });
-
         } catch (error) {
           return res.status(404).json({
-            error:
-              "error catch update el follow del user recibido por param",
+            error: "error catch update el follow del user recibido por param",
             message: error.message,
           });
         }
@@ -658,7 +655,6 @@ const followUserToggle = async (req, res, next) => {
             authUser: await User.findById(req.user._id),
             userFollowed: await User.findById(idFollowedUser),
           });
-
         } catch (error) {
           return res.status(404).json({
             error:
@@ -682,54 +678,57 @@ const followUserToggle = async (req, res, next) => {
   }
 };
 
+//!--------------
+//? TOGGLE BANNED
+//!--------------
 
-
-//!---------------------
-//? TOGGLE BLOCKED USERS
-//!---------------------
-
-const blockedUserToggle = async (req, res, next) => {
+const bannedToggle = async (req, res, next) => {
   try {
-    const { blockUserID } = req.params;
-    const { blockedUsers } = req.user; // busco en el arrray de seguidores si le sigo o no este usuario
+    const { bannedID } = req.params;
+    const { banned } = req.user; // busco en el arrray de banned si tengo no este usuario
 
-    if (blockedUsers.includes(blockUserID)) {
+    if (banned.includes(bannedID)) {
       //! si lo incluye, quiere decir que está bloqueado por lo que lo dejo de bloquear
       try {
         // 1) como lo quiero dejar de bloquear quito su id del array de los que bloqueo
 
         await User.findByIdAndUpdate(req.user._id, {
           $pull: {
-            blockedUsers: blockUserID,
+            banned: bannedID,
           },
         });
 
         return res.status(200).json({
-          action: "no longer blocked",
+          action: "no longer banned",
           authUser: await User.findById(req.user._id),
-          userSeQuiereSeguir: await User.findById(idUserSeQuiereSeguir),
+          banned: await User.findById(bannedID),
         });
       } catch (error) {
         return res.status(404).json({
           error:
-            "error catch update borrar de blocked users el id que recibo por el param",
+            "error catch update borrar de banned el id que recibo por el param",
           message: error.message,
         });
       }
     } else {
-      //! si no lo tengo como blocked, lo añado a bloqueados
+      //! si no lo tengo como banned, lo añado a banned
 
       try {
-        // 1) como lo quiero bloquear añado su id del array a los bloqueados
+        // 1) como lo quiero bannear añado su id del array a los banned
 
         await User.findByIdAndUpdate(req.user._id, {
           $push: {
-            blockedUsers: blockUserID,
+            banned: bannedID,
           },
+        });
+        return res.status(200).json({
+          action: "Lo banneo",
+          authUser: await User.findById(req.user._id),
+          banned: await User.findById(bannedID),
         });
       } catch (error) {
         return res.status(404).json({
-          error: "error catch update bloquear el id que recibo por el param",
+          error: "error catch update bannear el id que recibo por el param",
           message: error.message,
         });
       }
@@ -758,6 +757,5 @@ module.exports = {
   getAll,
   followUserToggle,
   getById,
-
-  blockedUserToggle,
+  bannedToggle,
 };
