@@ -22,6 +22,7 @@ const {
   getAll,
   getById,
   bannedToggle,
+  followUserToggle,
 } = require("../controllers/User.controllers");
 const UserRoutes = express.Router();
 
@@ -35,6 +36,7 @@ UserRoutes.delete("/", [isAuth], deleteUser);
 UserRoutes.patch("/changeRol", [isAuthSuperAdmin], changeRol);
 UserRoutes.get("/", getAll);
 UserRoutes.get("/:id", getById);
+UserRoutes.patch("/follow/:followUserId", [isAuth], followUserToggle);
 UserRoutes.patch("/ban/:bannedId", [isAuth], bannedToggle);
 
 UserRoutes.patch("/changepassword", [isAuth], modifyPassword);
