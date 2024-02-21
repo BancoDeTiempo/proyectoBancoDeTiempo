@@ -13,14 +13,12 @@ const createRating = async (req, res, next) => {
 
     if (findUser) {
       try {
-        const contractExist = await Contract.findOne({
-          userTwo: findUser._id.toString(),
-        }).populate("userOne state");
-        console.log(contractExist);
-        if (
-          contractExist.userOne.toString() == req.user._id.toString() &&
-          contractExist.state == "en curso"
-        ) {
+        const contractExist = await Contract.findById(
+          req.body.contract
+        ).populate("userOne state");
+        console.log("se ha encontrado el contract del body", contractExist);
+        if (contractExist.userOne._id.toString() == req.user._id.toString()) {
+          console.log("entro en identificar a userOne");
           try {
             const newRating = new Rating({
               owner: req.user._id,
