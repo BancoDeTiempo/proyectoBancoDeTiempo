@@ -432,11 +432,11 @@ const update = async (req, res, next) => {
       if (req.file) {
         updateUser.image === catchImg
           ? testUpdate.push({
-              image: true,
-            })
+            image: true,
+          })
           : testUpdate.push({
-              image: false,
-            });
+            image: false,
+          });
       }
       return res.status(200).json({
         updateUser,
@@ -478,7 +478,8 @@ const deleteUser = async (req, res, next) => {
   try {
     const { _id, image } = req.user;
     await User.findByIdAndDelete(req.user?._id);
-    deleteImgCloudinary(dataBaseUser.image);
+    //deleteImgCloudinary(dataBaseUser.image);
+    deleteImgCloudinary(req.user.image);
     try {
       try {
         await Message.deleteMany({ owner: _id });

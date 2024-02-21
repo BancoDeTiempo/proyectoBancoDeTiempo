@@ -122,31 +122,23 @@ const getById = async (req, res, next) => {
 
 const update = async (req, res, next) => {
   await Service.syncIndexes();
-  //let catchImg = req.file?.path;-----> en servicio no habrá imágenes
+
   try {
     const { id } = req.params;
     const serviceById = await Service.findById(id);
     if (serviceById) {
-      //const oldImg = characterById.image;
+
 
       const customBody = {
         _id: serviceById._id,
-        //image: req.file?.path ? catchImg : oldImg,
+
         title: req.body?.title ? req.body?.title : serviceById.title,
       };
 
-      /**if (req.body?.gender) {
-              const resultEnum = enumOk(req.body?.gender);
-              customBody.gender = resultEnum.check
-                ? req.body?.gender
-                : characterById.gender;
-            }*/
 
       try {
         await Service.findByIdAndUpdate(id, customBody);
-        /**if (req.file?.path) {
-                  deleteImgCloudinary(oldImg);
-                }*/
+
 
         //** ------------------------------------------------------------------- */
         //** VAMOS A TESTEAR EN TIEMPO REAL QUE ESTO SE HAYA HECHO CORRECTAMENTE */
@@ -166,18 +158,13 @@ const update = async (req, res, next) => {
         /** vamos a recorrer las claves del body y vamos a crear un objeto con los test */
 
         elementUpdate.forEach((item) => {
-          if (req.body[item] === serviceByIdUpdate[item]) {
+          if (req.body[item] == serviceByIdUpdate[item]) {
             test[item] = true;
           } else {
             test[item] = false;
           }
         });
 
-        /**if (catchImg) {
-                  characterByIdUpdate.image === catchImg
-                    ? (test = { ...test, file: true })
-                    : (test = { ...test, file: false });
-                }*/
 
         /** vamos a ver que no haya ningun false. Si hay un false lanzamos un 404,
          * si no hay ningun false entonces lanzamos un 200 porque todo esta correctoo
@@ -206,12 +193,13 @@ const update = async (req, res, next) => {
         });
       }
     } else {
-      return res.status(404).json("este character no existe");
+      return res.status(404).json("este servicio no existe");
     }
   } catch (error) {
     return res.status(404).json(error);
   }
 };
+
 //!-------
 //?GET ALL
 //!-------
