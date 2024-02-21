@@ -33,7 +33,7 @@ UserRoutes.post("/login/autologin", autoLogin);
 UserRoutes.post("/check", checkNewUser);
 UserRoutes.patch("/forgotpassword", changePassword);
 UserRoutes.delete("/", [isAuth], deleteUser);
-UserRoutes.patch("/changeRol", [isAuthSuperAdmin], changeRol);
+UserRoutes.patch("/changeRol/:id", [isAuthSuperAdmin], changeRol);
 UserRoutes.get("/", getAll);
 UserRoutes.get("/:id", getById);
 UserRoutes.patch("/follow/:followUserId", [isAuth], followUserToggle);
