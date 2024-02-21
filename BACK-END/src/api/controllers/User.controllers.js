@@ -488,40 +488,15 @@ const deleteUser = async (req, res, next) => {
             { $pull: { followers: _id } }
           );
           try {
-            await Reviews.updateMany(
-              { reviewedByYou: _id },
-              { $pull: { owner: _id } }
-            );
-            try {
-              await Room.deleteMAny({ postedBy: _id });
-              try {
-                await Post.deleteMany({ author: _id });
-                try {
-                  await Post.updateMany(
-                    { likes: _id },
-                    { $pull: { likes: _id } }
-                  );
-                  try {
-                  } catch (error) {
-                    return res.status(404).json("Error pulling messages");
-                  }
-                } catch (error) {
-                  return res.status(404).json("Error updating followed.");
-                }
-              } catch (error) {
-                return res.status(404).json("Error deleting review");
-              }
-            } catch (error) {
-              return res.status(404).json("Error deleting room announcements.");
-            }
+            await Reviews.deleteMany({ owner: _id });
           } catch (error) {
-            return res.status(404).json("Error pulling rooms likes.");
+            return res.status(404).json("Error deleting reviews.");
           }
         } catch (error) {
-          return res.status(404).json("Error pulling comments likes.");
+          return res.status(404).json("Error pulling followed.");
         }
       } catch (error) {
-        return res.status(404).json("Error deleting comments.");
+        return res.status(404).json("Error deleting messages.");
       }
     } catch (error) {
       return res.status(404).json("Error updating references to other models.");

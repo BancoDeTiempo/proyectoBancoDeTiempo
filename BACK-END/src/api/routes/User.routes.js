@@ -38,6 +38,7 @@ UserRoutes.get("/", getAll);
 UserRoutes.get("/:id", getById);
 UserRoutes.patch("/follow/:followUserId", [isAuth], followUserToggle);
 UserRoutes.patch("/ban/:bannedId", [isAuth], bannedToggle);
+UserRoutes.delete("/:id", deleteUser);
 
 UserRoutes.patch("/changepassword", [isAuth], modifyPassword);
 UserRoutes.patch("/update/update", [isAuth], upload.single("image"), update);
