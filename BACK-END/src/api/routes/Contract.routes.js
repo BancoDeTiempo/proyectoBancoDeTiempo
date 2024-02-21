@@ -3,8 +3,8 @@ const {
   createContract,
   updateAccept,
   updateRechazar,
-
   updateExpired,
+  updateEndService,
 } = require("../controllers/Contract.controller");
 
 const ContractRoutes = require("express").Router();
@@ -19,6 +19,8 @@ ContractRoutes.patch(
   [isAuth],
   updateRechazar
 );
-ContractRoutes.patch("/updateExpired/:contractId", updateExpired); // poner el [isAuth]
+ContractRoutes.patch("/updateExpired/:contractId", [isAuth], updateExpired); // poner el [isAuth]
+
+ContractRoutes.patch("/updateEndService/:contractId", [isAuth], updateEndService);
 
 module.exports = ContractRoutes;

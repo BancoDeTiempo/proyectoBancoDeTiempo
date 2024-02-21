@@ -39,6 +39,9 @@ app.use("/api/v1/ratings/", RatingRoutes);
 const ContractRoutes = require("./src/api/routes/Contract.routes");
 app.use("/api/v1/contracts/", ContractRoutes);
 
+const ChatRoutes = require("./src/api/routes/Chat.routes");
+app.use("/api/v1/chats/", ChatRoutes);
+
 
 //! --------------- generamos un error de cuando no see encuentre la ruta
 app.use("*", (req, res, next) => {
