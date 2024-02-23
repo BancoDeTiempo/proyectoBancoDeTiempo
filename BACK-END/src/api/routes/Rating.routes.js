@@ -10,10 +10,10 @@ const {
 
 const RatingRoutes = require("express").Router();
 
-RatingRoutes.post("/:idRecipient", createRating); // volver a poner [isAuth]
+RatingRoutes.post("/:idRecipient", [isAuth], createRating); // volver a poner [isAuth]
 RatingRoutes.patch("/updateRating/:id", [isAuth], updateRating);
 RatingRoutes.delete("/:id", [isAuth], deleteRating);
-RatingRoutes.patch("/updateGlobalRating", getAndUpdateGlobalRating);
+RatingRoutes.patch("/updateGlobalRating/:id", getAndUpdateGlobalRating);
 RatingRoutes.get("/", getAll);
 RatingRoutes.get("/:id", getById);
 module.exports = RatingRoutes;
