@@ -90,7 +90,7 @@ const UserSchema = new mongoose.Schema(
     ],
     ratedByYou: [{ type: mongoose.Schema.Types.ObjectId, ref: "Rating" }], //!-----------------> new item added
     ratedByOthers: [{ type: mongoose.Schema.Types.ObjectId, ref: "Rating" }], //!-----------------> new item added
-    globalRating: [{ type: mongoose.Schema.Types.ObjectId, ref: "Rating" }], //!-----------------> new item added
+    globalRating: [{ type: mongoose.Schema.Types.Number, ref: "Rating" }], //!-----------------> new item added
     postedMessages: [{ type: mongoose.Schema.Types.ObjectId, ref: "Message" }], //* mensajes que yo hago
     offeredServices: [{ type: mongoose.Schema.Types.ObjectId, ref: "Service" }], //* el servicio que yo ofrezco
     //soughtServices: [{ type: mongoose.Schema.Types.ObjectId, ref: "Request" }],//Las peticiones pentientes

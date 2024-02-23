@@ -1,13 +1,7 @@
 const calculateAverageRating = (ratings) => {
-  if (ratings.length === 0) {
-    return 0;
-  }
+  let sumOfRatings = ratings.reduce((total, rating) => total + rating, 0);
 
-  const sumOfRatings = ratings.reduce((total, rating) => {
-    return total + rating.rating;
-  }, 0);
-
-  const averageRating = sumOfRatings / ratings.length;
+  let averageRating = sumOfRatings / ratings.length;
   return averageRating;
 };
 

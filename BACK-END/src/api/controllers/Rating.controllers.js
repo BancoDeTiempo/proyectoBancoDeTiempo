@@ -3,8 +3,6 @@ const Contract = require("../models/Contract.model");
 const Rating = require("../models/Rating.model");
 const User = require("../models/User.model");
 
-
-
 const createRating = async (req, res, next) => {
   await Rating.syncIndexes();
 
@@ -46,13 +44,11 @@ const createRating = async (req, res, next) => {
                     },
                   });
 
-                  return res
-                    .status(200)
-                    .json({
-                      owner: await User.findById(req.user._id),
-                      ratedUser: await User.findById(findUser._id),
-                      rating: newRating._id
-                    });
+                  return res.status(200).json({
+                    owner: await User.findById(req.user._id),
+                    ratedUser: await User.findById(findUser._id),
+                    rating: newRating._id,
+                  });
                 } catch (error) {
                   return res.status(404).json({
                     error: "Catch error updating rated by others",
@@ -101,7 +97,7 @@ const updateRating = async (req, res, next) => {
 
   try {
     const { id } = req.params;
-    const { rating } = req.body
+    const { rating } = req.body;
     const existRating = await Rating.findById(id).populate("owner ratedUser");
 
     if (existRating) {
@@ -197,8 +193,11 @@ const getAndUpdateGlobalRating = async (req, res, next) => {
     const user = await User.findById(userId).populate("ratedByOthers");
 
     if (user) {
-      const ratings = user.ratedByOthers.rating;
+      const ratings = user.ratedByOthers.map((objeto) => objeto.rating);
+      console.log("RATINGS", ratings);
+
       const averageRating = calculateAverageRating(ratings);
+      console.log("averageRating", averageRating);
 
       try {
         user.globalRating = averageRating;

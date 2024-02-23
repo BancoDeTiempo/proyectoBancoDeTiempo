@@ -127,18 +127,14 @@ const update = async (req, res, next) => {
     const { id } = req.params;
     const serviceById = await Service.findById(id);
     if (serviceById) {
-
-
       const customBody = {
         _id: serviceById._id,
 
         title: req.body?.title ? req.body?.title : serviceById.title,
       };
 
-
       try {
         await Service.findByIdAndUpdate(id, customBody);
-
 
         //** ------------------------------------------------------------------- */
         //** VAMOS A TESTEAR EN TIEMPO REAL QUE ESTO SE HAYA HECHO CORRECTAMENTE */
@@ -164,7 +160,6 @@ const update = async (req, res, next) => {
             test[item] = false;
           }
         });
-
 
         /** vamos a ver que no haya ningun false. Si hay un false lanzamos un 404,
          * si no hay ningun false entonces lanzamos un 200 porque todo esta correctoo
