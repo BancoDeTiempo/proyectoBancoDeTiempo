@@ -658,51 +658,79 @@ const followUserToggle = async (req, res, next) => {
 
 const bannedToggle = async (req, res, next) => {
   try {
-    const { bannedID } = req.params;
-    const { banned } = req.user; // busco en el arrray de banned si tengo no este usuario
+    const { idUserToBan } = req.params;
+    const { banned } = req.user; // busco en el arrray de seguidores si le sigo o no este usuario
 
-    if (banned.includes(bannedID)) {
-      //! si lo incluye, quiere decir que está bloqueado por lo que lo dejo de bloquear
+    if (banned.includes(idUserToBan)) {
+      //! si lo incluye, quiere decir lo sigo por lo que lo dejo de seguir
       try {
-        // 1) como lo quiero dejar de bloquear quito su id del array de los que bloqueo
+        // 1) como lo quiero dejar de seguir quito su id del array de los que me siguen
 
         await User.findByIdAndUpdate(req.user._id, {
           $pull: {
-            banned: bannedID,
+            banned: idUserToBan,
           },
         });
+        try {
+          // 2) del user que dejo de seguir me tengo que quitar de sus seguidores
 
-        return res.status(200).json({
-          action: "no longer banned",
-          authUser: await User.findById(req.user._id),
-          banned: await User.findById(bannedID),
-        });
+          await User.findByIdAndUpdate(idUserToBan, {
+            $pull: {
+              bannedBy: req.user._id,
+            },
+          });
+
+          return res.status(200).json({
+            action: "No longer banned",
+            authUser: await User.findById(req.user._id),
+            userToBan: await User.findById(idUserToBan),
+          });
+        } catch (error) {
+          return res.status(404).json({
+            error: "error catch update param user bannedBy field",
+            message: error.message,
+          });
+        }
       } catch (error) {
         return res.status(404).json({
-          error:
-            "error catch update borrar de banned el id que recibo por el param",
+          error: "error catch update deleting param user from banned field",
           message: error.message,
         });
       }
     } else {
-      //! si no lo tengo como banned, lo añado a banned
+      //! si no lo tengo como que lo sigo, lo empiezo a seguir
 
       try {
-        // 1) como lo quiero bannear añado su id del array a los banned
+        // 1) como lo quiero dejar de seguir quito su id del array de los que me siguen
 
         await User.findByIdAndUpdate(req.user._id, {
           $push: {
-            banned: bannedID,
+            banned: idUserToBan,
           },
         });
-        return res.status(200).json({
-          action: "Lo banneo",
-          authUser: await User.findById(req.user._id),
-          banned: await User.findById(bannedID),
-        });
+        try {
+          // 2) del user que dejo de seguir me tengo que quitar de sus seguidores
+
+          await User.findByIdAndUpdate(idUserToBan, {
+            $push: {
+              bannedBy: req.user._id,
+            },
+          });
+
+          return res.status(200).json({
+            action: "I have banned him",
+            authUser: await User.findById(req.user._id),
+            userToBan: await User.findById(idUserToBan),
+          });
+        } catch (error) {
+          return res.status(404).json({
+            error: "error catch update para user bannedBy field",
+            message: error.message,
+          });
+        }
       } catch (error) {
         return res.status(404).json({
-          error: "error catch update bannear el id que recibo por el param",
+          error: "error catch update adding para ID to banned",
           message: error.message,
         });
       }

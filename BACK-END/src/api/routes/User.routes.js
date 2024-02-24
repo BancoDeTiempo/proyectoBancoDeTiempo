@@ -37,7 +37,7 @@ UserRoutes.patch("/changeRol/:id", [isAuthSuperAdmin], changeRol);
 UserRoutes.get("/", getAll);
 UserRoutes.get("/:id", getById);
 UserRoutes.patch("/follow/:idUserToFollow", [isAuth], followUserToggle);
-UserRoutes.patch("/ban/:bannedId", [isAuth], bannedToggle);
+UserRoutes.patch("/ban/:idUserToBan", [isAuth], bannedToggle);
 UserRoutes.delete("/:id", deleteUser);
 
 UserRoutes.patch("/changepassword", [isAuth], modifyPassword);
