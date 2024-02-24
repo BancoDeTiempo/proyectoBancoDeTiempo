@@ -432,11 +432,11 @@ const update = async (req, res, next) => {
       if (req.file) {
         updateUser.image === catchImg
           ? testUpdate.push({
-            image: true,
-          })
+              image: true,
+            })
           : testUpdate.push({
-            image: false,
-          });
+              image: false,
+            });
       }
       return res.status(200).json({
         updateUser,
@@ -566,82 +566,80 @@ const blockApp = async (req, res, next) =>{
 
 const followUserToggle = async (req, res, next) => {
   try {
-    const { idFollowedUser } = req.params;
+    const { idUserToFollow } = req.params;
+    console.log(`🧐`, idUserToFollow);
     const { followed } = req.user; // busco en el arrray de seguidores si le sigo o no este usuario
 
-    if (followed.includes(idFollowedUser)) {
-      // si ya lo incluye, entonces se deja de seguir (unfollow)
+    if (followed.includes(idUserToFollow)) {
+      //! si lo incluye, quiere decir lo sigo por lo que lo dejo de seguir
       try {
-        // 1) al dejarlo de seguir se saca su id del array de los seguidores del usuario logado
+        // 1) como lo quiero dejar de seguir quito su id del array de los que me siguen
 
         await User.findByIdAndUpdate(req.user._id, {
           $pull: {
-            followed: idFollowedUser,
+            followed: idUserToFollow,
           },
         });
         try {
-          // 2) y también se saca el id del usuario logado del array de sus followers
+          // 2) del user que dejo de seguir me tengo que quitar de sus seguidores
 
-          await User.findByIdAndUpdate(idFollowedUser, {
+          await User.findByIdAndUpdate(idUserToFollow, {
             $pull: {
               followers: req.user._id,
             },
           });
 
           return res.status(200).json({
-            action: "he dejado de seguirlo",
+            action: "no longer following",
             authUser: await User.findById(req.user._id),
-            idFollowedUser: await User.findById(idFollowedUser),
+            userSeQuiereSeguir: await User.findById(idUserToFollow),
           });
         } catch (error) {
           return res.status(404).json({
-            error: "error catch update el follow del user recibido por param",
+            error: "error catch update param user followers",
             message: error.message,
           });
         }
       } catch (error) {
         return res.status(404).json({
-          error:
-            "error catch update borrar de followers el id recibido por param",
+          error: "error catch update deleting from user followers",
           message: error.message,
         });
       }
     } else {
-      //! si no lo tengo como siguiendo, pasa a ser un followed
+      //! si no lo tengo como que lo sigo, lo empiezo a seguir
 
       try {
-        // 1) Se añade el id del usuario al que se quiere seguir a la lista de followed del usuario logado
+        // 1) como lo quiero dejar de seguir quito su id del array de los que me siguen
 
         await User.findByIdAndUpdate(req.user._id, {
           $push: {
-            followed: idFollowedUser,
+            followed: idUserToFollow,
           },
         });
         try {
-          // 2) Se añade el id del usuario logado a la lista de followers del usuario al que se solicita seguir
+          // 2) del user que dejo de seguir me tengo que quitar de sus seguidores
 
-          await User.findByIdAndUpdate(idFollowedUser, {
+          await User.findByIdAndUpdate(idUserToFollow, {
             $push: {
               followers: req.user._id,
             },
           });
 
           return res.status(200).json({
-            action: "Comienzo a seguirlo",
+            action: "Started to follow",
             authUser: await User.findById(req.user._id),
-            userFollowed: await User.findById(idFollowedUser),
+            userSeQuiereSeguir: await User.findById(idUserToFollow),
           });
         } catch (error) {
           return res.status(404).json({
-            error:
-              "error catch update lista de followers del user recibido por param",
+            error: "error catch update param user followers",
             message: error.message,
           });
         }
       } catch (error) {
         return res.status(404).json({
-          error:
-            "error catch update lista de followed con el id del user recibido por param",
+          error: "error catch update adding param id to followers",
           message: error.message,
         });
       }
