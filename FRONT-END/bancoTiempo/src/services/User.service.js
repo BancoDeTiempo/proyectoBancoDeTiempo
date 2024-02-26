@@ -8,9 +8,9 @@ import { extraConfig } from "./serviceApiGeneral.config";
 //? REGISTER
 //! --------
 
-export const registerUser = async (formData) => {
+export const register = async (formData) => {
   const APIGeneral = extraConfig();
-  return APIGeneral.post("/users/register", formData, {
+  return APIGeneral.post("/user/register", formData, {
     headers: { "Content-Type": "multipart/form-data" },
   })
     .then((res) => res)
@@ -34,9 +34,9 @@ export const registerUser = async (formData) => {
 //? VERIFY CODE - CHECK NEW USER
 //! ----------------------------
 
-export const verifyConfirmationCode = async (formData) => {
+export const checkNewUser = async (formData) => {
   const APIGeneral = extraConfig();
-  return APIGeneral.post("users/check", formData)
+  return APIGeneral.post("user/check", formData)
     .then((res) => res)
     .catch((error) => error);
 };
@@ -45,9 +45,9 @@ export const verifyConfirmationCode = async (formData) => {
 //? RESEND CODE
 //! -----------
 
-export const resendConfirmationCode = async (formData) => {
+export const resendCode = async (formData) => {
   const APIGeneral = extraConfig();
-  return APIGeneral.post("/users/resend", formData)
+  return APIGeneral.post("/user/resend", formData)
     .then((res) => res)
     .catch((error) => error);
 };
@@ -56,9 +56,9 @@ export const resendConfirmationCode = async (formData) => {
 //? AUTOLOGIN
 //! ---------
 
-export const autoLoginUser = async (formData) => {
+export const autoLogin = async (formData) => {
   const APIGeneral = extraConfig();
-  return APIGeneral.post("users/login/autologin", formData)
+  return APIGeneral.post("user/login/autologin", formData)
     .then((res) => res)
     .catch((error) => error);
 };
@@ -67,9 +67,9 @@ export const autoLoginUser = async (formData) => {
 //? LOGIN
 //! -----
 
-export const loginUser = async (formData) => {
+export const login = async (formData) => {
   const APIGeneral = extraConfig();
-  return APIGeneral.post("users/login", formData)
+  return APIGeneral.post("user/login", formData)
     .then((res) => res)
     .catch((error) => error);
 };
@@ -78,12 +78,9 @@ export const loginUser = async (formData) => {
 //? FORGOT PASSWORD
 //! ---------------
 
-export const forgotPasswordNoAuth = async (formData) => {
+export const changePassword = async (formData) => {
   const APIGeneral = extraConfig();
-  return APIGeneral.patch(
-    "/users/changeUserPassword/changeUserPassword",
-    formData
-  )
+  return APIGeneral.patch("/user/forgotpassword", formData)
     .then((res) => res)
     .catch((error) => error);
 };
@@ -96,9 +93,9 @@ export const forgotPasswordNoAuth = async (formData) => {
 //? CHANGE PASSWORD
 //! ---------------
 
-export const changePasswordAuth = async (formData) => {
+export const modifyPassword = async (formData) => {
   const APIGeneral = extraConfig();
-  return APIGeneral.patch("/users/changepassword", formData)
+  return APIGeneral.patch("/user/changepassword", formData)
     .then((res) => res)
     .catch((error) => error);
 };
@@ -107,9 +104,9 @@ export const changePasswordAuth = async (formData) => {
 //? UPDATE USER
 //! -----------
 
-export const updateUser = async (formData) => {
+export const update = async (formData) => {
   const APIGeneral = extraConfig();
-  return APIGeneral.patch("users/update/update", formData, {
+  return APIGeneral.patch("user/update/update", formData, {
     headers: { "Content-Type": "multipart/form-data" },
   })
     .then((res) => res)
@@ -122,7 +119,7 @@ export const updateUser = async (formData) => {
 
 export const deleteUser = async (formData) => {
   const APIGeneral = extraConfig();
-  return APIGeneral.delete("/users/deleteUser", formData)
+  return APIGeneral.delete("/user/deleteUser", formData)
     .then((res) => res)
     .catch((error) => error);
 };
@@ -141,9 +138,9 @@ export const deleteUser = async (formData) => {
 //! ---------
 //? GET BY ID
 //! ---------
-export const getUserById = async (id) => {
+export const getById = async (id) => {
   const APIGeneral = extraConfig();
-  return APIGeneral.get(`/users/${id}`)
+  return APIGeneral.get(`/user/${id}`)
     .then((res) => res)
     .catch((error) => error);
 };
@@ -170,9 +167,9 @@ export const getAll = async () => {
 //? FOLLOW
 //!-------
 
-export const addFollow = async (idUserToFollow) => {
+export const followUserToggle = async (idUserToFollow) => {
   const APIGeneral = extraConfig();
-  return APIGeneral.patch(`/users/follow/${idUserToFollow}`)
+  return APIGeneral.patch(`/user/follow/${idUserToFollow}`)
     .then((res) => res)
     .catch((error) => error);
 };
@@ -181,9 +178,9 @@ export const addFollow = async (idUserToFollow) => {
 //? BAN
 //!----
 
-export const addBanned = async (idUserToBan) => {
+export const bannedToggle = async (idUserToBan) => {
   const APIGeneral = extraConfig();
-  return APIGeneral.patch(`/users/ban/${idUserToBan}`)
+  return APIGeneral.patch(`/user/ban/${idUserToBan}`)
     .then((res) => res)
     .catch((error) => error);
 };
