@@ -1,5 +1,5 @@
 import axios from "axios";
-import { updateToken } from "../utils/updateToken";
+import { updateToken } from "../utils/updateToken.js";
 
 export const extraConfig = () => {
   return axios.create({
