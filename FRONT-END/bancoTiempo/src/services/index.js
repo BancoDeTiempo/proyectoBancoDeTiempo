@@ -1,4 +1,4 @@
-export * from './Contract.service';
+export * from './contract.service';
 export * from './Message.service';
 export * from './rating.service';
 export * from './Requests.service';

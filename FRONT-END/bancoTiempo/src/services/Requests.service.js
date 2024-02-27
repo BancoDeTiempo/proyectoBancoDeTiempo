@@ -1,4 +1,4 @@
-import { extraConfig } from "./serviceApiGeneral.config";
+import { extraConfig } from './serviceApiGeneral.config';
 
 //!--------- CREATE ---------
 
@@ -21,20 +21,19 @@ export const changeStateRequest = async (formData) => {
     .catch((error) => error);
 };
 
-
 //!--------- GET ALL ---------
 
 export const getAll = async (formData) => {
   const APIGeneral = extraConfig();
 
-  return APIGeneral.get(`/request/`, formData,)
+  return APIGeneral.get(`/request/`, formData)
     .then((res) => res)
     .catch((error) => error);
 };
 
 //!--------- GET BY ID ---------
 
-export const getById = async (formData) => {
+export const getById = async (reqId, formData) => {
   const APIGeneral = extraConfig();
 
   return APIGeneral.get(`/request/${reqId}`, formData)

@@ -1,4 +1,4 @@
-import { extraConfig } from "./serviceApiGeneral.config";
+import { extraConfig } from './serviceApiGeneral.config';
 
 //! ------------------ CREATE ------------------
 export const createContract = async (formData) => {
@@ -9,7 +9,6 @@ export const createContract = async (formData) => {
     .catch((error) => error);
 };
 
-
 //! ------------------ UPDATE ACCEPTED BY USER------------------
 export const updateContractAccepted = async (contractId, formData) => {
   const APIGeneral = extraConfig();
@@ -19,7 +18,6 @@ export const updateContractAccepted = async (contractId, formData) => {
     .catch((error) => error);
 };
 
-
 //! ------------------ UPDATE REJECTED BY USER------------------
 export const updateContractRejected = async (contractId, formData) => {
   const APIGeneral = extraConfig();
@@ -28,7 +26,6 @@ export const updateContractRejected = async (contractId, formData) => {
     .then((res) => res)
     .catch((error) => error);
 };
-
 
 //! ------------------ UPDATE EXPIRED------------------
 export const updateContractExpired = async (contractId, formData) => {
@@ -46,7 +43,7 @@ export const updateContractEnd = async (contractId, formData) => {
   return APIGeneral.patch(`/contracts/updateEndService/${contractId}`, formData)
     .then((res) => res)
     .catch((error) => error);
-//tenemos un update de contrato para aceptar, otro para rechazar, y otro para "finalizar servicio" (daruma completado). Hay que hacer 3 rutas por ello?
+  //tenemos un update de contrato para aceptar, otro para rechazar, y otro para "finalizar servicio" (daruma completado). Hay que hacer 3 rutas por ello?
 };
 
 /*

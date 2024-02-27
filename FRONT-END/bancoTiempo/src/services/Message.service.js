@@ -28,7 +28,7 @@ export const getMessageById = async (id) => {
 //? CREATE MESSAGE
 //! --------------
 
-export const createMessage = async (formData) => {
+export const createMessage = async (idRecipient, formData) => {
   const APIGeneral = extraConfig();
 
   return APIGeneral.post(`/message/${idRecipient}`, formData)
