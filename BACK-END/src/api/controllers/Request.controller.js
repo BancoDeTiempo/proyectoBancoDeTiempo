@@ -268,5 +268,56 @@ const getById = async (req, res, next) => {
 // 3) Delete de la request
 
 
+//!-------
+//? DELETE
+//!-------
 
-module.exports = { create, changeStateRequest, getAll, getById }
+const deleteRequest = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const request = await Request.findById(id).populate("requestUser");
+        
+      if (request) {
+        if (request.requestUser._id.toString() === req.user._id.toString()) {
+            await Request.findByIdAndDelete(id);
+
+        // lo buscamos para ver si sigue existiendo o no
+        const findByIdRequest = await Request.findById(id);
+  
+        try {
+          await User.updateMany(
+            { pendingRequestedService: id },
+            { $pull: { pendingRequestedService: id } }
+          );
+          try {
+            await User.updateMany(
+                { pendingRequestedService: id },
+                { $pull: {pendingRequestedService: id}}
+            );
+            return res.status(findByIdRequest ? 404 : 200).json({
+                deleteTest: findByIdRequest ? false : true,
+            });
+
+          } catch (error) {
+            return res.status(404).json("Error deleting request in recipient User.");
+          }
+        } catch (error) {
+          return res.status(404).json("Error deleting request in request User.");
+        }
+
+        } else {
+            return res.status(404).json("No eres el propietario de esta request.")
+        };
+    
+    } else {
+        return res.status(404).json("Esta request no existe por lo que no la podemos borrar.")
+    };
+
+    } catch (error) {
+      return res.status(404).json(error.message);
+    }
+  };
+  
+
+
+module.exports = { create, changeStateRequest, getAll, getById, deleteRequest }
