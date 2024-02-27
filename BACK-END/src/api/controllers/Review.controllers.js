@@ -111,7 +111,7 @@ const getReviewById = async (req, res, next) => {
   }
 };
 
-//! --------------------------------- GET AL ---------------------------------
+//! --------------------------------- GET ALL ---------------------------------
 
 const getAllReviews = async (req, res, next) => {
   try {
