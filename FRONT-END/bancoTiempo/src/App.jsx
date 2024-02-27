@@ -1,7 +1,8 @@
-import { Header, Footer } from "./components";
-import { Outlet } from "react-router-dom";
+import { Outlet } from 'react-router-dom';
 
-//! NO HAREMOS UN COMPONENTE MAIN DADO QUE ENTRA EN CONFLICTO CON OUTLET 
+import { Footer, Header } from './components';
+
+//! NO HAREMOS UN COMPONENTE MAIN DADO QUE ENTRA EN CONFLICTO CON OUTLET
 //! DEBIDO A LA ÚLTIMA VERSIÓN NO PUEDE TENER ETIQUETAS POR ENCIMA
 
 const App = () => {

@@ -1,4 +1,4 @@
-import { extraConfig } from "./serviceApiGeneral.config";
+import { extraConfig } from './serviceApiGeneral.config';
 
 //! ------------------ CREATE ------------------
 export const createContract = async (formData) => {
@@ -96,9 +96,9 @@ export const filterEnumState = async (filter, value) => {
 
 //! ------------------ FILTER STATUS DARUMA ------------------
 export const filterStatusDaruma = async (filter, Number) => {
-    const APIGeneral = extraConfig();
-  
-    return APIGeneral.get(`/contracts/filterStatusDaruma/contracts/${filter}/${Number}`)
-      .then((res) => res)
-      .catch((error) => error);
-  };
+  const APIGeneral = extraConfig();
+
+  return APIGeneral.get(`/contracts/filterStatusDaruma/contracts/${filter}/${Number}`)
+    .then((res) => res)
+    .catch((error) => error);
+};

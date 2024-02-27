@@ -1,5 +1,5 @@
 export const updateToken = () => {
-  const user = localStorage.getItem("user"); //? buscamos usuario en localstorage
+  const user = localStorage.getItem('user'); //? buscamos usuario en localstorage
   if (user) {
     //? ----------------------------- si existe
     const parseUser = JSON.parse(user); //? ---- lo parseamos

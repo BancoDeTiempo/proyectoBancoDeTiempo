@@ -1,11 +1,11 @@
-import { extraConfig } from "./serviceApiGeneral.config";
+import { extraConfig } from './serviceApiGeneral.config';
 
 //!-------------- CREATE ----------------------------
 
 export const createRating = async (formData) => {
   const APIGeneral = extraConfig();
 
-  return APIGeneral.post("/ratings/", formData)
+  return APIGeneral.post('/ratings/', formData)
     .then((res) => res)
     .catch((error) => error);
 };
@@ -15,7 +15,7 @@ export const createRating = async (formData) => {
 export const updateRating = async (formData) => {
   const APIGeneral = extraConfig();
 
-  return APIGeneral.patch("/ratings/updateRating", formData)
+  return APIGeneral.patch('/ratings/updateRating', formData)
     .then((res) => res)
     .catch((error) => error);
 };
@@ -25,7 +25,7 @@ export const updateRating = async (formData) => {
 export const deleteRating = async () => {
   const APIGeneral = extraConfig();
 
-  return APIGeneral.delete("/ratings/")
+  return APIGeneral.delete('/ratings/')
     .then((res) => res)
     .catch((error) => error);
 };
@@ -35,7 +35,7 @@ export const deleteRating = async () => {
 export const updateGlobalRating = async (formData) => {
   const APIGeneral = extraConfig();
 
-  return APIGeneral.patch("/ratings/updateGlobalRating", formData)
+  return APIGeneral.patch('/ratings/updateGlobalRating', formData)
     .then((res) => res)
     .catch((error) => error);
 };
@@ -45,7 +45,7 @@ export const updateGlobalRating = async (formData) => {
 export const getAllRating = async () => {
   const APIGeneral = extraConfig();
 
-  return APIGeneral.get("/ratings/")
+  return APIGeneral.get('/ratings/')
     .then((res) => res)
     .catch((error) => error);
 };
@@ -55,7 +55,7 @@ export const getAllRating = async () => {
 export const getByIdRating = async (formData) => {
   const APIGeneral = extraConfig();
 
-  return APIGeneral.get("/ratings/", formData)
+  return APIGeneral.get('/ratings/', formData)
     .then((res) => res)
     .catch((error) => error);
 };
