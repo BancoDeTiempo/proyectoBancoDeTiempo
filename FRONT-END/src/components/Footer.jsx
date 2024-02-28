@@ -5,7 +5,7 @@ export const Footer = () => {
     <>
       <div className="whiteContainer"></div>
       <footer>
-        <h4>⏱️Time si Money💰</h4>
+        <h4>⏱️Where Time si Money💰</h4>
       </footer>
     </>
   );
