@@ -126,6 +126,7 @@ input[type="radio"] {
   border-radius: 3px 0 0 3px;
   color: black !important;
 }
+
 .sexo .mujer {
   border-radius: 0 3px 3px 0;
   color: black !important;
@@ -139,7 +140,7 @@ input[type="radio"] {
   width: 49.5%;
 }
 
-input[type="radio"]:checked + .label-radio {
+input[type="radio"]:checked+.label-radio {
   background: #2f7a67;
   color: #fff !important;
 }
