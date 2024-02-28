@@ -27,7 +27,6 @@ const randomPassword = require("../../utils/randomPassword");
 const Communities = require("../models/Communities.model");
 const Request = require("../models/Request.Model");
 
-
 dotenv.config();
 
 //!------------------
@@ -56,7 +55,7 @@ const register = async (req, res, next) => {
         const PORT = process.env.PORT;
         if (userSave) {
           return res.redirect(
-            303,
+            307,
             `http://localhost:${PORT}/api/v1/users/register/sendMail/${userSave._id}`
           );
         }
@@ -91,6 +90,10 @@ const sendCode = async (req, res, next) => {
       auth: {
         user: emailEnv,
         pass: password,
+      },
+      tls: {
+        // AÑADIR ESTA PARTE PARA QUE FUCNCIONES
+        rejectUnauthorized: false,
       },
     });
 
@@ -482,99 +485,94 @@ const changeRol = async (req, res, next) => {
 //? DELETE
 //!-------
 
-const deleteUser = async (req,res,next) => {
+const deleteUser = async (req, res, next) => {
   try {
-    const {_id, image }= req.user;
+    const { _id, image } = req.user;
     const userDb = await User.findById(_id);
     await User.findByIdAndDelete(_id);
-    if(await User.findById(_id)){
+    if (await User.findById(_id)) {
       return res.status(404).json("not deleted");
-    }else{
+    } else {
       try {
-        await User.updateMany(
-          { followed: _id },
-          { $pull: { followed:_id } }
-        )
+        await User.updateMany({ followed: _id }, { $pull: { followed: _id } });
         await User.updateMany(
           { followers: _id },
-          { $pull: { followers:_id} }
-        )
-        await User.updateMany(
-          { banned: _id },
-          { $pull: { banned:_id} }
-        )
-        await User.updateMany(
-          { bannedBy: _id },
-          { $pull: { bannedBy:_id} }
-        )
+          { $pull: { followers: _id } }
+        );
+        await User.updateMany({ banned: _id }, { $pull: { banned: _id } });
+        await User.updateMany({ bannedBy: _id }, { $pull: { bannedBy: _id } });
         try {
-          await Message.deleteMany({owner: _id})
+          await Message.deleteMany({ owner: _id });
           for (const message of userDb.reviewedByYou) {
             await User.updateMany(
-              {reviewedByOthers:message},
-              {$pull: { reviewedByOthers:message}})
+              { reviewedByOthers: message },
+              { $pull: { reviewedByOthers: message } }
+            );
           }
           try {
             for (const chat of userDb.chats) {
-             await Chat.findByIdAndDelete(chat) 
-             await User.updateOne(
-              {chats:chat},
-              {$pull: { chats:chat}})
+              await Chat.findByIdAndDelete(chat);
+              await User.updateOne({ chats: chat }, { $pull: { chats: chat } });
             }
             try {
               for (const rating of userDb.ratedByYou) {
-                await Rating.findByIdAndDelete(rating)
+                await Rating.findByIdAndDelete(rating);
                 await User.updateOne(
-                  {ratedByOthers:rating},
-                  {$pull: { ratedByOthers:rating}})
-                }
+                  { ratedByOthers: rating },
+                  { $pull: { ratedByOthers: rating } }
+                );
+              }
+              try {
+                await Service.deleteMany({ offerer: _id });
                 try {
-                  await Service.deleteMany({ offerer:_id })
+                  await Communities.updateMany(
+                    { users: _id },
+                    { $pull: { users: _id } }
+                  );
                   try {
-                    await Communities.updateMany(
-                      {users:_id},
-                      {$pull: { users:_id}})
-                      try {
-                        for (const request of userDb.pendingRequestMyService) {
-                          await Request.findByIdAndDelete(request)
-                          await User.updateOne(
-                            {pendingRequestedService:request},
-                            {$pull: { pendingRequestedService:request}})
-                        }
-                        for (const request of userDb.pendingRequestedService) {
-                          await Request.findByIdAndDelete(request)
-                          await User.updateOne(
-                            {pendingRequestMyService:request},
-                            {$pull: { pendingRequestMyService:request}})
-                        }
-                        return res.status(200).json("Borrado correcto")
-                      } catch (error) {
-                        return res.status(404).json("error borrando las request")
-                      }
+                    for (const request of userDb.pendingRequestMyService) {
+                      await Request.findByIdAndDelete(request);
+                      await User.updateOne(
+                        { pendingRequestedService: request },
+                        { $pull: { pendingRequestedService: request } }
+                      );
+                    }
+                    for (const request of userDb.pendingRequestedService) {
+                      await Request.findByIdAndDelete(request);
+                      await User.updateOne(
+                        { pendingRequestMyService: request },
+                        { $pull: { pendingRequestMyService: request } }
+                      );
+                    }
+                    return res.status(200).json("Borrado correcto");
                   } catch (error) {
-                    return res.status(404).json("error actualizando las comunidades")
+                    return res.status(404).json("error borrando las request");
                   }
                 } catch (error) {
-                  return res.status(404).json("error borrando los servicios")
+                  return res
+                    .status(404)
+                    .json("error actualizando las comunidades");
                 }
+              } catch (error) {
+                return res.status(404).json("error borrando los servicios");
+              }
             } catch (error) {
-              return res.status(404).json("error borrando ratings")
+              return res.status(404).json("error borrando ratings");
             }
           } catch (error) {
-            return res.status(404).json("error borrando chats")
+            return res.status(404).json("error borrando chats");
           }
         } catch (error) {
-          return res.status(404).json("error actualizando mensajes")
+          return res.status(404).json("error actualizando mensajes");
         }
-        
       } catch (error) {
-        return res.status(404).json("error actualizando usuario")
+        return res.status(404).json("error actualizando usuario");
       }
     }
   } catch (error) {
     return next(error);
   }
-}
+};
 
 //!-------
 //? GET ALL
