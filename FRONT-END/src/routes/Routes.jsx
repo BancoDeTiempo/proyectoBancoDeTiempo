@@ -1,6 +1,4 @@
 import { createBrowserRouter } from 'react-router-dom';
-
-import App from '../App';
 import { About,
   ChangePassword,
   CheckCode,
@@ -12,6 +10,7 @@ import { About,
   Login,
   NotFound,
   User } from '../pages';
+import App from '../App';
 
 //!----> HE METIDO DE MOMENTO ESTAS 5 HASTA QUE LO DEFINAMOS MEJOR
 
@@ -57,6 +56,10 @@ export const router = createBrowserRouter([
       {
         path: 'ForgotPassword',
         element: <ForgotPassword />,
+      },
+      {
+        path: 'FormProfile',
+        element: <FormProfile />,
       },
       {
         path: 'Register',

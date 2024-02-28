@@ -10,4 +10,4 @@ export * from './CheckCode';
 export * from './Dashboard';
 export * from './ForgotPassword';
 export * from './FormProfile';
-import * from './Register';
+export * from './Register';
