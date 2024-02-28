@@ -1,2 +1,2 @@
-export * from "./updateToken"
-export * from "./createArray"
+export * from './createArray';
+export * from './updateToken';

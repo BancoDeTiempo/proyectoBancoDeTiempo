@@ -28,7 +28,7 @@ export const deleteService = async (serviceId, formData) => {
 
 //!--------- GET BY ID ---------
 
-export const getById = async (serviceId, formData) => {
+export const getByIdService = async (serviceId, formData) => {
   const APIGeneral = extraConfig();
 
   return APIGeneral.get(`/service/${serviceId}`, formData)
@@ -38,7 +38,7 @@ export const getById = async (serviceId, formData) => {
 
 //!--------- UPDATE ---------
 
-export const update = async (serviceId, formData) => {
+export const updateService = async (serviceId, formData) => {
   const APIGeneral = extraConfig();
 
   return APIGeneral.patch(`/service/${serviceId}`, formData)
