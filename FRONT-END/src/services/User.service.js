@@ -36,7 +36,7 @@ export const registerUser = async (formData) => {
 
 export const checkCodeConfirmationUser = async (formData) => {
   const APIGeneral = extraConfig();
-  return APIGeneral.post('user/check', formData)
+  return APIGeneral.post('users/check', formData)
     .then((res) => res)
     .catch((error) => error);
 };
@@ -47,7 +47,7 @@ export const checkCodeConfirmationUser = async (formData) => {
 
 export const resendCodeConfirmationUser = async (formData) => {
   const APIGeneral = extraConfig();
-  return APIGeneral.post('/user/resend', formData)
+  return APIGeneral.post('/users/resend', formData)
     .then((res) => res)
     .catch((error) => error);
 };
@@ -58,7 +58,7 @@ export const resendCodeConfirmationUser = async (formData) => {
 
 export const autologinUser = async (formData) => {
   const APIGeneral = extraConfig();
-  return APIGeneral.post('user/login/autologin', formData)
+  return APIGeneral.post('users/login/autologin', formData)
     .then((res) => res)
     .catch((error) => error);
 };

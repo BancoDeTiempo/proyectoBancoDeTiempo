@@ -52,7 +52,7 @@ export const router = createBrowserRouter([
         element: <CheckCode />,
       },
       {
-        path: 'Dashboard',
+        path: '/dashboard',
         element: <Dashboard />,
       },
       {
