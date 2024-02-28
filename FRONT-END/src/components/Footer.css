@@ -1,9 +1,18 @@
 footer {
-  min-height: 8vh;
+  height: 15vh;
   width: 100vw;
-  background-color: #2f7a67;
   display: flex;
   align-items: center;
   justify-content: center;
-  
+}
+
+.categoriesContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+img {
+  width: 30px;
 }
