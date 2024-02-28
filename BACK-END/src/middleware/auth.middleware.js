@@ -15,6 +15,8 @@ const isAuth = async (req, res, next) => {
 
     /// solo se crea req.user cuando es un endpoint authenticado ---> tiene como middleware el auth
     req.user = await User.findById(decoded.id);
+    console.log(await User.findById(decoded.id));
+
     next();
   } catch (error) {
     return next(error);

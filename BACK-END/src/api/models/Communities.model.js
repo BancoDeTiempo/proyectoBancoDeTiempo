@@ -33,6 +33,6 @@ const communitiesSchema = new Schema( {
   }
 );
 
-const Message = mongoose.model("Communities", communitiesSchema);
+const Communities = mongoose.model("Communities", communitiesSchema);
 
 module.exports = Communities;

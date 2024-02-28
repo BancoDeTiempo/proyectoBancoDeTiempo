@@ -3,6 +3,11 @@ const { deleteImgCloudinary } = require("../../middleware/files.middleware");
 
 //! ---------------------------- modelos -----------------------------------
 const User = require("../models/User.model");
+const Reviews = require("../models/Review.model");
+const Message = require("../models/Message.model");
+const Chat = require("../models/Chat.model");
+const Rating = require("../models/Rating.model");
+const Service = require("../models/Service.model");
 
 //! ---------------------------- utils -------------------------------------
 const randomCode = require("../../utils/randomCode");
@@ -19,6 +24,9 @@ const {
 const setError = require("../../helpers/handle-error");
 const { generateToken } = require("../../utils/token");
 const randomPassword = require("../../utils/randomPassword");
+const Communities = require("../models/Communities.model");
+const Request = require("../models/Request.Model");
+
 
 dotenv.config();
 
@@ -474,47 +482,99 @@ const changeRol = async (req, res, next) => {
 //? DELETE
 //!-------
 
-const deleteUser = async (req, res, next) => {
+const deleteUser = async (req,res,next) => {
   try {
-    const { _id, image } = req.user;
-    await User.findByIdAndDelete(req.user?._id);
-    //deleteImgCloudinary(dataBaseUser.image);
-    deleteImgCloudinary(req.user.image);
-    try {
+    const {_id, image }= req.user;
+    const userDb = await User.findById(_id);
+    await User.findByIdAndDelete(_id);
+    if(await User.findById(_id)){
+      return res.status(404).json("not deleted");
+    }else{
       try {
-        await Message.deleteMany({ owner: _id });
+        await User.updateMany(
+          { followed: _id },
+          { $pull: { followed:_id } }
+        )
+        await User.updateMany(
+          { followers: _id },
+          { $pull: { followers:_id} }
+        )
+        await User.updateMany(
+          { banned: _id },
+          { $pull: { banned:_id} }
+        )
+        await User.updateMany(
+          { bannedBy: _id },
+          { $pull: { bannedBy:_id} }
+        )
         try {
-          await User.updateMany(
-            { followed: _id },
-            { $pull: { followers: _id } }
-          );
+          await Message.deleteMany({owner: _id})
+          for (const message of userDb.reviewedByYou) {
+            await User.updateMany(
+              {reviewedByOthers:message},
+              {$pull: { reviewedByOthers:message}})
+          }
           try {
-            await Reviews.deleteMany({ owner: _id });
+            for (const chat of userDb.chats) {
+             await Chat.findByIdAndDelete(chat) 
+             await User.updateOne(
+              {chats:chat},
+              {$pull: { chats:chat}})
+            }
+            try {
+              for (const rating of userDb.ratedByYou) {
+                await Rating.findByIdAndDelete(rating)
+                await User.updateOne(
+                  {ratedByOthers:rating},
+                  {$pull: { ratedByOthers:rating}})
+                }
+                try {
+                  await Service.deleteMany({ offerer:_id })
+                  try {
+                    await Communities.updateMany(
+                      {users:_id},
+                      {$pull: { users:_id}})
+                      try {
+                        for (const request of userDb.pendingRequestMyService) {
+                          await Request.findByIdAndDelete(request)
+                          await User.updateOne(
+                            {pendingRequestedService:request},
+                            {$pull: { pendingRequestedService:request}})
+                        }
+                        for (const request of userDb.pendingRequestedService) {
+                          await Request.findByIdAndDelete(request)
+                          await User.updateOne(
+                            {pendingRequestMyService:request},
+                            {$pull: { pendingRequestMyService:request}})
+                        }
+                        return res.status(200).json("Borrado correcto")
+                      } catch (error) {
+                        return res.status(404).json("error borrando las request")
+                      }
+                  } catch (error) {
+                    return res.status(404).json("error actualizando las comunidades")
+                  }
+                } catch (error) {
+                  return res.status(404).json("error borrando los servicios")
+                }
+            } catch (error) {
+              return res.status(404).json("error borrando ratings")
+            }
           } catch (error) {
-            return res.status(404).json("Error deleting reviews.");
+            return res.status(404).json("error borrando chats")
           }
         } catch (error) {
-          return res.status(404).json("Error pulling followed.");
+          return res.status(404).json("error actualizando mensajes")
         }
+        
       } catch (error) {
-        return res.status(404).json("Error deleting messages.");
+        return res.status(404).json("error actualizando usuario")
       }
-    } catch (error) {
-      return res.status(404).json("Error updating references to other models.");
     }
-    const doesUserExist = await User.findById(req.user._id);
-    console.log(doesUserExist);
-    return res
-      .status(doesUserExist ? 404 : 200)
-      .json(
-        doesUserExist
-          ? "User not deleted. Please try again."
-          : "User deleted successfully."
-      );
   } catch (error) {
-    return res.status(500).json("Error in delete catch");
+    return next(error);
   }
-};
+}
 
 //!-------
 //? GET ALL

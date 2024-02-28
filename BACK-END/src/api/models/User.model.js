@@ -81,9 +81,9 @@ const UserSchema = new mongoose.Schema(
     banned: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }], // baneo a otro user
     bannedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }], // baneo por otro user
     blockedByApp: { type: Boolean, default: false }, // bloqueado por la admin
-    commentsPublicByOther: [
+    /*commentsPublicByOther: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Message" },
-    ],
+    ],*/
     reviewedByYou: [{ type: mongoose.Schema.Types.ObjectId, ref: "Message" }],
     reviewedByOthers: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Message" },
@@ -91,7 +91,7 @@ const UserSchema = new mongoose.Schema(
     ratedByYou: [{ type: mongoose.Schema.Types.ObjectId, ref: "Rating" }], //!-----------------> new item added
     ratedByOthers: [{ type: mongoose.Schema.Types.ObjectId, ref: "Rating" }], //!-----------------> new item added
     globalRating: [{ type: mongoose.Schema.Types.Number, ref: "Rating" }], //!-----------------> new item added
-    postedMessages: [{ type: mongoose.Schema.Types.ObjectId, ref: "Message" }], //* mensajes que yo hago
+    //postedMessages: [{ type: mongoose.Schema.Types.ObjectId, ref: "Message" }], //* mensajes que yo hago
     offeredServices: [{ type: mongoose.Schema.Types.ObjectId, ref: "Service" }], //* el servicio que yo ofrezco
     //soughtServices: [{ type: mongoose.Schema.Types.ObjectId, ref: "Request" }],//Las peticiones pentientes
 
