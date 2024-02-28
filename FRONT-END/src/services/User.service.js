@@ -8,7 +8,7 @@ import { extraConfig } from './serviceApiGeneral.config';
 //? REGISTER
 //! --------
 
-export const register = async (formData) => {
+export const registerUser = async (formData) => {
   const APIGeneral = extraConfig();
   return APIGeneral.post('/user/register', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
@@ -34,7 +34,7 @@ export const register = async (formData) => {
 //? VERIFY CODE - CHECK NEW USER
 //! ----------------------------
 
-export const checkNewUser = async (formData) => {
+export const checkCodeConfirmationUser = async (formData) => {
   const APIGeneral = extraConfig();
   return APIGeneral.post('user/check', formData)
     .then((res) => res)
@@ -45,7 +45,7 @@ export const checkNewUser = async (formData) => {
 //? RESEND CODE
 //! -----------
 
-export const resendCode = async (formData) => {
+export const resendCodeConfirmationUser = async (formData) => {
   const APIGeneral = extraConfig();
   return APIGeneral.post('/user/resend', formData)
     .then((res) => res)
@@ -56,7 +56,7 @@ export const resendCode = async (formData) => {
 //? AUTOLOGIN
 //! ---------
 
-export const autoLogin = async (formData) => {
+export const autologinUser = async (formData) => {
   const APIGeneral = extraConfig();
   return APIGeneral.post('user/login/autologin', formData)
     .then((res) => res)
@@ -67,7 +67,7 @@ export const autoLogin = async (formData) => {
 //? LOGIN
 //! -----
 
-export const login = async (formData) => {
+export const loginUserService = async (formData) => {
   const APIGeneral = extraConfig();
   return APIGeneral.post('user/login', formData)
     .then((res) => res)
@@ -78,7 +78,7 @@ export const login = async (formData) => {
 //? FORGOT PASSWORD
 //! ---------------
 
-export const changePassword = async (formData) => {
+export const forgotPasswordUser = async (formData) => {
   const APIGeneral = extraConfig();
   return APIGeneral.patch('/user/forgotpassword', formData)
     .then((res) => res)
@@ -93,7 +93,7 @@ export const changePassword = async (formData) => {
 //? CHANGE PASSWORD
 //! ---------------
 
-export const modifyPassword = async (formData) => {
+export const changePasswordUserToken = async (formData) => {
   const APIGeneral = extraConfig();
   return APIGeneral.patch('/user/changepassword', formData)
     .then((res) => res)
@@ -104,7 +104,7 @@ export const modifyPassword = async (formData) => {
 //? UPDATE USER
 //! -----------
 
-export const update = async (formData) => {
+export const updateUser = async (formData) => {
   const APIGeneral = extraConfig();
   return APIGeneral.patch('user/update/update', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
