@@ -102,7 +102,7 @@ const deleteService = async (req, res, next) => {
 //! ---------------------------------------------------------------------
 //? -------------------------------get by id --------------------------
 //! ---------------------------------------------------------------------
-const getById = async (req, res, next) => {
+const getByIdService = async (req, res, next) => {
   try {
     const { id } = req.params;
     const serviceById = await Service.findById(id);
@@ -120,7 +120,7 @@ const getById = async (req, res, next) => {
 //? -------------------------------UPDATE -------------------------------
 //! ---------------------------------------------------------------------
 
-const update = async (req, res, next) => {
+const updateService = async (req, res, next) => {
   await Service.syncIndexes();
 
   try {
@@ -219,7 +219,7 @@ const getAll = async (req, res, next) => {
 module.exports = {
   createService,
   deleteService,
-  getById,
-  update,
+  getByIdService,
+  updateService,
   getAll,
 };
