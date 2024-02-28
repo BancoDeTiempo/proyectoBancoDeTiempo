@@ -1,18 +1,28 @@
-footer {
-  height: 15vh;
-  width: 100vw;
+.footerContainer {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  background-color: #383838;
+  padding: 20px;
 }
 
-.categoriesContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+.logoContainer,
+.categoriesContainer,
+.aboutContainer,
+.socialContainer {
+  text-align: center;
+  margin: 10px;
 }
 
-img {
+.categoriesContainer ul,
+.aboutContainer ul {
+  list-style: none;
+  padding: 0;
+}
+
+.socialContainer img {
   width: 30px;
+  height: 30px;
+  margin: 5px;
 }

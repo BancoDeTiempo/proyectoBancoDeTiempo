@@ -4,35 +4,35 @@ import './Footer.css';
 export const Footer = () => {
   return (
     <>
-      <footer>
+      <footer className="footerContainer">
         <div className="logoContainer">LOGO</div>
         <div className="categoriesContainer">
           <h4>ALL CATEGORIES</h4>
           <ul>
-            <il>Limpieza</il>
-            <il>Mascotas</il>
-            <il>Personas</il>
-            <il>Recados</il>
-            <il>Transporte</il>
-            <il>Reparaciones</il>
-            <il>Cuidado</il>
-            <il>Compra</il>
-            <il>Electrónica</il>
-            <il>Mecánica</il>
-            <il>Eventos</il>
-            <il>Otros</il>
+            <li>Limpieza</li>
+            <li>Mascotas</li>
+            <li>Personas</li>
+            <li>Recados</li>
+            <li>Transporte</li>
+            <li>Reparaciones</li>
+            <li>Cuidado</li>
+            <li>Compra</li>
+            <li>Electrónica</li>
+            <li>Mecánica</li>
+            <li>Eventos</li>
+            <li>Otros</li>
           </ul>
         </div>
         <div className="aboutContainer">
           <h4>ABOUT</h4>
           <ul>
-            <Link to="/about">
-              <il>About Us</il>
-            </Link>
-            <il>FAQS</il>
-            <il>Contact Us</il>
-            <il>Condiciones de Uso</il>
-            <il>Politica de Privacidad</il>
+            <li>
+              <Link to="/about">About Us</Link>
+            </li>
+            <li>FAQS</li>
+            <li>Contact Us</li>
+            <li>Condiciones de Uso</li>
+            <li>Politica de Privacidad</li>
           </ul>
         </div>
         <div className="socialContainer">
