@@ -10,7 +10,7 @@ import { extraConfig } from './serviceApiGeneral.config';
 
 export const registerUser = async (formData) => {
   const APIGeneral = extraConfig();
-  return APIGeneral.post('/user/register', formData, {
+  return APIGeneral.post('/users/register', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
   })
     .then((res) => res)

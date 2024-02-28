@@ -5,6 +5,7 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { registerUser } from '../services/User.service';
 import { useRegisterError } from '../hooks/useRegisterError';
+import { Uploadfile } from '../components';
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -77,7 +78,105 @@ export const Register = () => {
               {...register('name', { required: true })}
             />
             <label htmlFor="custom-input" className="custom-placeholder">
-              username
+              Name
+            </label>
+          </div>
+
+          <div className="user_container form-group">
+            <input
+              className="input_user"
+              type="text"
+              id="userName"
+              name="userName"
+              autoComplete="false"
+              {...register('userName', { required: true })}
+            />
+            <label htmlFor="custom-input" className="custom-placeholder">
+              Username
+            </label>
+          </div>
+
+          <div className="user_container form-group">
+            <input
+              className="input_user"
+              type="number"
+              id="dateOfBirth"
+              name="dateOfBirth"
+              autoComplete="false"
+              {...register('dateOfBirth', { required: true })}
+            />
+            <label htmlFor="custom-input" className="custom-placeholder">
+              Date of Birth
+            </label>
+          </div>
+
+          <div className="user_container form-group">
+            <input
+              className="input_user"
+              type="text"
+              id="address"
+              name="address"
+              autoComplete="false"
+              {...register('address', { required: true })}
+            />
+            <label htmlFor="custom-input" className="custom-placeholder">
+              Address
+            </label>
+          </div>
+
+          <div className="user_container form-group">
+            <input
+              className="input_user"
+              type="number"
+              id="postalCode"
+              name="postalCode"
+              autoComplete="false"
+              {...register('postalCode', { required: true })}
+            />
+            <label htmlFor="custom-input" className="custom-placeholder">
+              Postal Code
+            </label>
+          </div>
+
+          <div className="user_container form-group">
+            <input
+              className="input_user"
+              type="text"
+              id="city"
+              name="city"
+              autoComplete="false"
+              {...register('city', { required: true })}
+            />
+            <label htmlFor="custom-input" className="custom-placeholder">
+              City
+            </label>
+          </div>
+
+          <div className="user_container form-group">
+            <input
+              className="input_user"
+              type="number"
+              id="phone"
+              name="phone"
+              autoComplete="false"
+              {...register('phone', { required: true })}
+            />
+            <label htmlFor="custom-input" className="custom-placeholder">
+              Phone
+            </label>
+          </div>
+
+          <div className="user_container form-group">
+            <input
+              className="input_user"
+              type="text"
+              id="description"
+              name="description"
+              autoComplete="false"
+              {...register('description', { required: true })}
+            />
+            <label htmlFor="custom-input" className="custom-placeholder">
+              Describe yourself
             </label>
           </div>
 
@@ -91,7 +190,7 @@ export const Register = () => {
               {...register('password', { required: true })}
             />
             <label htmlFor="custom-input" className="custom-placeholder">
-              password
+              Password
             </label>
           </div>
 
@@ -105,7 +204,7 @@ export const Register = () => {
               {...register('email', { required: true })}
             />
             <label htmlFor="custom-input" className="custom-placeholder">
-              email
+              Email
             </label>
 
             <div className="sexo">
@@ -130,7 +229,7 @@ export const Register = () => {
                 Mujer
               </label>
             </div>
-            {/**aquí irá lo de Uploadfile */}
+            <Uploadfile />
           </div>
 
           <div className="btn_container">
