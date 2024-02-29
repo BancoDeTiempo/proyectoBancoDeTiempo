@@ -28,10 +28,10 @@ export const deleteService = async (serviceId, formData) => {
 
 //!--------- GET BY ID ---------
 
-export const getByIdService = async (serviceId, formData) => {
+export const getByIdService = async (serviceId) => {
   const APIGeneral = extraConfig();
 
-  return APIGeneral.get(`/service/${serviceId}`, formData)
+  return APIGeneral.get(`/service/${serviceId}`)
     .then((res) => res)
     .catch((error) => error);
 };
