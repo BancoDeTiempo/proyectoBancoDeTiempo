@@ -22,7 +22,7 @@ export const AuthContextProvider = ({ children }) => {
     },
   });
 
-  // BRIDGE QUE MAGICAMENTE RESUELVE PROBLEMAS DE ASYNC
+  // BRIDGE PARA RESOLVER PROBLEMAS DE ASYNC
 
   const bridgeData = (state) => {
     const data = localStorage.getItem('data');

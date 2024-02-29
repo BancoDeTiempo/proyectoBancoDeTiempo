@@ -116,13 +116,13 @@ export const CheckCode = () => {
             <input
               className="input_user"
               type="text"
-              id="name"
-              name="name"
+              id="confirmationCode"
+              name="confirmationCode"
               autoComplete="false"
-              {...register('confirmationCode', { required: false })}
+              {...register('confirmationCode', { required: true })}
             />
             <label htmlFor="custom-input" className="custom-placeholder">
-              Registration code
+              Confirmation Code
             </label>
           </div>
 

@@ -66,7 +66,10 @@ export const Register = () => {
     <>
       <div className="form-wrap">
         <h1>Sing Up</h1>
-        <p>Its free but it will take you a lifetime to do it</p>
+        <p>
+          Date de alta y empieza a hacer intercambios de servicios con otros usuarios de
+          nuestra comunidad
+        </p>
         <form onSubmit={handleSubmit(formSubmit)}>
           <div className="user_container form-group">
             <input

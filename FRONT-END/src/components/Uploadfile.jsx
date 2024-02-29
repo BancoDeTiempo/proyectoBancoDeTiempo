@@ -43,7 +43,7 @@ export const Uploadfile = ({ registerForm }) => {
       output('<strong>' + encodeURI(file.name) + '</strong>');
       let imageName = file.name;
 
-      let isGood = /\.(?=gif|jpg|png|jpeg)/gi.test(imageName);
+      let isGood = /\.(?=gif|jpg|png|jpeg|webp)/gi.test(imageName);
       if (isGood) {
         document.getElementById('start').classList.add('hidden');
         document.getElementById('response').classList.remove('hidden');
