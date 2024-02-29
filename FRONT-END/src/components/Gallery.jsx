@@ -3,7 +3,7 @@
  * y un util que controle la cantidad de servicios que pediremos (createArray)
  */
 
-//import { createArray } from '../utils';
+import { createArray } from '../utils';
 import { useEffect, useState } from 'react';
 import { CardServicios } from './CardServicios';
 import { getAll } from '../services/Servicio.service';
@@ -17,13 +17,23 @@ export const Gallery = () => {
     })();
   }, []);
 
-  return 
-  <>
-    {console.log('data', data)
-      data !== null && data.slice(0,5)}
-  </>;
+  const array = createArray(5);
 
-
+  return (
+    <>
+      {data !== null &&
+        data.slice(
+          0,
+          5,
+        )(
+          <div id="servicesGallery">
+            {array.map((id) => (
+              <CardServicios id={id} key={id} />
+            ))}
+          </div>,
+        )}
+    </>
+  );
 
   /*const array = createArray(5);
   return (
