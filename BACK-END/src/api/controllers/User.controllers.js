@@ -618,6 +618,62 @@ const getById = async (req, res, next) => {
 const blockApp = async (req, res, next) =>{
 };*/
 
+// //!----------
+// //? GET BY PC
+// //!----------
+
+// const getByPostcode = async (req, res, next) => {
+//   try {
+//     const { postcode } = req.params;
+//     const userByPostcode = await User.find({ postalCode: +postcode }).populate(
+//       "postedBy"
+//     );
+//     return roomByPostcode.length > 0
+//       ? res.status(200).json(roomByPostcode)
+//       : res.status(404).json("we couldn't find any rooms");
+//   } catch (error) {
+//     return res.status(500).json({
+//       error: "Error en el catch",
+//       message: error.message,
+//     });
+//   }
+// };
+
+//!------------
+//? GET BY NAME
+//!------------
+
+const getByName = async (req, res, next) => {
+  //es para name y para userName!!
+  try {
+    console.log(req.body);
+    let { name } = req.params;
+
+    console.log(name);
+    const UsersByName = await User.find({
+      $or: [
+        { name: { $regex: name, $options: "i" } },
+        { userName: { $regex: name, $options: "i" } },
+      ],
+    });
+    console.log(UsersByName);
+    if (UsersByName.length > 0) {
+      return res.status(200).json(UsersByName);
+    } else {
+      return res
+        .status(404)
+        .json("That username doesn't show up in our database.");cd..
+    }
+  } catch (error) {
+    return (
+      res.status(500).json({
+        error: "Error en el catch",
+        message: error.message,
+      }) && next(error)
+    );
+  }
+};
+
 //! ------------
 //?  FOLLOW USER
 //! ------------
@@ -799,6 +855,7 @@ const bannedToggle = async (req, res, next) => {
       message: error.message,
     });
   }
+  S;
 };
 
 module.exports = {
@@ -818,4 +875,5 @@ module.exports = {
   followUserToggle,
   getById,
   bannedToggle,
+  getByName,
 };

@@ -50,7 +50,7 @@ const UserSchema = new mongoose.Schema(
       required: true,
     },
     postalCode: {
-      type: String,
+      type: Number,
       required: true,
       trim: true,
     },
