@@ -2,16 +2,17 @@ import './CheckCode.css';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/authContext';
+
 import { useAutoLogin, useCheckCodeError, useResendCodeError } from '../hooks';
 import { checkCodeConfirmationUser, resendCodeConfirmationUser } from '../services';
+import { useAuth } from '../contexts/authContext';
 
 export const CheckCode = () => {
   const navigate = useNavigate();
   const { allUser, login, setUser } = useAuth();
   const { register, handleSubmit } = useForm();
-  // EL RES Va a ser para el check cdel code
-//   const [res, setRes] = useState({});
+  // EL RES Va a ser para el check del code
+  const [res, setRes] = useState({});
   // resResend va a ser para gestionar el renvio del codigo de confirmacion
   const [resResend, setResResend] = useState({});
   const [send, setSend] = useState(false);
@@ -20,7 +21,9 @@ export const CheckCode = () => {
   // ------> estos dos estados se utilizan para cuando se recarga la pagin por el usuario
   const [okDeleteUser, setOkDeleteUser] = useState(false);
   const [userNotFound, setUserNotFound] = useState(false);
+
   //! -------FUNCION QUE GESTIONA LA DATA DEL FORMULARIO-------
+
   const formSubmit = async (formData) => {
     const userLocal = localStorage.getItem('user');
 
@@ -68,7 +71,8 @@ export const CheckCode = () => {
     }
   };
 
-  //! --------USE EFFECT QUE NOSC SIRVE CUANDO CAMBIA RES A LANZAR EL COMPROBADOR DE ERRORES
+  //! --------USE EFFECT QUE SIRVE CUANDO CAMBIA RES A LANZAR EL COMPROBADOR DE ERRORES
+
   useEffect(() => {
     console.log('😭', res);
     useCheckCodeError(res, setRes, setOkCheck, setOkDeleteUser, login, setUserNotFound);
@@ -81,7 +85,7 @@ export const CheckCode = () => {
 
   //! -------- PONEMOS LOS CONDICIONALES QUE EVALUAN SI ESTAN A TRUE LOS ESTADOS DE NAVEGACION (deleUser, okCheck)
   if (okCheck) {
-    /// aqwui vamos a hacer  el autologin para cuando viene del register
+    /// aqui vamos a hacer  el autologin para cuando viene del register
     // para cuando viene del login lo gestionamos en el usecheckCodeError ---> modificamos el localstorage y el user del contexto
     if (!localStorage.getItem('user')) {
       useAutoLogin(allUser, login);
@@ -105,7 +109,7 @@ export const CheckCode = () => {
   return (
     <>
       <div className="form-wrap">
-        <h1>Verify your code 👌</h1>
+        <h1>Verify your code</h1>
         <p>Write the code sent to your email</p>
         <form onSubmit={handleSubmit(formSubmit)}>
           <div className="user_container form-group">
@@ -147,8 +151,8 @@ export const CheckCode = () => {
 
           <p className="bottom-text">
             <small>
-              If the code is not correct ❌, your user will be deleted from the database
-              and you will need to register again.{' '}
+              If the code is not correct, your user will be deleted from the database and
+              you will have to register again.{' '}
             </small>
           </p>
         </form>
