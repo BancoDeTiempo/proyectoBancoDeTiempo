@@ -24,6 +24,7 @@ const {
   bannedToggle,
   followUserToggle,
   getByName,
+  getByPostalCode,
 } = require("../controllers/User.controllers");
 const UserRoutes = express.Router();
 
@@ -38,6 +39,7 @@ UserRoutes.patch("/changeRol/:id", [isAuthSuperAdmin], changeRol);
 UserRoutes.get("/", getAll);
 UserRoutes.get("/:id", getById);
 UserRoutes.get("/byname/:name", [isAuth], getByName);
+UserRoutes.get("/postalcode/:postalcode", getByPostalCode);
 UserRoutes.patch("/follow/:idUserToFollow", [isAuth], followUserToggle);
 UserRoutes.patch("/ban/:idUserToBan", [isAuth], bannedToggle);
 
