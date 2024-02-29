@@ -55,7 +55,7 @@ const UserSchema = new mongoose.Schema(
       trim: true,
     },
     confirmationCode: {
-      type: String,
+      type: Number,
       required: true,
     },
     check: {
