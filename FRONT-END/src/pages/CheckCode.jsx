@@ -2,7 +2,7 @@ import './CheckCode.css';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/authContext';
+import { useAuth } from '../contexts/authContext';
 import { useAutoLogin, useCheckCodeError, useResendCodeError } from '../hooks';
 import { checkCodeConfirmationUser, resendCodeConfirmationUser } from '../services';
 
@@ -11,7 +11,7 @@ export const CheckCode = () => {
   const { allUser, login, setUser } = useAuth();
   const { register, handleSubmit } = useForm();
   // EL RES Va a ser para el check cdel code
-  const [res, setRes] = useState({});
+//   const [res, setRes] = useState({});
   // resResend va a ser para gestionar el renvio del codigo de confirmacion
   const [resResend, setResResend] = useState({});
   const [send, setSend] = useState(false);

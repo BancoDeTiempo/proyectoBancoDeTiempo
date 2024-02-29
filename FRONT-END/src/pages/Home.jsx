@@ -1,6 +1,5 @@
-import './Home.css';
-
 import { Gallery } from '../components';
+import './Home.css';
 
 export const Home = () => {
   return (

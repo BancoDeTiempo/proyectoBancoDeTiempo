@@ -69,7 +69,7 @@ export const autologinUser = async (formData) => {
 
 export const loginUserService = async (formData) => {
   const APIGeneral = extraConfig();
-  return APIGeneral.post('user/login', formData)
+  return APIGeneral.post('users/login', formData)
     .then((res) => res)
     .catch((error) => error);
 };
@@ -95,7 +95,7 @@ export const forgotPasswordUser = async (formData) => {
 
 export const changePasswordUserToken = async (formData) => {
   const APIGeneral = extraConfig();
-  return APIGeneral.patch('/user/changepassword', formData)
+  return APIGeneral.patch('/users/changepassword', formData)
     .then((res) => res)
     .catch((error) => error);
 };
@@ -106,7 +106,7 @@ export const changePasswordUserToken = async (formData) => {
 
 export const updateUser = async (formData) => {
   const APIGeneral = extraConfig();
-  return APIGeneral.patch('user/update/update', formData, {
+  return APIGeneral.patch('users/update/update', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
   })
     .then((res) => res)
@@ -119,7 +119,7 @@ export const updateUser = async (formData) => {
 
 export const deleteUser = async (formData) => {
   const APIGeneral = extraConfig();
-  return APIGeneral.delete('/user/deleteUser', formData)
+  return APIGeneral.delete('/users/deleteUser', formData)
     .then((res) => res)
     .catch((error) => error);
 };
@@ -140,7 +140,7 @@ export const deleteUser = async (formData) => {
 //! ---------
 export const getById = async (id) => {
   const APIGeneral = extraConfig();
-  return APIGeneral.get(`/user/${id}`)
+  return APIGeneral.get(`/users/${id}`)
     .then((res) => res)
     .catch((error) => error);
 };
@@ -169,7 +169,7 @@ export const getAll = async () => {
 
 export const followUserToggle = async (idUserToFollow) => {
   const APIGeneral = extraConfig();
-  return APIGeneral.patch(`/user/follow/${idUserToFollow}`)
+  return APIGeneral.patch(`/users/follow/${idUserToFollow}`)
     .then((res) => res)
     .catch((error) => error);
 };
@@ -180,7 +180,7 @@ export const followUserToggle = async (idUserToFollow) => {
 
 export const bannedToggle = async (idUserToBan) => {
   const APIGeneral = extraConfig();
-  return APIGeneral.patch(`/user/ban/${idUserToBan}`)
+  return APIGeneral.patch(`/users/ban/${idUserToBan}`)
     .then((res) => res)
     .catch((error) => error);
 };
