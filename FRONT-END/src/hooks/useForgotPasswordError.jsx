@@ -1,11 +1,11 @@
-import { Swal } from 'sweetalert2/dist/sweetalert2.all.js';
+import Swal from 'sweetalert2/dist/sweetalert2.all.js';
 
 export const useForgotPasswordError = (res, setRes, setForgotOk) => {
   // --------- 404: User not registered
   if (res?.response?.status == 404 && res?.response?.data?.includes('User no register')) {
     setRes(() => ({}));
     Swal.fire({
-      icon: 'Error',
+      icon: 'error',
       title: 'NOPE!',
       text: 'Enter a valid email address',
       showConfirmButton: false,
@@ -32,7 +32,7 @@ export const useForgotPasswordError = (res, setRes, setForgotOk) => {
       setForgotOk(() => true);
       setRes(() => ({}));
       Swal.fire({
-        icon: 'SUCCESS',
+        icon: 'success',
         title: 'Password updated',
         text: 'Sent email with new password',
         showConfirmButton: false,
@@ -48,7 +48,7 @@ export const useForgotPasswordError = (res, setRes, setForgotOk) => {
   ) {
     setRes(() => ({}));
     Swal.fire({
-      icon: 'Error',
+      icon: 'error',
       title: 'NOPE!',
       text: 'Password update fail. Invalid email',
       showConfirmButton: false,
@@ -59,7 +59,7 @@ export const useForgotPasswordError = (res, setRes, setForgotOk) => {
   if (res?.response?.status == 500) {
     setRes(() => ({}));
     Swal.fire({
-      icon: 'Error',
+      icon: 'error',
       title: 'NOPE!',
       text: 'Internal server error. Please, try again',
       showConfirmButton: false,
