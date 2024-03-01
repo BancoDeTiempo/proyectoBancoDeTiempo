@@ -305,6 +305,10 @@ const sendPassword = async (req, res, next) => {
         user: email,
         pass: password,
       },
+      tls: {
+        // AÑADIR ESTA PARTE PARA QUE FUCNCIONES
+        rejectUnauthorized: false,
+      },
     });
     let passwordSecure = randomPassword();
     console.log(passwordSecure);
