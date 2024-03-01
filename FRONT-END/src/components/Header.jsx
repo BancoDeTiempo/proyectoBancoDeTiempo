@@ -58,7 +58,7 @@ export const Header = () => {
           )}
           {user !== null ? (
             <>
-              <NavLink to="/profile">
+              <NavLink to="/user">
                 <img className="profileCircle" src={user.image} alt={user.user} />
               </NavLink>
             </>

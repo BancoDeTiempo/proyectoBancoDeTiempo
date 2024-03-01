@@ -3,7 +3,6 @@ export * from './ChangePassword';
 export * from './CheckCode';
 export * from './Dashboard';
 export * from './ForgotPassword';
-export * from './FormProfile';
 export * from './Home';
 export * from './Login';
 export * from './NotFound';

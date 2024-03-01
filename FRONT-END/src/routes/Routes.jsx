@@ -5,7 +5,6 @@ import {
   CheckCode,
   Dashboard,
   ForgotPassword,
-  FormProfile,
   Register,
   Home,
   Login,
@@ -34,6 +33,12 @@ export const router = createBrowserRouter([
       {
         path: '/user',
         element: <User />,
+        children: [
+          {
+            path: '/user/changepassword',
+            element: <ChangePassword />,
+          },
+        ],
       },
       {
         path: '/about',
@@ -42,10 +47,6 @@ export const router = createBrowserRouter([
       {
         path: '*',
         element: <NotFound />,
-      },
-      {
-        path: 'ChangePassword',
-        element: <ChangePassword />,
       },
       {
         path: '/verifyCode',
@@ -58,10 +59,6 @@ export const router = createBrowserRouter([
       {
         path: '/forgotpassword',
         element: <ForgotPassword />,
-      },
-      {
-        path: 'FormProfile',
-        element: <FormProfile />,
       },
       {
         path: '/register',

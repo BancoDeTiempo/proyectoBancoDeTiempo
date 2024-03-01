@@ -95,7 +95,11 @@ export const forgotPasswordUser = async (formData) => {
 
 export const changePasswordUserToken = async (formData) => {
   const APIGeneral = extraConfig();
-  return APIGeneral.patch('/users/changepassword', formData)
+  return APIGeneral.patch('/users/changepassword', formData, {
+    headers: {
+      Authorization: `Bearer ${updateToken()}`,
+    },
+  })
     .then((res) => res)
     .catch((error) => error);
 };
@@ -117,9 +121,13 @@ export const updateUser = async (formData) => {
 //? DELETE USER
 //! -----------
 
-export const deleteUser = async (formData) => {
+export const deleteUser = async () => {
   const APIGeneral = extraConfig();
-  return APIGeneral.delete('/users/deleteUser', formData)
+  return APIGeneral.delete('/users/', {
+    headers: {
+      Authorization: `Bearer ${updateToken()}`,
+    },
+  })
     .then((res) => res)
     .catch((error) => error);
 };
