@@ -80,7 +80,7 @@ export const loginUserService = async (formData) => {
 
 export const forgotPasswordUser = async (formData) => {
   const APIGeneral = extraConfig();
-  return APIGeneral.patch('/user/forgotpassword', formData)
+  return APIGeneral.patch('/users/forgotpassword', formData)
     .then((res) => res)
     .catch((error) => error);
 };
