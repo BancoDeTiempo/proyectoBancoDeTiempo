@@ -628,9 +628,9 @@ const blockApp = async (req, res, next) =>{
 
 const getByPostalCode = async (req, res, next) => {
   try {
-    const { postcode } = req.params;
+    const { postalCode } = req.params;
     const userByPostalCode = await User.find({
-      postalCode: +postcode,
+      postalCode: +postalCode,
     }).populate("postedBy");
     return userByPostalCode.length > 0
       ? res.status(200).json(userByPostcode)
@@ -672,7 +672,7 @@ const getByName = async (req, res, next) => {
     return (
       res.status(500).json({
         error: "Error en el catch",
-        message: error.message,
+        message: error.message,z
       }) && next(error)
     );
   }
