@@ -1,7 +1,7 @@
 header {
   min-height: 20vh;
   width: 100vw;
-  background-color: #2f7a67;
+  background-color: #5d258d;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,7 +14,7 @@ header {
 }
 
 .titleContainer {
-  color: #183f35;
+  color: #3f2322;
   width: 360px;
   position: relative;
   display: flex;
@@ -23,15 +23,16 @@ header {
 }
 
 .titleFatherContainer {
-  color: #183f35;
-  width: 360px;
+  color: #3f2322;
+  width: 800px;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: left;
+  align-items: left;
 }
 
 .logo {
-  width: 100px;
+  width: 500px;
+  align-items: left;
 }
 
 .iconNav {
@@ -47,6 +48,22 @@ nav {
   display: flex;
   gap: 1rem;
 }
+
+.loginBtn {
+  background-color: #fcd946; 
+  color: #000000; 
+  padding: 10px 20px; 
+  border: none; 
+  border-radius: 5px;
+  cursor: pointer; 
+
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.loginBtn:hover {
+  background-color: #e0b500; /* Cambiar el color de fondo al pasar el mouse */
+}
+
 
 .whiteContainer {
   width: 100vw;

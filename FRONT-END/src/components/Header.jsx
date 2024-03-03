@@ -1,8 +1,7 @@
+import { NavLink } from "react-router-dom";
 import './Header.css';
-
-import { NavLink } from 'react-router-dom';
-
 import { useAuth } from '../contexts/authContext';
+
 
 export const Header = () => {
   const { user, logout } = useAuth();
@@ -10,47 +9,44 @@ export const Header = () => {
     <>
       <header>
         <div className="titleFatherContainer">
-          <img
-            src="https://res.cloudinary.com/dq186ej4c/image/upload/v1685704450/user-3296_rtszbc.png"
+          <nav>
+           <NavLink to="/">
+           <img
+            src= "./public/logov9.png"
             alt="logo"
             className="logo"
           />
-          <div className="titleContainer">
-            <h1 className="titleHeader">USER PAGE</h1>
-            <h1 className="titleHeaderBlack">USER PAGE</h1>
-          </div>
+           </NavLink>
+          </nav>
+          
         </div>
         <nav>
           {user == null && (
             <NavLink to="/login">
-              <img
-                src="https://res.cloudinary.com/dq186ej4c/image/upload/v1685705523/login_ljn9fb.png"
-                alt=""
-                className="iconNav"
-              />
+              <button
+                className="loginBtn"
+                type="button"
+                >
+                  Empieza ahora
+                </button>
             </NavLink>
-          )}
+          )
+          }
 
           {user !== null ? (
             <NavLink to="/dashboard">
               <img
-                src="https://res.cloudinary.com/dq186ej4c/image/upload/v1685705689/dashboard-statistics-5492_rnmxcl.png"
+                src="https://res.cloudinary.com/dq186ej4c/image/upload/v1685705689/dashboard--5492_rnmxcl.png"
                 alt=""
                 className="iconNav iconDashBoard"
               />
             </NavLink>
           ) : null}
 
-          <NavLink to="/">
-            <img
-              src="https://res.cloudinary.com/dq186ej4c/image/upload/v1685705455/home_circle_outline_icon_139029_xdnnt2.png"
-              alt=""
-              className="iconNav home"
-            />
-          </NavLink>
+         
           {user !== null && (
             <img
-              src="https://res.cloudinary.com/dq186ej4c/image/upload/v1685706203/9e3c325bca17c2147d249237c5a0906b_qhqifa.png"
+              src = "/public/darumaLogOutB&nClaro.png"
               alt=""
               className="iconNav iconLogout"
               onClick={() => logout()}
@@ -58,8 +54,12 @@ export const Header = () => {
           )}
           {user !== null ? (
             <>
-              <NavLink to="/user">
-                <img className="profileCircle" src={user.image} alt={user.user} />
+              <NavLink to="/profile">
+                <img
+                  className="profileCircle"
+                  src={user.image}
+                  alt={user.user}
+                />
               </NavLink>
             </>
           ) : null}
