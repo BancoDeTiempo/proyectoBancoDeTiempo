@@ -1,17 +1,15 @@
-@import url("https://fonts.googleapis.com/css?family=Raleway");
-
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-body {
-  font-family: "Raleway", sans-serif;
+/*body {
+  font-family: 'Raleway', sans-serif;
   background: #000000;
   color: #fff;
   line-height: 1.8;
-}
+}*/
 
 .parrafoLogin {
   margin-bottom: 40px;
@@ -27,10 +25,10 @@ a {
 
 .form-wrap {
   margin-top: 2rem;
-  background: #f7fffa;
+  background: #e8dbf9;
   padding: 15px 25px 30px;
   color: #333;
-  border-radius: 5px;
+  border-radius: 60px;
 }
 
 .form-wrap h1,
@@ -43,7 +41,7 @@ a {
 }
 
 .form-wrap .form-group label {
-  color: #2f7a67;
+  color: #2e2e2f;
   font-weight: normal;
 }
 
@@ -51,37 +49,37 @@ a {
   width: 100%;
   padding: 10px;
   border: #ddd 1px solid;
-  border-radius: 5px;
+  border-radius: 60px;
   font-family: inherit;
   font-size: inherit;
-  caret-color: #2f7a67;
-  border: solid 2px #49c1a371;
+  caret-color: #6c2bc1;
+  border: solid 2px #5500c4;
 }
 
 .form-wrap .form-group input:focus {
-  outline-color: #49c1a2;
+  outline-color: #5500c488;
 }
 
 .form-wrap .btn {
   width: 100%;
   padding: 10px;
   margin-top: 25px;
-  background: #2f7a67;
+  background: #6c3ca6;
   color: #fff;
   cursor: pointer;
-  border: #2f7a67 1px solid;
-  border-radius: 5px;
+  border: #5c5b7a 1px solid;
+  border-radius: 60px;
   font-family: inherit;
   font-size: inherit;
 }
 
 .form-wrap .btn:hover {
-  background: #37a08e;
-  color: #f4f4f4;
+  background: #631ebe;
+  color: #a5a293;
 }
 
 .form-wrap .btn:focus {
-  outline-color: #37a08e;
+  outline-color: #5500c4;
 }
 
 .form-wrap .bottom-text {
@@ -99,18 +97,18 @@ a {
 }
 
 footer a {
-  color: #49c1a2;
+  color: #3e028c;
 }
 
 footer a:hover {
-  color: #37a08e;
+  color: #5500c4;
 }
 
 .btn:disabled {
   background-color: navajowhite;
 }
 
-input[type="radio"] {
+input[type='radio'] {
   display: none;
 }
 
@@ -123,32 +121,32 @@ input[type="radio"] {
 }
 
 .sexo .hombre {
-  border-radius: 3px 0 0 3px;
+  border-radius: 60px;
   color: black !important;
 }
 
 .sexo .mujer {
-  border-radius: 0 3px 3px 0;
+  border-radius: 60px;
   color: black !important;
 }
 
 .label-radio {
-  background: #37a08e57;
+  background: #5500c488;
   color: #fff;
   padding: 10px;
   text-align: center;
   width: 49.5%;
 }
 
-input[type="radio"]:checked+.label-radio {
-  background: #2f7a67;
+input[type='radio']:checked + .label-radio {
+  background: #5500c488;
   color: #fff !important;
 }
 
 a {
-  color: #49c1a2;
+  color: #5500c488;
 }
 
 .anchorCustom {
-  color: #276052;
+  color: #5500c488;
 }
