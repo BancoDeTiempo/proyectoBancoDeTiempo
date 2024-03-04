@@ -11,7 +11,9 @@ import { extraConfig } from './serviceApiGeneral.config';
 export const createService = async (formData) => {
   const APIGeneral = extraConfig();
 
-  return APIGeneral.post(`/service/`, formData)
+  return APIGeneral.post(`/service/`, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  })
     .then((res) => res)
     .catch((error) => error);
 };

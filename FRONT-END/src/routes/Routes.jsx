@@ -11,6 +11,7 @@ import {
   NotFound,
   User,
   FormUser,
+  NewService
 } from '../pages';
 import App from '../App';
 import { Protected, ProtectedCheckChildren } from '../components';
@@ -79,6 +80,14 @@ export const router = createBrowserRouter([
             <Dashboard />
           </Protected>
         ),
+      },
+      {
+        path: '/newservice',
+        element:( 
+          <Protected>
+            <NewService />,
+          </Protected>
+        )
       },
       {
         path: '/forgotpassword',
