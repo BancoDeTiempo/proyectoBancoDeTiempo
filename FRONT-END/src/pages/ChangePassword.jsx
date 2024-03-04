@@ -21,7 +21,7 @@ export const ChangePassword = () => {
         icon: 'warning',
         title: 'You are about to change your password. Are you sure?',
         showCancelButton: true,
-        confirmButtonColor: 'rgb(73, 193, 162)',
+        confirmButtonColor: 'rgb(99, 27, 227)',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yup',
       }).then(async (result) => {
@@ -98,7 +98,7 @@ export const ChangePassword = () => {
               className="btn"
               type="submit"
               disabled={send}
-              style={{ background: send ? '#49c1a388' : '#49c1a2' }}
+              style={{ background: send ? '#5500c4' : '#631ebe' }}
             >
               CHANGE PASSWORD
             </button>

@@ -25,10 +25,10 @@ a {
 
 .form-wrap {
   margin-top: 2rem;
-  background: #e8dbf9;
+  background: #f9eaa2;
   padding: 15px 25px 30px;
   color: #333;
-  border-radius: 60px;
+  border-radius: 90px;
 }
 
 .form-wrap h1,
@@ -64,7 +64,7 @@ a {
   width: 100%;
   padding: 10px;
   margin-top: 25px;
-  background: #6c3ca6;
+  background: #7e38d3;
   color: #fff;
   cursor: pointer;
   border: #5c5b7a 1px solid;
@@ -131,7 +131,7 @@ input[type='radio'] {
 }
 
 .label-radio {
-  background: #5500c488;
+  background: #641dc1;
   color: #fff;
   padding: 10px;
   text-align: center;

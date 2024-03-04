@@ -75,7 +75,7 @@ export const Login = () => {
     <>
       <div className="form-wrap">
         <h1>Sign In</h1>
-        <p>We are happy to see you again 💌</p>
+        <p>Welcome back!! 😁 </p>
         <form onSubmit={handleSubmit(formSubmit)}>
           <div className="email_container form-group">
             <input
@@ -110,7 +110,7 @@ export const Login = () => {
               className="btn"
               type="submit"
               disabled={send}
-              style={{ background: send ? '#49c1a388' : '#49c1a2' }}
+              style={{ background: send ? '#5500c4' : '#631ebe' }}
             >
               LOGIN
             </button>
