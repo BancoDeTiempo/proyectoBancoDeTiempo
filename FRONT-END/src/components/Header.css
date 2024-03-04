@@ -5,6 +5,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 10px 0px 40px black;
 }
 
 .titleHeaderBlack {
