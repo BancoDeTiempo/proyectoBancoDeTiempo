@@ -6,7 +6,7 @@ export const Home = () => {
     <>
       <div id="homeContainter">
         <section className="darumaEntry">
-          <img id="Daruma" src="./daruma.png" alt="daruma" />
+          <img id="Daruma" src="./DarumaVector.png" alt="daruma" />
         </section>
         <section className="sloganLogin">
           <div className="slogan">

@@ -1,10 +1,10 @@
 header {
-  min-height: 20vh;
+  min-height: 10vh;
   width: 100vw;
   background-color: #5d258d;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   box-shadow: 10px 0px 40px black;
 }
 
@@ -32,8 +32,9 @@ header {
 }
 
 .logo {
-  width: 500px;
+  width: 220px;
   align-items: left;
+  margin-left: 20vw;
 }
 
 .iconNav {
@@ -55,7 +56,8 @@ nav {
   color: #000000; 
   padding: 10px 20px; 
   border: none; 
-  border-radius: 5px;
+  border-radius: 20px;
+  margin-right: 20vw;
   cursor: pointer; 
 
   transition: background-color 0.3s, color 0.3s;
