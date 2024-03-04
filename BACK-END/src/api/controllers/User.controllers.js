@@ -672,7 +672,39 @@ const getByName = async (req, res, next) => {
     return (
       res.status(500).json({
         error: "Error en el catch",
-        message: error.message,z
+        message: error.message,
+      }) && next(error)
+    );
+  }
+};
+
+//!------------------------
+//? GET BY OFFERED SERVICES
+//!------------------------
+
+const getByService = async (req, res, next) => {
+  try {
+    console.log(req.body);
+    let { service } = req.params;
+
+    console.log(service);
+    const UsersByService = await User.find({
+      $or: [{ name: { $regex: service, $options: "i" } }],
+    });
+    console.log(UsersByService);
+    if (UsersByService.length > 0) {
+      return res.status(200).json(UsersByService);
+    } else {
+      return res
+        .status(404)
+        .json("That service/user doesn't show up in our database.");
+    }
+  } catch (error) {
+    return (
+      res.status(500).json({
+        error: "Error en el catch",
+        message: error.message,
+        z,
       }) && next(error)
     );
   }
@@ -881,4 +913,5 @@ module.exports = {
   bannedToggle,
   getByName,
   getByPostalCode,
+  getByService,
 };

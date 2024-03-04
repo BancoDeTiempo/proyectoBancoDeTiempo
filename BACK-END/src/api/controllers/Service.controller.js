@@ -216,10 +216,44 @@ const getAll = async (req, res, next) => {
   }
 };
 
+//!---------------
+//? GET BY KEYWORD
+//!---------------
+
+const getByKeyword = async (req, res, next) => {
+  //es para name y para userName!!
+  try {
+    console.log(req.body);
+    let { keyword } = req.params;
+
+    console.log(keyword);
+    const ServicesByKeyword = await Service.find({
+      $or: [
+        { description: { $regex: keyword, $options: "i" } },
+        { tag: { $regex: keyword, $options: "i" } },
+      ],
+    });
+    console.log(ServicesByKeyword);
+    if (ServicesByKeyword.length > 0) {
+      return res.status(200).json(ServicesByKeyword);
+    } else {
+      return res.status(404).json("Couldn´t find any related services.");
+    }
+  } catch (error) {
+    return (
+      res.status(500).json({
+        error: "Error en el catch",
+        message: error.message,
+      }) && next(error)
+    );
+  }
+};
+
 module.exports = {
   createService,
   deleteService,
   getByIdService,
   updateService,
   getAll,
+  getByKeyword,
 };

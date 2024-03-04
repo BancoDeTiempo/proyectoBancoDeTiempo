@@ -25,6 +25,7 @@ const {
   followUserToggle,
   getByName,
   getByPostalCode,
+  getByService,
 } = require("../controllers/User.controllers");
 const UserRoutes = express.Router();
 
@@ -40,6 +41,7 @@ UserRoutes.get("/", getAll);
 UserRoutes.get("/:id", getById);
 UserRoutes.get("/byname/:name", [isAuth], getByName);
 UserRoutes.get("/postalcode/:postalcode", getByPostalCode);
+UserRoutes.get("/getbyservice/:service", getByService);
 UserRoutes.patch("/follow/:idUserToFollow", [isAuth], followUserToggle);
 UserRoutes.patch("/ban/:idUserToBan", [isAuth], bannedToggle);
 
