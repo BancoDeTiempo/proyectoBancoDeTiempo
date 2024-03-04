@@ -1,4 +1,4 @@
-import Swal from 'sweetalert2/dist/sweetalert2.all';
+import Swal from 'sweetalert2/dist/sweetalert2.all.js';
 
 export const useChangePasswordError = (res, setRes, setUser) => {
   console.log('Entra al custom hook');

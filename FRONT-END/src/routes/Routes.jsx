@@ -10,12 +10,12 @@ import {
   Login,
   NotFound,
   User,
+  FormUser,
 } from '../pages';
 import App from '../App';
+import { Protected, ProtectedCheckChildren } from '../components';
 
 //!----> HE METIDO DE MOMENTO ESTAS 5 HASTA QUE LO DEFINAMOS MEJOR
-
-//!----> EN UN FUTURO TRABAJAREMOS CON PROTECTED
 
 export const router = createBrowserRouter([
   {
@@ -32,11 +32,27 @@ export const router = createBrowserRouter([
       },
       {
         path: '/user',
-        element: <User />,
+        element: (
+          <Protected>
+            <User />
+          </Protected>
+        ),
         children: [
           {
             path: '/user/changepassword',
-            element: <ChangePassword />,
+            element: (
+              <Protected>
+                <ChangePassword />
+              </Protected>
+            ),
+          },
+          {
+            path: '/user/',
+            element: (
+              <Protected>
+                <FormUser />
+              </Protected>
+            ),
           },
         ],
       },
@@ -50,11 +66,19 @@ export const router = createBrowserRouter([
       },
       {
         path: '/verifyCode',
-        element: <CheckCode />,
+        element: (
+          <ProtectedCheckChildren>
+            <CheckCode />
+          </ProtectedCheckChildren>
+        ),
       },
       {
         path: '/dashboard',
-        element: <Dashboard />,
+        element: (
+          <Protected>
+            <Dashboard />
+          </Protected>
+        ),
       },
       {
         path: '/forgotpassword',

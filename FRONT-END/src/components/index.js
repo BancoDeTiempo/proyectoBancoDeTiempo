@@ -5,3 +5,6 @@ export * from './Header';
 export * from './Nav';
 export * from './Uploadfile';
 export * from './NavUser';
+export * from './FigureUser';
+export * from './ProtectedRoute/Protected';
+export * from './ProtectedRoute/ProtectedCheckChildren';

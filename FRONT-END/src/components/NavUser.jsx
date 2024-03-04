@@ -4,7 +4,7 @@ import './NavUser.css';
 import { useDeleteUser } from '../hooks';
 
 export const NavUser = () => {
-  const { setUser, setDeleteUser } = useAuth;
+  const { setUser, setDeleteUser } = useAuth();
   return (
     <div className="containerNavUser">
       <Link to="/user/changePassword">

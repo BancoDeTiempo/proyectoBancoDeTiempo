@@ -1,7 +1,6 @@
-import { NavLink } from "react-router-dom";
+import { NavLink } from 'react-router-dom';
 import './Header.css';
 import { useAuth } from '../contexts/authContext';
-
 
 export const Header = () => {
   const { user, logout } = useAuth();
@@ -10,28 +9,19 @@ export const Header = () => {
       <header>
         <div className="titleFatherContainer">
           <nav>
-           <NavLink to="/">
-           <img
-            src= "./public/logov9.png"
-            alt="logo"
-            className="logo"
-          />
-           </NavLink>
+            <NavLink to="/">
+              <img src="./public/logov9.png" alt="logo" className="logo" />
+            </NavLink>
           </nav>
-          
         </div>
         <nav>
           {user == null && (
             <NavLink to="/login">
-              <button
-                className="loginBtn"
-                type="button"
-                >
-                  Empieza ahora
-                </button>
+              <button className="loginBtn" type="button">
+                Empieza ahora
+              </button>
             </NavLink>
-          )
-          }
+          )}
 
           {user !== null ? (
             <NavLink to="/dashboard">
@@ -43,10 +33,9 @@ export const Header = () => {
             </NavLink>
           ) : null}
 
-         
           {user !== null && (
             <img
-              src = "/public/darumaLogOutB&nClaro.png"
+              src="/public/darumaLogOutB&nClaro.png"
               alt=""
               className="iconNav iconLogout"
               onClick={() => logout()}
@@ -54,12 +43,8 @@ export const Header = () => {
           )}
           {user !== null ? (
             <>
-              <NavLink to="/profile">
-                <img
-                  className="profileCircle"
-                  src={user.image}
-                  alt={user.user}
-                />
+              <NavLink to="/user">
+                <img className="profileCircle" src={user.image} alt={user.user} />
               </NavLink>
             </>
           ) : null}

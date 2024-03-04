@@ -10,3 +10,4 @@ export * from './Register';
 export * from './ServiceById';
 export * from './ServiceGallery';
 export * from './User';
+export * from './FormUser';

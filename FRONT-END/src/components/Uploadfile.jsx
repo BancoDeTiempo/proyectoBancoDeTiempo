@@ -1,9 +1,7 @@
-import { useForm } from 'react-hook-form';
 import './Uploadfile.css';
 import { useEffect } from 'react';
 
-export const Uploadfile = ({ registerForm }) => {
-  const { register, handleSubmit } = useForm();
+export const Uploadfile = () => {
   const ekUpload = () => {
     const Init = () => {
       var fileSelect = document.getElementById('file-upload');
@@ -72,13 +70,7 @@ export const Uploadfile = ({ registerForm }) => {
 
   return (
     <div id="file-upload-form" className="uploader">
-      <input
-        id="file-upload"
-        type="file"
-        name="image"
-        accept="image/*"
-        {...registerForm}
-      />
+      <input id="file-upload" type="file" name="image" accept="image/*" />
 
       <label htmlFor="file-upload" id="file-drag">
         <img id="file-image" src="#" alt="Preview" className="hidden" />
