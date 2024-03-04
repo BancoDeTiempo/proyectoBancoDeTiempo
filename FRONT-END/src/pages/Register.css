@@ -36,6 +36,10 @@ a {
   text-align: center;
 }
 
+.form-wrap p {
+  margin-bottom: 40px;
+}
+
 .form-wrap .form-group {
   margin-top: 15px;
 }

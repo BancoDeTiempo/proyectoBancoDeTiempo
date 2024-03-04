@@ -1,24 +1,38 @@
 .footerContainer {
+  min-height: 15vh;
+  width: 100vw;
+  box-shadow: 10px 0px 30px rgba(0, 0, 0, 0.222);
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  background-color: #5c5b7a;
-  padding: 20px;
+  background-color: #fde56dc3;
 }
 
-.logoContainer, 
+.logoContainer,
 .categoriesContainer,
 .aboutContainer,
 .socialContainer {
   text-align: center;
   margin: 10px;
+  padding: 0px 50px 0px 50px;
 }
 
-.categoriesContainer ul,
+.categoriesContainer ul {
+  list-style: none;
+  padding: 0;
+  column-count: 2;
+}
+
 .aboutContainer ul {
   list-style: none;
   padding: 0;
+}
+
+.categoriesContainer h4,
+.aboutContainer h4,
+.socialContainer h4 {
+  color: #6c2bc1;
 }
 
 .socialContainer img {
