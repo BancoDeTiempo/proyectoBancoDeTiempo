@@ -19,7 +19,7 @@ export const Home = () => {
             </div>
           </div>
         </section>
-        {/*<Gallery />*/}
+        <Gallery />
         <section id="CercaDeTi">
           <img className="formasFondo" id="formaFondo1" src="./Forma1Fondo.png" alt="" />
           <img id="darumasCerca" src="./cercaDeTiFondo.png" alt="darumas enfrentados" />

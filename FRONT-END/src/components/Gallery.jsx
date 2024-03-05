@@ -3,7 +3,7 @@
  * y un util que controle la cantidad de servicios que pediremos (createArray)
  */
 
-//import { createArray } from '../utils';
+import './Gallery.css';
 
 import { useEffect, useState } from 'react';
 
@@ -24,7 +24,7 @@ export const Gallery = () => {
     <>
       <div id="servicesGallery">
         {data !== null &&
-          data.map((item) => <CardServicios data={item} key={item._id} />)}
+          data.splice(0, 3).map((item) => <CardServicios data={item} key={item._id} />)}
       </div>
       ,
     </>
