@@ -23,7 +23,7 @@ export const Home = () => {
         <section id="CercaDeTi">
           <img className="formasFondo" id="formaFondo1" src="./Forma1Fondo.png" alt="" />
           <img id="darumasCerca" src="./cercaDeTiFondo.png" alt="darumas enfrentados" />
-          <img id="circuloAmarillo" src="./circuloAmarillo.png" alt="círculo amarillo" />
+
           <h3>Cerca de ti...</h3>
           <p>
             ...hay alguien que te necesita, ¡y tú a ellos! Explora usuarios que ofrecen
