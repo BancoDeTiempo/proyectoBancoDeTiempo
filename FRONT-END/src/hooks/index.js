@@ -7,3 +7,4 @@ export * from './useForgotPasswordError';
 export * from './useDeleteUser';
 export * from './useChangePasswordError';
 export * from './useUpdateError';
+export * from './useServiceError';

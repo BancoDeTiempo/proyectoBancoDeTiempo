@@ -11,3 +11,4 @@ export * from './ServiceById';
 export * from './ServiceGallery';
 export * from './User';
 export * from './FormUser';
+export * from './ServiceCreation'
