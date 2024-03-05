@@ -9,7 +9,7 @@ const createService = async (req, res, next) => {
   try {
     const idAuth = req.user._id;
     await Service.syncIndexes();
-
+    console.log("Body", req.body);
     /** hacemos una instancia del modelo  */
     const customBody = {
       title: req.body?.title,

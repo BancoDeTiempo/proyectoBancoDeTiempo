@@ -1,4 +1,5 @@
 const { isAuth } = require("../../middleware/auth.middleware");
+const { upload } = require("../../middleware/files.middleware");
 const {
   createService,
   deleteService,
@@ -9,7 +10,7 @@ const {
 } = require("../controllers/Service.controller");
 const ServiceRoutes = require("express").Router();
 
-ServiceRoutes.post("/", [isAuth], createService);
+ServiceRoutes.post("/", [isAuth], upload.single("image"), createService);
 ServiceRoutes.delete("/:id", deleteService);
 ServiceRoutes.get("/:id", getByIdService);
 ServiceRoutes.patch("/:id", updateService);

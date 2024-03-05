@@ -5,7 +5,7 @@ dotenv.config();
 
 const isAuth = async (req, res, next) => {
   const token = req.headers.authorization?.replace("Bearer ", "");
-
+  console.log("REQ", req);
   if (!token) {
     return next(new Error("Unauthorized"));
   }
@@ -65,7 +65,6 @@ const isAuthSuperAdmin = async (req, res, next) => {
     return next(error);
   }
 };
-
 
 module.exports = {
   isAuth,

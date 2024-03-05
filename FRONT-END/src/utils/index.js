@@ -1,2 +1,2 @@
-export * from './createArray';
 export * from './updateToken';
+export * from './tagEnum';

@@ -1,0 +1,15 @@
+export const tagEnum = [
+  '-',
+  'limpieza',
+  'mascotas',
+  'personas',
+  'recados',
+  'transporte',
+  'reparaciones',
+  'cuidado',
+  'compra',
+  'electrónica',
+  'mecánica',
+  'eventos',
+  'otros',
+];

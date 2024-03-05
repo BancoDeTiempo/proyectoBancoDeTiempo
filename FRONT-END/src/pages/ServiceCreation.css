@@ -31,13 +31,19 @@
     border-radius: 90px;
   }
   
-  .form-wrap h1,
+  .form-wrap h1 {
+    font-style: bold;
+    color: #3f2322;
+  }
+  
   .form-wrap p {
     text-align: center;
+    padding: 15 px 25px 30px
   }
   
   .form-wrap p {
     margin-bottom: 40px;
+    margin-top: 16px
   }
   
   .form-wrap .form-group {
