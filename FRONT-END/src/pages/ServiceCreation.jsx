@@ -8,20 +8,19 @@ import { useServiceError } from '../hooks/useServiceError';
 import { Uploadfile } from '../components';
 import { tagEnum } from '../utils';
 
-
 export const NewService = () => {
   const navigate = useNavigate();
   const { allUser, setAllUser, bridgeData, setDeleteUser } = useAuth();
   const { register, handleSubmit } = useForm();
   const [res, setRes] = useState({});
   const [send, setSend] = useState(false);
-  const [okNewService, setOkNewService] = useState(false); 
-  const [tag, setTag] = useState("")
+  const [okNewService, setOkNewService] = useState(false);
+  const [tag, setTag] = useState('');
 
   // FUNCIÓN ENCARGADA DEL FORM DATA
 
   const formSubmit = async (formData) => {
-    console.log("🚀 Entro:", formData)
+    console.log('🚀 Entro:', formData);
     const inputFile = document.getElementById('file-upload').files;
 
     if (inputFile.length != 0) {
@@ -73,7 +72,8 @@ export const NewService = () => {
       <div className="form-wrap">
         <h1>¿Qué servicio quieres Ofrecer?</h1>
         <p>
-          Crea tu nuevo servicio para poder ofrecerlo, y que el resto de miembros <br></br>de nuestra comunidad pueda solicitarlo
+          Crea tu nuevo servicio para poder ofrecerlo, y que el resto de miembros{' '}
+          <br></br>de nuestra comunidad pueda solicitarlo
         </p>
         <form onSubmit={handleSubmit(formSubmit)}>
           <div className="user_container form-group">
@@ -107,24 +107,17 @@ export const NewService = () => {
           </div>
 
           <div className="tag_container form-group">
-          <label htmlFor="custom-input" className="custom-placeholder">
+            <label htmlFor="custom-input" className="custom-placeholder">
               Categoría:
             </label>
-            <select
-            id="tag"
-            name="tag"
-            onChange={(e)=>setTag(e.target.value)}
-            
-            >
-              {console.log("etiqueta", tag)}
+            <select id="tag" name="tag" onChange={(e) => setTag(e.target.value)}>
+              {console.log('etiqueta', tag)}
               {tagEnum.map((tag) => (
-              <option key={tag} value={tag}>
-                {tag}
-              </option>
-            ))}
-                   
+                <option key={tag} value={tag}>
+                  {tag}
+                </option>
+              ))}
             </select>
-  
           </div>
           <Uploadfile />
 

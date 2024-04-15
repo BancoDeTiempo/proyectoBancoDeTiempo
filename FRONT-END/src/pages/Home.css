@@ -1,6 +1,6 @@
-.homeContainer {
-  width: 100vw;
-  height: 100vh;
+#homeContainer {
+  max-width: 100vw;
+  max-width: 100vh;
   overflow-x: hidden;
 }
 
@@ -179,13 +179,14 @@ p {
   #darumasCerca,
   #ojoXOjo,
   #badge {
-    margin: 4rem;
+    margin: 8px 0px 0px 60px;
     width: 70%;
+    text-align: center;
   }
 
   #grupoDarumas {
-    margin: 4rem 0rem 4rem 7rem;
-    width: 70%;
+    margin: 8px 0px 0px 115px;
+    width: 90%;
   }
 
   #darumasCerca ~ h3,
@@ -199,5 +200,6 @@ p {
     margin: 0.5rem auto 1rem auto;
     max-width: 50%;
     align-items: center;
+    text-align: center;
   }
 }

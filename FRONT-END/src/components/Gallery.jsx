@@ -1,8 +1,3 @@
-/**
- * Para crear Gallery vamos a necesitar el componente de carta (CardServicios)
- * y un util que controle la cantidad de servicios que pediremos (createArray)
- */
-
 import './Gallery.css';
 
 import { useEffect, useState } from 'react';
@@ -29,13 +24,4 @@ export const Gallery = () => {
       ,
     </>
   );
-
-  /*const array = createArray(5);
-  return (
-    <div id="servicesGallery">
-      {array.map((id) => (
-        <CardServicios id={id} key={id} />
-      ))}
-    </div>
-  );*/
 };
