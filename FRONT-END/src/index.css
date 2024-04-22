@@ -14,6 +14,8 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  overflow-x: hidden;
 }
 
 /** {
@@ -95,6 +97,18 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+input {
+  width: 500px;
+  padding: 10px;
+  margin: 30px;
+
+  border-radius: 8px;
+  border: 1px solid #1a1a1a54;
+  -webkit-box-shadow: inset 0 0 16px 1.5px #dddddd70;
+  -moz-box-shadow: inset 0 0 16px 1.5px #dddddd70;
+  box-shadow: inset 0 0 16px 1.5px #dddddd70;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -107,5 +121,11 @@ button:focus-visible {
 
   button {
     background-color: #f9f9f9;
+  }
+
+  input {
+    width: 300px;
+    padding: 10px;
+    margin: 30px;
   }
 }

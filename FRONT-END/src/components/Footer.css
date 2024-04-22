@@ -41,3 +41,23 @@
   height: 30px;
   margin: 5px;
 }
+
+@media (max-width: 700px) {
+  .socialContainer img {
+    width: 15px;
+    height: 15px;
+    margin: 5px;
+  }
+
+  .categoriesContainer h4,
+  .aboutContainer h4,
+  .socialContainer h4 {
+    font-size: small;
+  }
+
+  .categoriesContainer ul,
+  .aboutContainer ul,
+  .socialContainer ul {
+    font-size: small;
+  }
+}

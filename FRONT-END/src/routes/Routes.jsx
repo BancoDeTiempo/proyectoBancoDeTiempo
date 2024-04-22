@@ -11,7 +11,7 @@ import {
   NotFound,
   User,
   FormUser,
-  NewService
+  NewService,
 } from '../pages';
 import App from '../App';
 import { Protected, ProtectedCheckChildren } from '../components';
@@ -83,11 +83,11 @@ export const router = createBrowserRouter([
       },
       {
         path: '/newservice',
-        element:( 
+        element: (
           <Protected>
             <NewService />,
           </Protected>
-        )
+        ),
       },
       {
         path: '/forgotpassword',

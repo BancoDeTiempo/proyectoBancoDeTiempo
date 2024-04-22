@@ -26,7 +26,7 @@ export const Header = () => {
           {user !== null ? (
             <NavLink to="/dashboard">
               <img
-                src="https://res.cloudinary.com/dq186ej4c/image/upload/v1685705689/dashboard--5492_rnmxcl.png"
+                src="https://res.cloudinary.com/dtiqfidkg/image/upload/v1709640538/ejercicioSeis/dc9bybrrarvynqkg7xp3.png"
                 alt=""
                 className="iconNav iconDashBoard"
               />
