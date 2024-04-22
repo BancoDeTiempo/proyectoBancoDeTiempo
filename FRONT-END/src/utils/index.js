@@ -1,2 +1,2 @@
-export * from './updateToken';
 export * from './tagEnum';
+export * from './updateToken';

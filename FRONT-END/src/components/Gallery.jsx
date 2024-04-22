@@ -11,6 +11,8 @@ export const Gallery = () => {
   useEffect(() => {
     (async () => {
       const res = await getAll();
+      // const servs = res.data;
+      // setData({ item: 'service', data: servs });
       res.status === 200 && setData(res.data);
     })();
   }, []);
@@ -18,10 +20,11 @@ export const Gallery = () => {
   return (
     <>
       <div id="servicesGallery">
-        {data !== null &&
-          data.splice(0, 3).map((item) => <CardServicios data={item} key={item._id} />)}
+        {/* {data != null &&
+          data?.data?.map((item) => <CardServicios data={item} key={item._id} />)} */}
+        {data !== null && //todo EL PROBLEMA ERA SPLICE----> BUSCAR OTRA FORMA DE FILTRAR
+          data.map((item) => <CardServicios data={item} key={item._id} />)}
       </div>
-      ,
     </>
   );
 };
