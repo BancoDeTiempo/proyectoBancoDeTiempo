@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import './Header.css';
 import { useAuth } from '../contexts/authContext';
 
@@ -9,9 +9,9 @@ export const Header = () => {
       <header>
         <div className="titleFatherContainer">
           <nav>
-            <NavLink to="/">
+            <Link to={user ? '/dashboard' : '/'}>
               <img src="./public/logov9.png" alt="logo" className="logo" />
-            </NavLink>
+            </Link>
           </nav>
         </div>
         <nav>
@@ -23,7 +23,7 @@ export const Header = () => {
             </NavLink>
           )}
 
-          {user !== null ? (
+          {/* {user !== null ? (
             <NavLink to="/dashboard">
               <img
                 src="https://res.cloudinary.com/dtiqfidkg/image/upload/v1709640538/ejercicioSeis/dc9bybrrarvynqkg7xp3.png"
@@ -31,12 +31,12 @@ export const Header = () => {
                 className="iconNav iconDashBoard"
               />
             </NavLink>
-          ) : null}
+          ) : null} */}
 
           {user !== null && (
             <img
               src="/public/darumaLogOutB&nClaro.png"
-              alt=""
+              alt="logout"
               className="iconNav iconLogout"
               onClick={() => logout()}
             />
@@ -45,6 +45,17 @@ export const Header = () => {
             <>
               <NavLink to="/user">
                 <img className="profileCircle" src={user.image} alt={user.user} />
+              </NavLink>
+            </>
+          ) : null}
+          {user !== null ? (
+            <>
+              <NavLink to="/inbox">
+                <img
+                  className="inbox"
+                  src="https://res.cloudinary.com/dtiqfidkg/image/upload/v1713898131/ejercicioSeis/xjguqnheiquvwb0tynzq.png"
+                  alt="inbox"
+                />
               </NavLink>
             </>
           ) : null}

@@ -57,7 +57,7 @@ export const Request = () => {
                 className="btn"
                 type="submit"
                 disabled={send}
-                style={{ background: send ? '#49c1a388' : '#49c1a2' }}
+                style={{ background: send ? '#7e38d3' : '#7e38d3' }}
               >
                 Send request
               </button>

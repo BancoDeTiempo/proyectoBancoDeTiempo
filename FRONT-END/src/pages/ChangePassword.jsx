@@ -98,7 +98,7 @@ export const ChangePassword = () => {
               className="btn"
               type="submit"
               disabled={send}
-              style={{ background: send ? '#5500c4' : '#631ebe' }}
+              style={{ background: send ? '#7e38d3' : '#631ebe' }}
             >
               CHANGE PASSWORD
             </button>

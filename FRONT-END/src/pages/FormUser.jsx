@@ -25,7 +25,7 @@ export const FormUser = () => {
       icon: 'warning',
       title: 'Do you want to change your data?',
       showCancelButton: true,
-      confirmButtonColor: 'rgb(73, 193, 162)',
+      confirmButtonColor: 'rgb(126, 56, 211)',
       cancelButtonColor: '#d33',
       confirmButtonText: 'YES',
     }).then(async (result) => {
@@ -90,7 +90,7 @@ export const FormUser = () => {
                 className="btn"
                 type="submit"
                 disabled={send}
-                style={{ background: send ? '#49c1a388' : '#49c1a2' }}
+                style={{ background: send ? '#7e38d3' : '#7e38d3' }}
               >
                 Change your data
               </button>

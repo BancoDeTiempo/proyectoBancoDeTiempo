@@ -1,8 +1,11 @@
+import { NavLink } from 'react-router-dom';
 import './CardServicios.css';
 
 export const CardServicios = ({ data }) => {
   //* CREAMOS UNA FUNCIÓN AUTOEJECUTADA EN LA QUE AL CAMBIAR EL ID DEL PADRE SE CAMBIE EL ID DEL STATE Y SE VUELVA A INICIAR
   console.log('esta es la data', data);
+
+  //todo: HACER LAS CARTAS CLICKABLES
 
   return (
     <>
@@ -14,6 +17,8 @@ export const CardServicios = ({ data }) => {
         <p>{data?.description}</p>
         <img alt="imagen del servicio">{data?.image}</img>
         {/**TODAS ESTAS CLAVES SON LAS DEL MODELO DE SERVICIO QUE SON RELEVANTES PARA ESTO*/}
+        <button className="show-profile">Usuario</button>
+        <button className="do-req">Hacer req</button>{' '}
       </figure>
     </>
   );

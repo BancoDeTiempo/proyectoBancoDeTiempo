@@ -12,7 +12,7 @@ export const Dashboard = () => {
         onChange={(e) => e.preventDefault}
       />
       <h3 className="intento">GALERÍA A FUTURO</h3>
-      {/*<Gallery />*/}
+      <Gallery />
     </div>
   );
 };

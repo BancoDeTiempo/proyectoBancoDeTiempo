@@ -12,6 +12,8 @@ import {
   User,
   FormUser,
   NewService,
+  Request,
+  Inbox,
 } from '../pages';
 import App from '../App';
 import { Protected, ProtectedCheckChildren } from '../components';
@@ -96,6 +98,14 @@ export const router = createBrowserRouter([
       {
         path: '/register',
         element: <Register />,
+      },
+      {
+        path: '/request',
+        element: <Request />,
+      },
+      {
+        path: '/inbox',
+        element: <Inbox />,
       },
     ],
   },

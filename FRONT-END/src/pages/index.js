@@ -12,3 +12,5 @@ export * from './ServiceById';
 export * from './ServiceCreation';
 export * from './ServiceGallery';
 export * from './User';
+export * from './Request';
+export * from './Inbox';

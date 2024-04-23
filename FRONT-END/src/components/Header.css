@@ -99,7 +99,8 @@ a {
   justify-content: center;
 }
 
-.iconDashBoard {
+.iconDashBoard,
+.inbox {
   width: 60px;
   height: 60px;
   border-radius: 50px;
@@ -126,7 +127,8 @@ a {
   }
   .iconDashBoard,
   .iconLogout,
-  .profileCircle {
+  .profileCircle,
+  .inbox {
     margin: 0 0 5px 0;
   }
 }

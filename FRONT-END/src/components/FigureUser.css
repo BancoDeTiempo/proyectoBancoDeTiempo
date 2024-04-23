@@ -1,15 +1,17 @@
 .imageUser {
-    background-color: white;
-    width: 280px;
-    height: 280px;
-    object-fit: cover;
-    border-radius: 50%;
+  background-color: white;
+  width: 280px;
+  height: 280px;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
-.emailUser {
-    text-align: center;
+.emailUser,
+.userName,
+.userDescription {
+  text-align: center;
 }
 
 .dataUser {
-    padding: 2rem;
+  padding: 2rem;
 }
