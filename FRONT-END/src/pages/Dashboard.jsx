@@ -11,6 +11,7 @@ export const Dashboard = () => {
         placeholder="Busca un servicio"
         onChange={(e) => e.preventDefault}
       />
+
       <h3 className="intento">GALERÍA A FUTURO</h3>
       <Gallery />
     </div>

@@ -9,6 +9,7 @@
   width: 250px;
   height: 350px;
   justify-content: center;
+  align-items: center;
 
   h2 {
     font-size: 20px;
@@ -52,7 +53,11 @@
     z-index: 4;
   }
 
-  button {
+  .do-req,
+  .show-profile {
+    position: relative;
+    justify-content: center;
+    text-align: center;
     padding: 5px;
     margin: 10px 1px 0px 1px;
     border: 1px solid #1a1a1a54;
